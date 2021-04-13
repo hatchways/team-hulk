@@ -16,15 +16,19 @@ import MenuList from '@material-ui/core/MenuList';
 
 import useStyles from './styles';
 
-import { Link } from 'react-router-dom'; 
+import { Link, useLocation} from 'react-router-dom'; 
 import { Avatar } from '@material-ui/core';
+import MoreIcon from '@material-ui/icons/MoreVert';
 import avatar from '../../assets/avatar.png';
 
+const links = ['Dashboard','FAQ','Blog'];
 
-const Navbar = () => {
+
+const Navbar = ( props ) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const anchorRef = useRef(null);
+    let location = useLocation();
 
     const handleToggle = () => {
       setOpen ( (prevOpen) => !prevOpen);
@@ -46,7 +50,79 @@ const Navbar = () => {
     }
 
     const prevOpen = useRef(open);
-    
+
+    const renderMenu = (
+      <div className={classes.sectionDesktop}>
+      {links.map(link => 
+        <Link 
+          key={link} 
+          to={`/${link.toLowerCase()}`} 
+          ml={3}
+          className={`${classes.navbar__link} ${location.pathname.includes(link.toLowerCase()) ? classes.navbar__link_selected : ''}`}
+        >
+          {link}
+        </Link>)
+      }
+      <Box
+        ref={anchorRef}
+        aria-controls={open ? 'menu-list-grow' : undefined}
+        aria-haspopup="true"
+        onClick={handleToggle}
+        className={classes.user}
+      >
+        <Avatar className={classes.user__img} alt='avatar' src={avatar} />
+        <Typography className={classes.user__name}>Jhon Doe</Typography>
+      </Box>
+      <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+        {({ TransitionProps, placement }) => (
+          <Grow
+            {...TransitionProps}
+            style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+          >
+            <Paper>
+              <ClickAwayListener onClickAway={handleClose}>
+                <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                  <MenuItem onClick={handleClose}><Link to='/profile'>Profile</Link></MenuItem>
+                  <MenuItem onClick={handleClose}>Logout</MenuItem>
+                </MenuList>
+              </ClickAwayListener>
+            </Paper>
+          </Grow>
+        )}
+      </Popper>
+    </div>
+    );
+
+    const renderMobileMenu = (
+      <div className={classes.sectionMobile}>
+        <IconButton
+          ref={anchorRef}
+          aria-controls={open ? 'menu-list-grow' : undefined}
+          aria-haspopup="true"
+          onClick={handleToggle}
+        >
+          <MoreIcon/>
+        </IconButton>
+        <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+        {({ TransitionProps, placement }) => (
+          <Grow
+            {...TransitionProps}
+            style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+          >
+            <Paper>
+              <ClickAwayListener onClickAway={handleClose}>
+                <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                  <MenuItem onClick={handleClose}><Link to='/profile'>Profile</Link></MenuItem>
+                  <MenuItem onClick={handleClose}>Logout</MenuItem>
+                </MenuList>
+              </ClickAwayListener>
+            </Paper>
+          </Grow>
+        )}
+      </Popper>
+      </div>
+    );
+
     useEffect(() => {
       if (prevOpen.current === true && open === false) {
         anchorRef.current.focus();
@@ -62,40 +138,8 @@ const Navbar = () => {
           <Typography edge="start" className={classes.navbar__logo}>
             Logo
           </Typography>
-          <div className={classes.sectionDesktop}>
-            <Link to='/dashboard' className={classes.navbar__link}>Dashboard</Link>
-            <Link to='/faq' className={classes.navbar__link}>FAQ</Link>
-            <Link to='/blog' className={classes.navbar__link}>Blog</Link>
-            
-            <Box
-              ref={anchorRef}
-              aria-controls={open ? 'menu-list-grow' : undefined}
-              aria-haspopup="true"
-              onClick={handleToggle}
-              className={classes.user}
-            >
-              <Avatar className={classes.user__img} alt='avatar' src={avatar} />
-              <Typography className={classes.user__name}>Jhon Doe</Typography>
-            </Box>
-            <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
-              {({ TransitionProps, placement }) => (
-                <Grow
-                  {...TransitionProps}
-                  style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
-                >
-                  <Paper>
-                    <ClickAwayListener onClickAway={handleClose}>
-                      <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                        <MenuItem onClick={handleClose}>Profile</MenuItem>
-                        <MenuItem onClick={handleClose}>Logout</MenuItem>
-                      </MenuList>
-                    </ClickAwayListener>
-                  </Paper>
-                </Grow>
-              )}
-            </Popper>
-
-          </div>
+          {renderMobileMenu}
+          {renderMenu} 
           
         </Toolbar>
       </AppBar>

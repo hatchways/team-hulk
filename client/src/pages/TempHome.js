@@ -1,6 +1,5 @@
-import { Typography } from "@material-ui/core";
 import { BrowserRouter , Switch, Route } from "react-router-dom";
-import Navbar from "../components/layout/NavbarTest"; 
+import Navbar from "../components/layout/Navbar"; 
 import Dashboard from './Dashboard';
 import FAQ from './FAQ';
 import Blog from './Blog';

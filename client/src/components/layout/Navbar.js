@@ -1,16 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Grow from '@material-ui/core/Grow';
-import Paper from '@material-ui/core/Paper';
-import Popper from '@material-ui/core/Popper';
+import Popover from '@material-ui/core/Popover';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 
@@ -26,30 +20,55 @@ const links = ['Dashboard','FAQ','Blog'];
 
 const Navbar = ( props ) => {
     const classes = useStyles();
-    const [open, setOpen] = useState(false);
-    const anchorRef = useRef(null);
+    const [anchorEl, setAnchorEl] = useState(null);
     let location = useLocation();
 
-    const handleToggle = () => {
-      setOpen ( (prevOpen) => !prevOpen);
-    }
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+  
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
 
-    const handleClose = (event) => {
-      if (anchorRef.current && anchorRef.current.contains(event.target)){
-        return;
-      }
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popover' : undefined;
 
-      setOpen(false);
-    }
-
-    const handleListKeyDown = (event) => {
-      if (event.key === 'Tab'){
-        event.preventDefault();
-        setOpen(false);
-      }
-    }
-
-    const prevOpen = useRef(open);
+    const popover = (
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center"
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "center"
+        }}
+      >
+        <MenuList autoFocusItem={open} id="menu-list-grow">
+          {links.map(link => 
+            <MenuItem key={link} onClick={handleClose} className={classes.sectionMobile}>
+            <Link 
+              to={`/${link.toLowerCase()}`} 
+              ml={4}
+              className={
+                `${location.pathname.includes(link.toLowerCase()) ? classes.navbar__link_selected : ''}
+                 ${classes.popover__link}`
+              }
+            >
+              {link}
+            </Link>
+          </MenuItem>)
+          }
+          <MenuItem onClick={handleClose}><Link to='/profile' className={classes.popover__link}>Profile</Link></MenuItem>
+          <MenuItem onClick={handleClose}><Link to='/' className={classes.popover__link}>Logout</Link></MenuItem>
+        </MenuList>
+      </Popover>
+    )
 
     const renderMenu = (
       <div className={classes.sectionDesktop}>
@@ -57,79 +76,37 @@ const Navbar = ( props ) => {
         <Link 
           key={link} 
           to={`/${link.toLowerCase()}`} 
-          ml={3}
           className={`${classes.navbar__link} ${location.pathname.includes(link.toLowerCase()) ? classes.navbar__link_selected : ''}`}
         >
           {link}
         </Link>)
       }
       <Box
-        ref={anchorRef}
-        aria-controls={open ? 'menu-list-grow' : undefined}
-        aria-haspopup="true"
-        onClick={handleToggle}
+        aria-describedby={id}
+        variant="contained"
+        color="primary"
+        onClick={handleClick}
         className={classes.user}
       >
         <Avatar className={classes.user__img} alt='avatar' src={avatar} />
         <Typography className={classes.user__name}>Jhon Doe</Typography>
       </Box>
-      <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
-        {({ TransitionProps, placement }) => (
-          <Grow
-            {...TransitionProps}
-            style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
-          >
-            <Paper>
-              <ClickAwayListener onClickAway={handleClose}>
-                <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                  <MenuItem onClick={handleClose}><Link to='/profile'>Profile</Link></MenuItem>
-                  <MenuItem onClick={handleClose}>Logout</MenuItem>
-                </MenuList>
-              </ClickAwayListener>
-            </Paper>
-          </Grow>
-        )}
-      </Popper>
+      {popover}
     </div>
     );
 
     const renderMobileMenu = (
       <div className={classes.sectionMobile}>
         <IconButton
-          ref={anchorRef}
-          aria-controls={open ? 'menu-list-grow' : undefined}
-          aria-haspopup="true"
-          onClick={handleToggle}
+          aria-describedby={id}
+          variant="contained"
+          onClick={handleClick}
         >
           <MoreIcon/>
         </IconButton>
-        <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
-        {({ TransitionProps, placement }) => (
-          <Grow
-            {...TransitionProps}
-            style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
-          >
-            <Paper>
-              <ClickAwayListener onClickAway={handleClose}>
-                <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                  <MenuItem onClick={handleClose}><Link to='/profile'>Profile</Link></MenuItem>
-                  <MenuItem onClick={handleClose}>Logout</MenuItem>
-                </MenuList>
-              </ClickAwayListener>
-            </Paper>
-          </Grow>
-        )}
-      </Popper>
+        {popover}
       </div>
     );
-
-    useEffect(() => {
-      if (prevOpen.current === true && open === false) {
-        anchorRef.current.focus();
-      }
-
-      prevOpen.current = open;
-    }, [open])
 
   return (
     <div className={classes.root}>
@@ -140,7 +117,6 @@ const Navbar = ( props ) => {
           </Typography>
           {renderMobileMenu}
           {renderMenu} 
-          
         </Toolbar>
       </AppBar>
     </div>

@@ -9,6 +9,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles( (theme) => ({
   table: {
@@ -19,17 +20,6 @@ const useStyles = makeStyles( (theme) => ({
     borderRadius: '30px'
   },
 }));
-
-function createData(date, theme) {
-  return { date, theme };
-}
-
-const rows = [
-    createData('Monday, May 25, 2020', 'Simple Array Sum'),
-    createData('Wednesday, May 27, 2020', 'Diagonal Difference'),
-    createData('Saturday, May 30, 2020', 'Plus Minus'),
-    createData('Monday, June 1, 2020', 'Time Conversion'),
-];
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -43,10 +33,39 @@ const StyledTableCell = withStyles((theme) => ({
       fontWeight: '400'
     },
 }))(TableCell);
+
+const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   
 
-export default function UpcomingInterviews() {
+export default function UpcomingInterviews( { rows } ) {
   const classes = useStyles();
+
+  const formatDate = (date) => {
+    return `${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()} ${date.getFullYear()}`
+  }
+
+  const formatHour = (date) => {
+      const hours = date.getHours();
+      const minutes = date.getMinutes();
+      return `${hours < 12 ? hours : hours - 12}:${minutes}${minutes < 10 ? 0 : ''} ${hours < 13 ? 'AM': 'PM'}`
+  }
+
+  if (!rows){
+      return(
+        <Typography component="div" variant="h6">
+            <Box 
+                mt={3}
+                display="flex"
+                justifyContent="center"
+                alignItems="center" 
+                color="text.disabled"
+            >
+                There are no upcoming interviews.
+            </Box>
+        </Typography>
+      )
+  }
 
   return (
     <Box mt={3}>
@@ -61,8 +80,15 @@ export default function UpcomingInterviews() {
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <TableRow key={row.date}>
-              <StyledTableCell>{row.date}</StyledTableCell>
+            <TableRow key={row.date.toString()}>
+              <StyledTableCell>
+                  <Typography>
+                    {formatDate(row.date)}  
+                  </Typography>
+                  <Typography>
+                    {formatHour(row.date)}  
+                  </Typography>
+              </StyledTableCell>
               <StyledTableCell>{row.theme}</StyledTableCell>
                 <StyledTableCell align="right">
                     <Button variant='outlined' className={classes.btn}>CANCEL</Button>
@@ -74,6 +100,5 @@ export default function UpcomingInterviews() {
       </Table>
       </TableContainer>  
     </Box>
-    
   );
 }

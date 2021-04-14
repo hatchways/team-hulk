@@ -51,7 +51,7 @@ export default function UpcomingInterviews( { rows } ) {
       return `${hours < 12 ? hours : hours - 12}:${minutes}${minutes < 10 ? 0 : ''} ${hours < 13 ? 'AM': 'PM'}`
   }
 
-  if (!rows){
+  if (!rows || rows.length === 0){
       return(
         <Typography component="div" variant="h6">
             <Box 

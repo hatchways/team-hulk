@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -8,12 +8,14 @@ import Popover from '@material-ui/core/Popover';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 
-import useStyles from './styles';
+import useStyles from './NavbarStyle';
 
 import { Link, useLocation} from 'react-router-dom'; 
 import { Avatar } from '@material-ui/core';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import avatar from '../../assets/avatar.png';
+
+import {UserContext} from '../../context/UserContext';
 
 const links = ['Dashboard','FAQ','Blog'];
 
@@ -22,6 +24,7 @@ const Navbar = ( props ) => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     let location = useLocation();
+    const [user] = useContext(UserContext);
 
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
@@ -89,7 +92,7 @@ const Navbar = ( props ) => {
         className={classes.user}
       >
         <Avatar className={classes.user__img} alt='avatar' src={avatar} />
-        <Typography className={classes.user__name}>Jhon Doe</Typography>
+        <Typography className={classes.user__name}>{user.name}</Typography>
       </Box>
       {popover}
     </div>

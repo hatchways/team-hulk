@@ -5,20 +5,24 @@ import FAQ from './FAQ';
 import Blog from './Blog';
 import Profile from './Profile';
 
+import { UserProvider } from '../context/UserContext'
+
 
 
 const Home = () => {
-    return (
-        <BrowserRouter>
-          <Navbar/>
-          <Switch>
-            <Route path="/dashboard" component={Dashboard}/>
-            <Route path="/faq" component={FAQ}/>
-            <Route path="/blog" component={Blog}/>
-            <Route path="/profile" component={Profile}/>
-          </Switch>
-        </BrowserRouter>
-    );
+  return (
+    <UserProvider>
+      <BrowserRouter>
+        <Navbar/>
+        <Switch>
+          <Route path="/dashboard" component={Dashboard}/>
+          <Route path="/faq" component={FAQ}/>
+          <Route path="/blog" component={Blog}/>
+          <Route path="/profile" component={Profile}/>
+        </Switch>
+      </BrowserRouter>
+    </UserProvider>  
+  );
 }
 
 export default Home;

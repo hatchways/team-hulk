@@ -82,6 +82,7 @@ export default function Signup() {
                                 id="password"
                                 name="password"
                                 label="Password"
+                                type="password"
                                 inputProps={{ minLength: 6 }}
                                 onChange={e => { setPassword(e.target.value) }}
                             />
@@ -91,9 +92,8 @@ export default function Signup() {
                                 variant="outlined"
                                 id="confirm-password"
                                 label="Confirm Password"
+                                type="password"
                                 onChange={e => { setConfirmPassword(e.target.value) }}
-                            // error={text === ""}
-                            // helperText={text === "" ? 'Empty!' : ' '}
                             />
                         </FormControl>
                         <Button

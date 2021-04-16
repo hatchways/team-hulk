@@ -1,0 +1,50 @@
+import React from 'react';
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/theme/material.css';
+import 'codemirror/mode/xml/xml';
+import 'codemirror/mode/javascript/javascript';
+import 'codemirror/mode/css/css';
+import { Controlled as ControlledEditor } from 'react-codemirror2';
+
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    codeMirrorWrapper: {
+      width: '100%',
+      '& .CodeMirror': {
+        minHeight: '100%',
+      }
+    }
+  }));
+
+const CodeEditor = (props) => {
+
+    const classes = useStyles();
+
+    const { 
+        language = 'javascript',
+        value,
+        onChange
+    } = props;
+
+    function handleChange(editor, data, value){
+        onChange(value);
+    }
+
+    return (
+        <ControlledEditor 
+            onBeforeChange={handleChange}
+            value={value}
+            className={classes.codeMirrorWrapper}
+            options={{
+                lineWrapping: true,
+                lint: true,
+                mode: language,
+                lineNumbers: true,
+                theme: 'material'
+            }}
+        />
+    )
+}
+
+export default CodeEditor;

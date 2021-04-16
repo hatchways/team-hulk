@@ -4,6 +4,7 @@ import Dashboard from './Dashboard';
 import FAQ from './FAQ';
 import Blog from './Blog';
 import Profile from './Profile';
+import Interview from './Interview';
 
 import { UserProvider } from '../context/UserContext'
 
@@ -19,6 +20,7 @@ const Home = () => {
           <Route path="/faq" component={FAQ}/>
           <Route path="/blog" component={Blog}/>
           <Route path="/profile" component={Profile}/>
+          <Route path="/interview/:id" component={Interview}/>
         </Switch>
       </BrowserRouter>
     </UserProvider>  

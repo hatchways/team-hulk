@@ -10,10 +10,10 @@ import PastInterviews from '../components/PastInterviews';
 import { UserContext } from '../context/UserContext';
 
 const upcomingInterviews = [
-    { date: new Date('May 25, 2020 22:00:00'), theme: 'Simple Array Sum'},
-    { date: new Date('May 27, 2020 14:00:00'), theme: 'Diagonal Difference'},
-    { date: new Date('May 30, 2020 10:00:00'), theme: 'Plus Minus'},
-    { date: new Date('June 01, 2020 17:00:00'), theme: 'Time Conversion'},
+    { date: new Date('May 25, 2020 22:00:00'), theme: 'Simple Array Sum', id: '123', live: true},
+    { date: new Date('May 27, 2020 14:00:00'), theme: 'Diagonal Difference', id: '456', live: true},
+    { date: new Date('May 30, 2020 10:00:00'), theme: 'Plus Minus', id: '789', live: false},
+    { date: new Date('June 01, 2020 17:00:00'), theme: 'Time Conversion', id: '012', live: false},
 ];
 
 const pastInterviews = [

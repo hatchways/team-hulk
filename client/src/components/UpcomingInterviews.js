@@ -11,6 +11,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
+import { Link } from 'react-router-dom';
+
 const useStyles = makeStyles( (theme) => ({
   table: {
     minWidth: 650,
@@ -19,6 +21,12 @@ const useStyles = makeStyles( (theme) => ({
     marginLeft: theme.spacing(1),
     borderRadius: '30px'
   },
+  link: {
+    '&:link, &:visited': {
+      color: 'inherit',
+      textDecoration: 'none'
+    }
+  }
 }));
 
 const StyledTableCell = withStyles((theme) => ({
@@ -73,14 +81,14 @@ export default function UpcomingInterviews( { rows } ) {
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>When</StyledTableCell>
+            <StyledTableCell style={{width: '25%'}}>When</StyledTableCell>
             <StyledTableCell>Interview Theme</StyledTableCell>
-            <StyledTableCell>Action</StyledTableCell>
+            <StyledTableCell style={{width: '40%'}}>Action</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <TableRow key={row.date.toString()}>
+            <TableRow key={row.id}>
               <StyledTableCell>
                   <Typography>
                     {formatDate(row.date)}  
@@ -91,6 +99,10 @@ export default function UpcomingInterviews( { rows } ) {
               </StyledTableCell>
               <StyledTableCell>{row.theme}</StyledTableCell>
                 <StyledTableCell align="right">
+                    {row.live && 
+                      <Link className={classes.link} to={`interview/${row.id}`}>
+                        <Button variant='outlined' className={classes.btn}>Go to interview</Button>
+                      </Link>}
                     <Button variant='outlined' className={classes.btn}>CANCEL</Button>
                     <Button variant='outlined' className={classes.btn}>RESCHEDULE</Button>
                 </StyledTableCell>

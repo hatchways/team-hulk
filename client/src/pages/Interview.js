@@ -13,6 +13,30 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 
 import CodeEditor from '../components/layout/CodeEditor';
+import Question from '../components/layout/Question';
+
+const sampleCode = `import React from "react";
+import { MuiThemeProvider } from "@material-ui/core";
+import { BrowserRouter, Route } from "react-router-dom";
+
+import { theme } from "./themes/theme";
+import LandingPage from "./pages/Landing";
+import Home from "./pages/TempHome";
+
+import "./App.css";
+
+function App() {
+  return (
+    <MuiThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Route path="/" component={Home} />
+      </BrowserRouter>
+    </MuiThemeProvider>
+  );
+}
+
+export default App;`
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -31,51 +55,45 @@ const useStyles = makeStyles((theme) => ({
 
 const Interview = (props) => {
 
-    const[code, setCode] = useState('');
+  const[code, setCode] = useState(sampleCode);
 
-    const toolBar = useRef();
+  const toolBar = useRef();
 
-    const classes = useStyles();
+  const classes = useStyles();
 
-    const handleClose = () => {
-        props.history.push("/dashboard")
-    };
+  const handleClose = () => {
+      props.history.push("/dashboard")
+  };
 
-    useEffect(() => {
-        console.log(toolBar);
-    });
-
-    return (
-        <Dialog fullScreen  open={true} onClose={handleClose} TransitionComponent={Transition}>
-        <AppBar className={classes.appBar}>
-          <Toolbar ref={toolBar}>
-            <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
-              <CloseIcon />
-            </IconButton>
-            <Typography variant="h6" className={classes.title}>
-              Sound
-            </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
-              save
-            </Button>
-          </Toolbar>
-        </AppBar>
-        <Grid container>
-            <Grid container item xs={12} sm={4} style={{backgroundColor: 'red', minHeight: `calc(100vh - ${toolBar.current ? toolBar.current.clientHeight : 0}px)`}}>
-                {/* <Paper>
-
-                </Paper> */}
-            </Grid>
-            <Grid container item xs={12} sm={8} style={{backgroundColor: 'blue' , minHeight: `calc(100vh - ${toolBar.current ? toolBar.current.clientHeight : 0}px)`}}>
-                <CodeEditor 
-                    language='javascript'
-                    value={code}
-                    onChange={setCode}
-                />
-            </Grid>
-        </Grid>
-      </Dialog>
-    )
+  return (
+      <Dialog fullScreen  open={true} onClose={handleClose} TransitionComponent={Transition}>
+      <AppBar className={classes.appBar}>
+        <Toolbar ref={toolBar}>
+          <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
+            <CloseIcon />
+          </IconButton>
+          <Typography variant="h6" className={classes.title}>
+            {`Interview ${props.match.params.id}`}
+          </Typography>
+          <Button autoFocus color="inherit" onClick={handleClose}>
+            save
+          </Button>
+        </Toolbar>
+      </AppBar>
+      <Grid container>
+          <Grid container item xs={12} sm={4} style={{minHeight: `calc(100vh - ${toolBar.current ? toolBar.current.clientHeight : 0}px)`}}>
+              <Question/>
+          </Grid>
+          <Grid container item xs={12} sm={8} style={{minHeight: `calc(100vh - ${toolBar.current ? toolBar.current.clientHeight : 0}px)`}}>
+              <CodeEditor 
+                  language='javascript'
+                  value={code}
+                  onChange={setCode}
+              />
+          </Grid>
+      </Grid>
+    </Dialog>
+  )
 }
 
 

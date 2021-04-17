@@ -9,12 +9,12 @@ const useStyles = makeStyles((theme) => ({
 		'& > *': {
 			margin: theme.spacing(1),
 			width: theme.spacing(75),
-			height: theme.spacing(65)
+			height: theme.spacing(63)
 		},
 		margin: '5rem auto'
 	},
 	bgColor: {
-		backgroundColor: theme.palette.primary.dark
+		backgroundColor: theme.palette.primary.main
 	},
 	mainContainer: {
 		margin: 'auto'

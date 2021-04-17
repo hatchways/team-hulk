@@ -1,7 +1,4 @@
 import { createMuiTheme } from "@material-ui/core";
-// import indigo from '@material-ui/core/colors/indigo'
-
-// const darkIndigo = indigo[700]
 
 export const theme = createMuiTheme({
   typography: {
@@ -11,18 +8,6 @@ export const theme = createMuiTheme({
       // could customize the h1 variant as well
     }
   },
-  palette: {
-    // secondary: {
-    //   main: darkIndigo
-    // }
-  },
-  spacing: 10,
-  overrides: {
-    MuiButton: {
-      root: {
-        borderRadius: '30'
-      }
-    }
-  }
-
+  palette: {},
+  spacing: 10
 });

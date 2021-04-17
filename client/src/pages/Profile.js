@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ProfileAuthContainer from '../components/layout/ProfileAuthContainer';
-import { Grid, Typography, Button, MenuItem } from '@material-ui/core';
+import { Grid, Box, Typography, Button, MenuItem } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
@@ -10,7 +10,13 @@ import { Rating } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
 	cardHeader: {
-		marginTop: '4rem'
+		marginTop: '4rem',
+		margin: 'auto'
+	},
+	cardHeaderText: {
+		textAlign: 'center',
+		fontSize: '1.6rem',
+		color: theme.palette.primary.main
 	},
 	formControl: {
 		margin: theme.spacing(1),
@@ -20,17 +26,29 @@ const useStyles = makeStyles((theme) => ({
 	selectEmpty: {
 		marginTop: theme.spacing(2)
 	},
+	selectInput: {
+		paddingLeft: '1.5rem',
+		fontSize: '12px'
+	},
 	helperText: {
 		marginLeft: '0.5rem',
-		fontSize: 16,
+		fontSize: 14,
 		color: theme.palette.grey[700]
 	},
-	marginLeft: {
-		marginLeft: '0.5rem'
+	ratingTitle: {
+		marginLeft: '0.5rem',
+		fontWeight: 'bold'
+	},
+	ratingDescription: {
+		marginLeft: '0.5rem',
+		color: theme.palette.grey[500]
 	},
 	btn: {
 		borderRadius: '30px',
 		padding: '1rem 3rem'
+	},
+	center: {
+		margin: 'auto'
 	}
 }));
 
@@ -79,8 +97,7 @@ const Profile = () => {
 					<React.Fragment>
 						<Grid container item>
 							<Typography
-								className={classes.marginLeft}
-								style={{ fontWeight: 'bold' }}
+								className={classes.ratingTitle}
 								color="primary"
 								variant="body1"
 							>
@@ -88,7 +105,7 @@ const Profile = () => {
 							</Typography>
 						</Grid>
 						<Grid container item>
-							<Typography className={classes.marginLeft} variant="body2">
+							<Typography className={classes.ratingDescription} variant="body2">
 								{ratingObj.ratingDescription}
 							</Typography>
 						</Grid>
@@ -102,13 +119,13 @@ const Profile = () => {
 		<ProfileAuthContainer>
 			<Grid container direction="row" item xs={12} justify="center">
 				<Grid container item direction="column" spacing={5}>
-					<Grid container item xs={12} justify="center" alignItems="center" className={classes.cardHeader}>
-						<Typography style={{ textAlign: 'center' }} variant="h4" color="primary">
+					<Grid container item xs={12} md={6} justify="center" alignItems="center" className={classes.cardHeader}>
+						<Typography className={classes.cardHeaderText} variant="h5">
 							Tell about your background
 						</Typography>
 					</Grid>
-					<Grid container item spacing={4}>
-						<Grid container item xs={12} md={8} justify="center" style={{ margin: 'auto' }}>
+					<Grid container item spacing={1} direction='column'>
+						<Grid container item xs={12} md={6} justify="center" className={classes.center}>
 							<Grid container item>
 								<FormHelperText className={classes.helperText}>
 									Years of professional experience
@@ -116,7 +133,7 @@ const Profile = () => {
 							</Grid>
 							<Grid container item justify="center">
 								<FormControl variant="outlined" className={classes.formControl}>
-									<InputLabel id="demo-simple-select-outlined-label">
+									<InputLabel className={classes.selectInput} id="demo-simple-select-outlined-label">
 										Select your experience
 									</InputLabel>
 									<Select
@@ -135,7 +152,7 @@ const Profile = () => {
 								</FormControl>
 							</Grid>
 						</Grid>
-						<Grid container item xs={12} md={8} spacing={2} style={{ margin: 'auto' }}>
+						<Grid container item xs={12} md={6} spacing={2} className={classes.center}>
 							<Grid container item>
 								<Typography
 									style={{ marginLeft: 0 }}
@@ -156,15 +173,17 @@ const Profile = () => {
 								/>
 							</Grid>
 						</Grid>
-						<Grid container item xs={12} md={8} spacing={1} style={{ margin: 'auto' }}>
+						<Grid container item xs={12} md={6} spacing={1} className={classes.center}>
 							{showRating()}
 						</Grid>
 					</Grid>
-					<Grid container item justify="center">
-						<Button className={classes.btn} size="large" variant="contained" color="primary">
-							next step
-						</Button>
-					</Grid>
+					<Box mt={6}>
+						<Grid container item justify="center">
+							<Button className={classes.btn} size="large" variant="contained" color='primary'>
+								next step
+							</Button>
+						</Grid>
+					</Box>
 				</Grid>
 			</Grid>
 		</ProfileAuthContainer>

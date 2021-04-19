@@ -1,9 +1,26 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import Box from '@material-ui/core/Box';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import { Typography } from '@material-ui/core';
+
+import ReactMarkdown from 'react-markdown';
+import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter';
+import gfm from 'remark-gfm';
+
+
+const components = {
+  code({node, inline, className, children, ...props}) {
+    const match = /language-(\w+)/.exec(className || '')
+    return !inline && match ? (
+      <SyntaxHighlighter language={match[1]} PreTag="div" children={String(children).replace(/\n$/, '')} {...props} />
+    ) : (
+      <code className={className} {...props} />
+    )
+  }
+}
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -13,10 +30,22 @@ const useStyles = makeStyles((theme) => ({
     questionBody: {
         width:'100%',
         minHeight: '500px'
+    },
+    questionTitle: {
+      color: theme.palette.primary.light
+    },
+    markdownContainer: {
+      '& p': {
+        fontFamily: ['"Open Sans"', 'sans-serif'].join(','),
+        fontSize: 16,
+        fontWeight: 400,
+        lineHeight: 2,
+        color: '#5E6676'
+      }
     }
 }));
 
-const Question = (props) => {
+const Question = ({ question }) => {
 
   const classes = useStyles();  
   const [tab, setTab] = useState(0);
@@ -42,9 +71,17 @@ const Question = (props) => {
         <Tab label="Question" />
         <Tab label="Answer" />
       </Tabs>
-      <Paper className={classes.questionBody}>
-        <h1>{tab === 0 ? 'Question':'Answer'}</h1>
-      </Paper>
+      <Box mt={3}>
+        <Typography variant="h4" className={classes.questionTitle}>{question.title}</Typography> 
+        <ReactMarkdown 
+          components={components} 
+          className={classes.markdownContainer} 
+          remarkPlugins={[gfm]}
+        >
+          {tab === 0 ? question.body : question.answer}
+        </ReactMarkdown>
+      </Box>
+      
     </Grid>
   );
 }

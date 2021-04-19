@@ -15,28 +15,57 @@ import Grid from '@material-ui/core/Grid';
 import CodeEditor from '../components/layout/CodeEditor';
 import Question from '../components/layout/Question';
 
-const sampleCode = `import React from "react";
-import { MuiThemeProvider } from "@material-ui/core";
-import { BrowserRouter, Route } from "react-router-dom";
+const sampleQuestion = {
+  title: 'Diagonal Difference',
+  body: `Given a square matrix, calculate the absolute difference between the sums of its diagonals.
+  For example, the square matrix **arr** is shown below:\n
+  ~~~js
+  1 2 3
+  4 5 6
+  9 8 9
+  ~~~
+  The left-to-right diagonal = **1 + 5 + 9 = 15**. The right to left diagonal = **3 + 5 + 9 = 17**. Their absolute difference is  **[ 15 - 17 ] = 2**.
 
-import { theme } from "./themes/theme";
-import LandingPage from "./pages/Landing";
-import Home from "./pages/TempHome";
+  ### Function description\n
+  Complete the  function in the **diagonalDifference** editor below. It must return an integer representing the absolute diagonal difference.
+  diagonalDifference takes the following parameter:\n
+  arr: an array of integers.
+  `,
+  answer: `A paragraph with *emphasis* and **strong importance**.
 
-import "./App.css";
-
-function App() {
-  return (
-    <MuiThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Route path="/" component={Home} />
-      </BrowserRouter>
-    </MuiThemeProvider>
-  );
+  > A block quote with ~strikethrough~ and a URL: https://reactjs.org.
+  
+  * Lists
+  * [ ] todo
+  * [x] done
+  
+  A table:
+  
+  | a | b |
+  | - | - |
+  `,
+  preLoadCode: `import React from "react";
+  import { MuiThemeProvider } from "@material-ui/core";
+  import { BrowserRouter, Route } from "react-router-dom";
+  
+  import { theme } from "./themes/theme";
+  import LandingPage from "./pages/Landing";
+  import Home from "./pages/TempHome";
+  
+  import "./App.css";
+  
+  function App() {
+    return (
+      <MuiThemeProvider theme={theme}>
+        <BrowserRouter>
+          <Route path="/" component={Home} />
+        </BrowserRouter>
+      </MuiThemeProvider>
+    );
+  }
+  
+  export default App;`
 }
-
-export default App;`
-
 
 
 const useStyles = makeStyles((theme) => ({
@@ -55,7 +84,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Interview = (props) => {
 
-  const[code, setCode] = useState(sampleCode);
+  const[code, setCode] = useState(sampleQuestion.preLoadCode);
 
   const toolBar = useRef();
 
@@ -82,7 +111,7 @@ const Interview = (props) => {
       </AppBar>
       <Grid container>
           <Grid container item xs={12} sm={4} style={{minHeight: `calc(100vh - ${toolBar.current ? toolBar.current.clientHeight : 0}px)`}}>
-              <Question/>
+              <Question question={sampleQuestion}/>
           </Grid>
           <Grid container item xs={12} sm={8} style={{minHeight: `calc(100vh - ${toolBar.current ? toolBar.current.clientHeight : 0}px)`}}>
               <CodeEditor 

@@ -15,13 +15,16 @@ import 'codemirror/addon/hint/show-hint.css'
 
 import { Controlled as ControlledEditor } from 'react-codemirror2';
 
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
     codeMirrorWrapper: {
       width: '100%',
       '& .CodeMirror': {
         minHeight: '100%',
+        fontSize: 16,
+        paddingTop: theme.spacing(4),
+        paddingLeft: theme.spacing(1)
       }
     }
   }));

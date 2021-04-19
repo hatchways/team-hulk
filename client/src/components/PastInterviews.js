@@ -52,64 +52,65 @@ export default function UpcomingInterviews({ rows }) {
       return `${hours < 12 ? hours : hours - 12}:${minutes}${minutes < 10 ? 0 : ''} ${hours < 13 ? 'AM': 'PM'}`
   }
 
-  if (!rows || rows.length === 0){
-    return(
-      <Typography component="div" variant="h6">
-          <Box 
-              mt={3}
-              display="flex"
-              justifyContent="center"
-              alignItems="center" 
-              color="text.disabled"
-          >
-              There are no past interviews.
-          </Box>
-      </Typography>
-    )
-}
-
   return (
-    <Box mt={3}>
-      <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>Held on</StyledTableCell>
-            <StyledTableCell align='center'>Coding</StyledTableCell>
-            <StyledTableCell align='center'>Communication</StyledTableCell>
-            <StyledTableCell align='center'>Questions</StyledTableCell>
-            <StyledTableCell align='center'>Detailed Feedback</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.date.toString()}>
-              <StyledTableCell>
-                  <Typography>
-                    {formatDate(row.date)}  
-                  </Typography>
-                  <Typography>
-                    {formatHour(row.date)}  
-                  </Typography>
-              </StyledTableCell>
-              <StyledTableCell align='center'>
-                <Rating name="read-only" value={row.codingScore} readOnly />
-              </StyledTableCell>
-              <StyledTableCell align='center'>
-                <Rating name="read-only" value={row.communicationScore} readOnly />
-              </StyledTableCell>
-                <StyledTableCell align='center'>
-                    <Button variant='outlined' className={classes.btn}>View</Button>
-                </StyledTableCell>
-                <StyledTableCell align='center'>
-                    <Button variant='outlined' className={classes.btn}>View</Button>
-                </StyledTableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      </TableContainer>  
-    </Box>
+    <React.Fragment>
+      {!rows ||  rows.length === 0 ? (
+        <Typography component="div" variant="h6">
+            <Box 
+                mt={3}
+                display="flex"
+                justifyContent="center"
+                alignItems="center" 
+                color="text.disabled"
+            >
+                There are no past interviews.
+            </Box>
+        </Typography>
+      ): 
+      (
+        <Box mt={3}>
+          <TableContainer component={Paper}>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Held on</StyledTableCell>
+                <StyledTableCell align='center'>Coding</StyledTableCell>
+                <StyledTableCell align='center'>Communication</StyledTableCell>
+                <StyledTableCell align='center'>Questions</StyledTableCell>
+                <StyledTableCell align='center'>Detailed Feedback</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <TableRow key={row.date.toString()}>
+                  <StyledTableCell>
+                      <Typography>
+                        {formatDate(row.date)}  
+                      </Typography>
+                      <Typography>
+                        {formatHour(row.date)}  
+                      </Typography>
+                  </StyledTableCell>
+                  <StyledTableCell align='center'>
+                    <Rating name="read-only" value={row.codingScore} readOnly />
+                  </StyledTableCell>
+                  <StyledTableCell align='center'>
+                    <Rating name="read-only" value={row.communicationScore} readOnly />
+                  </StyledTableCell>
+                    <StyledTableCell align='center'>
+                        <Button variant='outlined' className={classes.btn}>View</Button>
+                    </StyledTableCell>
+                    <StyledTableCell align='center'>
+                        <Button variant='outlined' className={classes.btn}>View</Button>
+                    </StyledTableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          </TableContainer>  
+        </Box>
+    )}
+    </React.Fragment>
     
   );
 }

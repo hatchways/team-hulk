@@ -3,6 +3,8 @@ import { MuiThemeProvider } from "@material-ui/core";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import { theme } from "./themes/theme";
+import LandingPage from "./pages/Landing";
+import Home from "./pages/TempHome";
 import Profile from './pages/Profile';
 
 import "./App.css";
@@ -12,6 +14,7 @@ function App() {
     <MuiThemeProvider theme={theme}>
         <BrowserRouter>
           <Switch>
+          <Route path="/" component={Home} />
             <Route path="/profile" component={Profile}/>
           </Switch>
         </BrowserRouter>

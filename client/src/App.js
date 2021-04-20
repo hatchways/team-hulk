@@ -6,13 +6,15 @@ import { theme } from "./themes/theme";
 import Profile from './pages/Profile';
 
 import "./App.css";
+import Home from "./pages/Home";
 
 function App() {
   return (
     <MuiThemeProvider theme={theme}>
         <BrowserRouter>
           <Switch>
-            <Route path="/profile" component={Profile}/>
+            <Route exact path="/" component={Home}/>
+            <Route exact path="/profile" component={Profile}/>
           </Switch>
         </BrowserRouter>
     </MuiThemeProvider>

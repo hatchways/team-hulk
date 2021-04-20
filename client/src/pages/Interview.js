@@ -1,15 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
-import Slide from '@material-ui/core/Slide';
 
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 
 import CodeEditor from '../components/layout/CodeEditor';
@@ -67,7 +64,6 @@ const sampleQuestion = {
   export default App;`
 }
 
-
 const useStyles = makeStyles((theme) => ({
     appBar: {
       position: 'relative',
@@ -76,17 +72,18 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: theme.spacing(2),
       flex: 1,
     },
+    stretch: { height: "100%" },
+    item: { display: "flex", flexDirection: "column" }
   }));
 
-  const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-  });
-
 const Interview = (props) => {
-
   const[code, setCode] = useState(sampleQuestion.preLoadCode);
+  const [barHeight, setBarHeight] = useState(0);
+  const barRef = useRef(null);
 
-  const toolBar = useRef();
+  useEffect(() => {
+    barRef.current && setBarHeight(barRef.current.clientHeight);
+  },[barRef])
 
   const classes = useStyles();
 
@@ -95,9 +92,9 @@ const Interview = (props) => {
   };
 
   return (
-      <Dialog fullScreen  open={true} onClose={handleClose} TransitionComponent={Transition}>
-      <AppBar className={classes.appBar}>
-        <Toolbar ref={toolBar}>
+    <React.Fragment>
+      <AppBar ref={barRef} className={classes.appBar}>
+        <Toolbar>
           <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
             <CloseIcon />
           </IconButton>
@@ -109,11 +106,12 @@ const Interview = (props) => {
           </Button>
         </Toolbar>
       </AppBar>
-      <Grid container>
-          <Grid container item xs={12} sm={4} style={{minHeight: `calc(100vh - ${toolBar.current ? toolBar.current.clientHeight : 0}px)`}}>
+      
+      <Grid container alignItems='stretch' style={{minHeight: `calc(100vh - ${props.navHeight ? props.navHeight : 0}px - ${barHeight}px)`}}>
+          <Grid container item alignItems='flex-start' xs={12} sm={4}>
               <Question question={sampleQuestion}/>
           </Grid>
-          <Grid container item xs={12} sm={8} style={{minHeight: `calc(100vh - ${toolBar.current ? toolBar.current.clientHeight : 0}px)`}}>
+          <Grid item xs={12} sm={8}>
               <CodeEditor 
                   language='javascript'
                   value={code}
@@ -121,7 +119,7 @@ const Interview = (props) => {
               />
           </Grid>
       </Grid>
-    </Dialog>
+    </React.Fragment>
   )
 }
 

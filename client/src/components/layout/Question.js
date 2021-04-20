@@ -56,6 +56,7 @@ const Question = ({ question }) => {
 
   return (
     <Grid 
+        container
         className={classes.container}
         direction="column"
         justify="center"

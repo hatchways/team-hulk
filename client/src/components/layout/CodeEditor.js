@@ -20,7 +20,9 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     codeMirrorWrapper: {
       width: '100%',
+      height: '100%',
       '& .CodeMirror': {
+        boxSizing: 'border-box',
         minHeight: '100%',
         fontSize: 16,
         paddingTop: theme.spacing(4),

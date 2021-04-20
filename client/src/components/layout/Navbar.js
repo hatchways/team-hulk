@@ -110,7 +110,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Navbar = ( props ) => {
+const Navbar = React.forwardRef(( props, ref ) => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     let location = useLocation();
@@ -202,7 +202,7 @@ const Navbar = ( props ) => {
     );
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} ref={ref}>
       <AppBar position="static" color="transparent" >
         <Toolbar className={classes.navbar}>
           <Typography edge="start" className={classes.navbar__logo}>
@@ -214,6 +214,6 @@ const Navbar = ( props ) => {
       </AppBar>
     </div>
   );
-}
+})
 
 export default Navbar;

@@ -126,10 +126,11 @@ export default function Signup() {
 
     const sendRequest = (e) => {
         e.preventDefault()
-        for (var i in errors) {
+        let error = false;
+        for (let i in errors) {
             if (errors[i] === true) {
                 console.log("Not all fields filled in")
-                var error;
+                error = true;
                 return false;
             }
         }

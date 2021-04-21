@@ -8,9 +8,6 @@ export const theme = createMuiTheme({
       // could customize the h1 variant as well
     }
   },
-  palette: {
-    
-  },
-  spacing: 10,
-
+  palette: {},
+  spacing: 10
 });

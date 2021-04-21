@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import AppBar from '@material-ui/core/AppBar';
-import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
@@ -174,7 +174,7 @@ const Navbar = React.forwardRef(( props, ref ) => {
           {link}
         </Link>)
       }
-      <Box
+      <Grid
         aria-describedby={id}
         variant="contained"
         color="primary"
@@ -183,7 +183,7 @@ const Navbar = React.forwardRef(( props, ref ) => {
       >
         <Avatar className={classes.user__img} alt='avatar' src={avatar} />
         <Typography className={classes.user__name}>{user.name}</Typography>
-      </Box>
+      </Grid>
       {popover}
     </div>
     );

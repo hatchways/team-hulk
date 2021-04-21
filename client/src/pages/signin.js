@@ -80,7 +80,6 @@ export default function Signin() {
             credentials:'include'
         })
             .then((response) => {
-                console.log(response);
                 setRedirect(true)
             })
             .catch(function (error) {

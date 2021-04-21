@@ -20,7 +20,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     codeMirrorWrapper: {
       width: '100%',
-      height: '100%',
+      height: 'calc(100% - 240px)',
       '& .CodeMirror': {
         boxSizing: 'border-box',
         minHeight: '100%',
@@ -61,7 +61,8 @@ const CodeEditor = (props) => {
 
                 fixedGutter: true,
 	            coverGutterNextToScrollbar: true,
-                extraKeys: {"Ctrl-Space": "autocomplete"}
+                extraKeys: {"Ctrl-Space": "autocomplete"},
+                scrollbarStyle: 'null'
             }}
             
         />

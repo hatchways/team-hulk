@@ -11,6 +11,7 @@ import Grid from '@material-ui/core/Grid';
 
 import CodeEditor from '../components/layout/CodeEditor';
 import Question from '../components/layout/Question';
+import Console from '../components/layout/Console';
 
 const sampleQuestion = {
   title: 'Diagonal Difference',
@@ -72,8 +73,13 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: theme.spacing(2),
       flex: 1,
     },
-    stretch: { height: "100%" },
-    item: { display: "flex", flexDirection: "column" }
+    codeContainer: {
+      overflowY:'scroll',
+      backgroundColor: '#263238',
+      '&::-webkit-scrollbar': {
+        display: 'none'
+      }
+    }
   }));
 
 const Interview = (props) => {
@@ -111,12 +117,19 @@ const Interview = (props) => {
           <Grid container item alignItems='flex-start' xs={12} sm={4}>
               <Question question={sampleQuestion}/>
           </Grid>
-          <Grid item xs={12} sm={8}>
+          <Grid 
+            item 
+            xs={12} 
+            sm={8} 
+            className={classes.codeContainer} 
+            style={{minHeight: `calc(100vh - ${props.navHeight ? props.navHeight : 0}px - ${barHeight}px)`}}
+            >
               <CodeEditor 
                   language='javascript'
                   value={code}
                   onChange={setCode}
               />
+              <Console/>
           </Grid>
       </Grid>
     </React.Fragment>

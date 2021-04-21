@@ -25,7 +25,10 @@ const components = {
 const useStyles = makeStyles((theme) => ({
     container: {
         width: '100%',
-        padding: `${theme.spacing(4)}px ${theme.spacing(6)}px`
+        padding: `${theme.spacing(4)}px ${theme.spacing(6)}px`,
+        [theme.breakpoints.down("md")]: {
+          padding: `${theme.spacing(4)}px ${theme.spacing(3)}px`
+        }
     },
     questionBody: {
         width:'100%',

@@ -1,4 +1,3 @@
-import { useState, useContext } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
@@ -6,8 +5,6 @@ import { theme } from '../themes/theme';
 
 import UpcomingInterviews from '../components/UpcomingInterviews';
 import PastInterviews from '../components/PastInterviews';
-
-import { UserContext } from '../context/UserContext';
 
 const upcomingInterviews = [
     { date: new Date('May 25, 2020 22:00:00'), theme: 'Simple Array Sum', id: '123', live: true},
@@ -22,7 +19,6 @@ const pastInterviews = [
 ];
 
 const Dashboard = () => {
-    const [user, setUser] = useContext(UserContext)
 
     return (
         <Container maxWidth='lg'>

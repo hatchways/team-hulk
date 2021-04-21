@@ -27,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(2),
         border: 1 
     },
+    btn: {
+        borderRadius: '30px'
+    },
     codeMirrorWrapper: {
         width: '100%',
         
@@ -56,7 +59,7 @@ const Console = (props) => {
                 <Typography variant="h6" className={classes.title}>
                     Console
                 </Typography>
-                <Button autoFocus color="inherit">
+                <Button variant='outlined' className={classes.btn} color="inherit">
                     Run
                 </Button>
                 </Toolbar>
@@ -70,6 +73,7 @@ const Console = (props) => {
                 theme: 'material',
                 tabSize: 2,
                 fixedGutter: true,
+                scrollbarStyle: 'null'
             }}
             
         />

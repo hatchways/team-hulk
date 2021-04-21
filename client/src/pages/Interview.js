@@ -39,8 +39,6 @@ const sampleQuestion = {
   
   A table:
   
-  | a | b |
-  | - | - |
   `,
   preLoadCode: `import React from "react";
   import { MuiThemeProvider } from "@material-ui/core";
@@ -72,6 +70,9 @@ const useStyles = makeStyles((theme) => ({
     title: {
       marginLeft: theme.spacing(2),
       flex: 1,
+    },
+    btn: {
+      borderRadius: '30px'
     },
     codeContainer: {
       overflowY:'scroll',
@@ -107,20 +108,25 @@ const Interview = (props) => {
           <Typography variant="h6" className={classes.title}>
             {`Interview ${props.match.params.id}`}
           </Typography>
-          <Button autoFocus color="inherit" onClick={handleClose}>
+          <Button color="inherit" onClick={handleClose} className={classes.btn} variant='outlined'>
             save
           </Button>
         </Toolbar>
       </AppBar>
       
       <Grid container alignItems='stretch' style={{minHeight: `calc(100vh - ${props.navHeight ? props.navHeight : 0}px - ${barHeight}px)`}}>
-          <Grid container item alignItems='flex-start' xs={12} sm={4}>
+          <Grid container item 
+            alignItems='flex-start' 
+            xs={12} 
+            md={4}
+            style={{minHeight: `calc(100vh - ${props.navHeight ? props.navHeight : 0}px - ${barHeight}px)`}}
+            >
               <Question question={sampleQuestion}/>
           </Grid>
           <Grid 
             item 
             xs={12} 
-            sm={8} 
+            md={8} 
             className={classes.codeContainer} 
             style={{minHeight: `calc(100vh - ${props.navHeight ? props.navHeight : 0}px - ${barHeight}px)`}}
             >

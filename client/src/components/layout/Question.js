@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         padding: `${theme.spacing(4)}px ${theme.spacing(6)}px`,
         [theme.breakpoints.down("md")]: {
-          padding: `${theme.spacing(4)}px ${theme.spacing(3)}px`
+          padding: `${theme.spacing(4)}px ${theme.spacing(2)}px`
         }
     },
     questionBody: {

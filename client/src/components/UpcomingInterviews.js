@@ -13,107 +13,138 @@ import Typography from '@material-ui/core/Typography';
 
 import { Link } from 'react-router-dom';
 
-const useStyles = makeStyles( (theme) => ({
-  table: {
-    minWidth: 650,
-  },
-  btn: {
-    marginLeft: theme.spacing(1),
-    borderRadius: '30px'
-  },
-  link: {
-    '&:link, &:visited': {
-      color: 'inherit',
-      textDecoration: 'none'
-    }
-  }
+const useStyles = makeStyles((theme) => ({
+	table: {
+		minWidth: 650,
+	},
+	btn: {
+		marginLeft: theme.spacing(1),
+		borderRadius: '30px',
+	},
+	link: {
+		'&:link, &:visited': {
+			color: 'inherit',
+			textDecoration: 'none',
+		},
+	},
 }));
 
 const StyledTableCell = withStyles((theme) => ({
-    head: {
-      backgroundColor: theme.palette.primary.main,
-      color: theme.palette.common.white,
-      fontSize: 16,
-      fontWeight: '600'
-    },
-    body: {
-      fontSize: 14,
-      fontWeight: '400'
-    },
+	head: {
+		backgroundColor: theme.palette.primary.main,
+		color: theme.palette.common.white,
+		fontSize: 16,
+		fontWeight: '600',
+	},
+	body: {
+		fontSize: 14,
+		fontWeight: '400',
+	},
 }))(TableCell);
 
-const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  
+const months = [
+	'January',
+	'February',
+	'March',
+	'April',
+	'May',
+	'June',
+	'July',
+	'August',
+	'September',
+	'October',
+	'November',
+	'December',
+];
+const days = [
+	'Sunday',
+	'Monday',
+	'Tuesday',
+	'Wednesday',
+	'Thursday',
+	'Friday',
+	'Saturday',
+];
 
-export default function UpcomingInterviews( { rows } ) {
-  const classes = useStyles();
+export default function UpcomingInterviews({ rows }) {
+	const classes = useStyles();
 
-  const formatDate = (date) => {
-    return `${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()} ${date.getFullYear()}`
-  }
+	const formatDate = (date) => {
+		return `${days[date.getDay()]}, ${
+			months[date.getMonth()]
+		} ${date.getDate()} ${date.getFullYear()}`;
+	};
 
-  const formatHour = (date) => {
-      const hours = date.getHours();
-      const minutes = date.getMinutes();
-      return `${hours < 12 ? hours : hours - 12}:${minutes}${minutes < 10 ? 0 : ''} ${hours < 13 ? 'AM': 'PM'}`
-  }
+	const formatHour = (date) => {
+		const hours = date.getHours();
+		const minutes = date.getMinutes();
+		return `${hours < 12 ? hours : hours - 12}:${minutes}${
+			minutes < 10 ? 0 : ''
+		} ${hours < 13 ? 'AM' : 'PM'}`;
+	};
 
-  return (
-    <React.Fragment>
-      {!rows || rows.length === 0 ? (
-        <Typography component="div" variant="h6">
-          <Box 
-              mt={3}
-              display="flex"
-              justifyContent="center"
-              alignItems="center" 
-              color="text.disabled"
-          >
-              There are no upcoming interviews.
-          </Box>
-      </Typography>
-      ):
-      (
-        <Box mt={3}>
-          <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell style={{width: '25%'}}>When</StyledTableCell>
-                <StyledTableCell>Interview Theme</StyledTableCell>
-                <StyledTableCell style={{width: '40%'}}>Action</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <TableRow key={row.id}>
-                  <StyledTableCell>
-                      <Typography>
-                        {formatDate(row.date)}  
-                      </Typography>
-                      <Typography>
-                        {formatHour(row.date)}  
-                      </Typography>
-                  </StyledTableCell>
-                  <StyledTableCell>{row.theme}</StyledTableCell>
-                    <StyledTableCell align="right">
-                      {row.live && 
-                        <Link className={classes.link} to={`interview/${row.id}`}>
-                        <Button variant='outlined' className={classes.btn}>Go to interview</Button>
-                        </Link>
-                      }
-                        <Button variant='outlined' className={classes.btn}>CANCEL</Button>
-                        <Button variant='outlined' className={classes.btn}>RESCHEDULE</Button>
-                    </StyledTableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          </TableContainer>  
-        </Box>
-      )}
-    </React.Fragment>
-    
-  );
+	return (
+		<React.Fragment>
+			{!rows || rows.length === 0 ? (
+				<Typography component="div" variant="h6">
+					<Box
+						mt={3}
+						display="flex"
+						justifyContent="center"
+						alignItems="center"
+						color="text.disabled"
+					>
+						There are no upcoming interviews.
+					</Box>
+				</Typography>
+			) : (
+				<Box mt={3}>
+					<TableContainer component={Paper}>
+						<Table className={classes.table} aria-label="simple table">
+							<TableHead>
+								<TableRow>
+									<StyledTableCell style={{ width: '25%' }}>
+										When
+									</StyledTableCell>
+									<StyledTableCell>Interview Theme</StyledTableCell>
+									<StyledTableCell style={{ width: '40%' }}>
+										Action
+									</StyledTableCell>
+								</TableRow>
+							</TableHead>
+							<TableBody>
+								{rows.map((row) => (
+									<TableRow key={row.id}>
+										<StyledTableCell>
+											<Typography>{formatDate(row.date)}</Typography>
+											<Typography>{formatHour(row.date)}</Typography>
+										</StyledTableCell>
+										<StyledTableCell>{row.theme}</StyledTableCell>
+										<StyledTableCell align="right">
+											{row.live && (
+												<Link
+													className={classes.link}
+													to={`interview/${row.id}`}
+												>
+													<Button variant="outlined" className={classes.btn}>
+														Go to interview
+													</Button>
+												</Link>
+											)}
+											<Button variant="outlined" className={classes.btn}>
+												CANCEL
+											</Button>
+											<Button variant="outlined" className={classes.btn}>
+												RESCHEDULE
+											</Button>
+										</StyledTableCell>
+									</TableRow>
+								))}
+							</TableBody>
+						</Table>
+					</TableContainer>
+				</Box>
+			)}
+		</React.Fragment>
+	);
 }

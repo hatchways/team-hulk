@@ -3,6 +3,8 @@ const express = require("express");
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const mongoose = require("mongoose");
+require('dotenv').config({ path: './.env'})
 
 const indexRouter = require("./routes/index");
 const pingRouter = require("./routes/ping");
@@ -21,6 +23,7 @@ app.use(passport.initialize())
 app.use(express.json());
 
 mongoose.connect(process.env.MONGO_DB_URI)
+
 app.use(logger("dev"));
 app.use(json());
 app.use(cookieParser());
@@ -30,6 +33,7 @@ app.use("/", indexRouter);
 app.use("/ping", pingRouter);
 app.use("/api/signup", signupRouter);
 app.use("/api/signin", signinRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

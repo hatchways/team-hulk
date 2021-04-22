@@ -22,6 +22,7 @@ router.route('/')
     } else {
       res.send("Unable to save to database. Please ensure body includes names and a password >= 6 characters.")
     }
+
   });
 
 module.exports = router;

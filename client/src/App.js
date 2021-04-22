@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { MuiThemeProvider } from "@material-ui/core";
-import { BrowserRouter, Route, Switch } from "react-router-dom
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { theme } from "./themes/theme";
 import Signup from "./pages/signup";
 import Signin from "./pages/signin";
-import Dashboard from "./pages/dashboard";
-import LandingPage from "./pages/Landing";
+import Dashboard from "./pages/Dashboard";
 import Home from "./pages/TempHome";
 import Profile from './pages/Profile';
 

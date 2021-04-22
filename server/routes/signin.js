@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 const passport = require('passport')
 const jwt = require("jsonwebtoken")

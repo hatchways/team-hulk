@@ -3,6 +3,7 @@ const express = require("express");
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+let cors = require("cors");
 
 const indexRouter = require("./routes/index");
 const pingRouter = require("./routes/ping");
@@ -16,6 +17,7 @@ app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(join(__dirname, "public")));
+app.use(cors());
 
 app.use("/", indexRouter);
 app.use("/ping", pingRouter);

@@ -13,6 +13,8 @@ import CodeEditor from '../components/layout/CodeEditor';
 import Question from '../components/layout/Question';
 import Console from '../components/layout/Console';
 
+import hatchways from '../APIs/hatchways';
+
 const sampleQuestion = {
   title: 'Diagonal Difference',
   body: `Given a square matrix, calculate the absolute difference between the sums of its diagonals.
@@ -84,7 +86,8 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const Interview = (props) => {
-  const[code, setCode] = useState(sampleQuestion.preLoadCode);
+  const [code, setCode] = useState(sampleQuestion.preLoadCode);
+  const [results, setResults] = useState('');
   const [barHeight, setBarHeight] = useState(0);
   const barRef = useRef(null);
 
@@ -97,6 +100,20 @@ const Interview = (props) => {
   const handleClose = () => {
       props.history.push("/dashboard")
   };
+
+  const compileCode = async () => {
+    const result = await hatchways.post('/test', {
+      "files": [
+          {
+            "name": "main.js",
+            "content": code
+          }
+        ],
+      "url": 'javascript/latest'
+    });
+
+    setResults(result.data.stderr || result.data.stdout);
+  }
 
   return (
     <React.Fragment>
@@ -135,7 +152,7 @@ const Interview = (props) => {
                   value={code}
                   onChange={setCode}
               />
-              <Console/>
+              <Console compileCode={compileCode} value={results}/>
           </Grid>
       </Grid>
     </React.Fragment>

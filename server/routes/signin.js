@@ -36,7 +36,7 @@ router.post('/', (req, res, next) => {
         httpOnly: true,
       })
       
-      return res.send("Login successful")
+      return res.send("Login successful", "User: " + req.body.email)
 
     });
 

@@ -7,8 +7,6 @@ const mongoose = require('mongoose');
 require('dotenv').config({ path: './.env' });
 
 // Router connections
-const indexRouter = require('./routes/index');
-const pingRouter = require('./routes/ping');
 const signupRouter = require('./routes/signup');
 const interviewRouter = require('./routes/interview');
 const signinRouter = require('./routes/signin');
@@ -43,8 +41,6 @@ app.use(cookieParser());
 app.use(express.static(join(__dirname, 'public')));
 
 // Routing
-app.use('/', indexRouter);
-app.use('/ping', pingRouter);
 app.use('/api/interview', interviewRouter);
 app.use('/api/signup', signupRouter);
 app.use('/api/signin', signinRouter);

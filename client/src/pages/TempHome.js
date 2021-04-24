@@ -6,8 +6,9 @@ import FAQ from './FAQ';
 import Blog from './Blog';
 import Profile from './Profile';
 import Interview from './Interview';
+import HomePage from './HomePage'
 
-import { UserProvider } from '../context/UserContext';
+// import { UserProvider } from '../context/UserContext';
 
 const Home = () => {
 	const [navbarHeight, setHeightnavbarHieght] = useState(0);
@@ -18,15 +19,17 @@ const Home = () => {
 	}, [ref]);
 
 	return (
-		<UserProvider>
+		// <UserProvider>
 			<BrowserRouter>
 				<Navbar ref={ref} />
 				<Switch>
-					<Route path="/dashboard" component={Dashboard} />
-					<Route path="/faq" component={FAQ} />
-					<Route path="/blog" component={Blog} />
-					<Route path="/profile" component={Profile} />
+					<Route exact path="/" component={HomePage} />
+					<Route exact path="/dashboard" component={Dashboard} />
+					<Route exact path="/faq" component={FAQ} />
+					<Route exact path="/blog" component={Blog} />
+					<Route exact path="/profile" component={Profile} />
 					<Route
+						exact
 						path="/interview/:id"
 						render={(props) => (
 							<Interview {...props} navHeight={navbarHeight} />
@@ -34,7 +37,7 @@ const Home = () => {
 					/>
 				</Switch>
 			</BrowserRouter>
-		</UserProvider>
+		// </UserProvider>
 	);
 };
 

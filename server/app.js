@@ -6,8 +6,8 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 require('dotenv').config({ path: './.env'})
 
-const indexRouter = require("./routes/index");
-const pingRouter = require("./routes/ping");
+// const indexRouter = require("./routes/index");
+// const pingRouter = require("./routes/ping");
 const signupRouter = require("./routes/signup");
 const signinRouter = require("./routes/signin");
 const passport = require('passport')
@@ -22,15 +22,19 @@ app.use(passport.initialize())
 
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_DB_URI)
+mongoose.connect(process.env.MONGO_DB_URI, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true
+})
 
 app.use(logger("dev"));
 app.use(json());
 app.use(cookieParser());
 app.use(express.static(join(__dirname, "public")));
 
-app.use("/", indexRouter);
-app.use("/ping", pingRouter);
+// app.use("/", indexRouter);
+// app.use("/ping", pingRouter);
 app.use("/api/signup", signupRouter);
 app.use("/api/signin", signinRouter);
 

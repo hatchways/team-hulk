@@ -12,20 +12,12 @@ socketApi.io = io;
 
 const users = {};
 let currentUsers = 0
-// let currentUserId = ''
-
-
 
 io.on('connection', (socket) => {
     console.log('A user connected with socket id: ', socket.id);
     ++currentUsers
     socket.on('username', user => {
-        // const user = {
-        //   name: username,
-        //   id: socket.id
-        // };
         users[user.id] = user;
-        // currentUserId = user.id
         socket.userId = user.id
         io.emit('connected', user);
         io.emit('users', Object.values(users));

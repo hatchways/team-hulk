@@ -9,26 +9,31 @@ require('dotenv').config({ path: './.env'})
 const indexRouter = require("./routes/index");
 const pingRouter = require("./routes/ping");
 const signupRouter = require("./routes/signup");
+const signinRouter = require("./routes/signin");
+const passport = require('passport')
 
 const { json, urlencoded } = express;
 
-var app = express();
+const app = express();
+
+app.use(urlencoded({ extended: true }));
+
+app.use(passport.initialize())
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-const connectionString = 'mongodb+srv://' + process.env.REACT_APP_MONGO_ID + ':' + process.env.REACT_APP_MONGO_PW + '@cluster0.q0hmz.mongodb.net/project?retryWrites=true&w=majority'
-mongoose.connect(connectionString)
+mongoose.connect(process.env.MONGO_DB_URI)
 
 app.use(logger("dev"));
 app.use(json());
-app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/ping", pingRouter);
-app.use("/signup", signupRouter);
+app.use("/api/signup", signupRouter);
+app.use("/api/signin", signinRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

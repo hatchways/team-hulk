@@ -8,4 +8,4 @@ The project is broken down into a client and server folder.
 
 ## MongoDB
 
-Enter credentials in .env file, as REACT_APP_MONGO_ID and REACT_APP_MONGO_PW.
+Enter MongoDB connection string in .env as MONGO_DB_URI

@@ -5,6 +5,7 @@ import Dashboard from "./Dashboard";
 import FAQ from "./FAQ";
 import Blog from "./Blog";
 import Profile from "./Profile";
+import HomePage from "./HomePage";
 import Interview from "./Interview";
 
 import { UserProvider } from "../context/UserContext";
@@ -22,6 +23,7 @@ const Home = () => {
       <BrowserRouter>
         <Navbar ref={ref} />
         <Switch>
+          <Route exact path="/" component={HomePage} />
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/faq" component={FAQ} />
           <Route path="/blog" component={Blog} />

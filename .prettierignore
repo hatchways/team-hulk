@@ -24,3 +24,5 @@ server/.env
 server\.env
 
 client\public
+client/public
+.circleci

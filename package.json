@@ -1,0 +1,23 @@
+{
+  "name": "team-hulk",
+  "version": "1.0.0",
+  "description": "This starter repo will be used for building applications using React, Material-UI, React-Router, Node, & Express.js.",
+  "main": "index.js",
+  "dependencies": {
+    "prettier": "^2.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hatchways/team-hulk.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hatchways/team-hulk/issues"
+  },
+  "homepage": "https://github.com/hatchways/team-hulk#readme"
+}

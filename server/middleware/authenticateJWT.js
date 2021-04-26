@@ -11,7 +11,7 @@ authenticateJWT = (req, res, next) => {
             next();
         });
     } else {
-        res.sendStatus(204);
+        res.sendStatus(401);
     }
   }
 

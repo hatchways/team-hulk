@@ -16,25 +16,35 @@ import { AuthContext } from './context/AuthContext';
 import "./App.css";
 
 function App() {
-
   const [authorized, setAuthorized] = useContext(AuthContext);
 
-  // The following code should set the authorized context to true before the return is rendered, so that the ProtectedRoutes function properly.
-  // It is setting authorized in AuthProvider as true, but it is initialized as false, and the ProtectedRoutes read it as false first
-  useEffect(() => {
-    axios.get('/api/JWT',
-      setAuthorized(true)
-    )
-  }, [AuthContext])
 
-  return (
+  useEffect(() => {
+    axios.get('/api/JWT')
+      .then(() => {
+        setAuthorized(true)
+      })
+      .catch((err) => {
+        console.log(err)
+        setAuthorized(false)
+      })
+  })
+
+  return (!authorized ?
+    <MuiThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/signup" component={Signup} />
+          <Route component={Signin} />
+        </Switch>
+      </BrowserRouter>
+    </MuiThemeProvider>
+    :
     <MuiThemeProvider theme={theme}>
       <UserProvider>
         <BrowserRouter>
           <Switch>
-            <Route path="/signin" component={Signin} />
-            <Route path="/signup" component={Signup} />
-            <ProtectedRoute isAuthenticated={authorized} exact path="/" component={Dashboard} />
+            <ProtectedRoute isAuthenticated={authorized} exact path={["/home", "/", "/dashboard"]} component={Dashboard} />
             <ProtectedRoute isAuthenticated={authorized} path="/faq" component={FAQ} />
             <ProtectedRoute isAuthenticated={authorized} path="/blog" component={Blog} />
             <ProtectedRoute isAuthenticated={authorized} path="/profile" component={Profile} />

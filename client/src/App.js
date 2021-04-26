@@ -11,19 +11,19 @@ import Profile from './pages/Profile';
 import './App.css';
 
 function App() {
-	return (
-		<MuiThemeProvider theme={theme}>
-			<BrowserRouter>
-				<Switch>
-					<Route path="/" component={Home} />
-					<Route path="/profile" component={Profile} />
-					<Route path="/signin" component={Signin} />
-					<Route path="/signup" component={Signup} />
-					<Route path="/dashboard" component={Dashboard} />
-				</Switch>
-			</BrowserRouter>
-		</MuiThemeProvider>
-	);
+  return (
+    <MuiThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/" component={Home} />
+          <Route path="/profile" component={Profile} />
+          <Route path="/signin" component={Signin} />
+          <Route path="/signup" component={Signup} />
+          <Route path="/dashboard" component={Dashboard} />
+        </Switch>
+      </BrowserRouter>
+    </MuiThemeProvider>
+  );
 }
 
 export default App;

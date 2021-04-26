@@ -8,11 +8,12 @@ require('dotenv').config({ path: './.env'})
 
 const signupRouter = require("./routes/signup");
 const signinRouter = require("./routes/signin");
+const JWTRouter = require("./routes/JWT")
 const passport = require('passport')
 
 const { json, urlencoded } = express;
 
-const app = express();
+var app = express();
 
 app.use(urlencoded({ extended: true }));
 
@@ -21,7 +22,6 @@ app.use(passport.initialize())
 app.use(express.json());
 
 mongoose.connect(process.env.MONGO_DB_URI)
-
 app.use(logger("dev"));
 app.use(json());
 app.use(cookieParser());
@@ -29,7 +29,7 @@ app.use(express.static(join(__dirname, "public")));
 
 app.use("/api/signup", signupRouter);
 app.use("/api/signin", signinRouter);
-
+app.use("/api/JWT", JWTRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

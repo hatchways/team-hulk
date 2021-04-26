@@ -17,13 +17,8 @@ var app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// const connectionString = 'mongodb+srv://' + process.env.REACT_APP_MONGO_ID + ':' + process.env.REACT_APP_MONGO_PW + '@cluster0.q0hmz.mongodb.net/project?retryWrites=true&w=majority'
-const connectionString = 'mongodb+srv://Hassan:Xhd6G7WEDCBjAnX@cluster0.q0hmz.mongodb.net/project?retryWrites=true&w=majority'
-mongoose.connect(connectionString, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true
-})
+const connectionString = 'mongodb+srv://' + process.env.REACT_APP_MONGO_ID + ':' + process.env.REACT_APP_MONGO_PW + '@cluster0.q0hmz.mongodb.net/project?retryWrites=true&w=majority'
+mongoose.connect(connectionString)
 
 app.use(logger("dev"));
 app.use(json());

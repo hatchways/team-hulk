@@ -5,8 +5,7 @@ import { theme } from './themes/theme';
 import Signup from './pages/signup';
 import Signin from './pages/signin';
 import Dashboard from './pages/Dashboard';
-// import Home from './pages/TempHome';
-import Home from "./pages/Home";
+import Home from './pages/TempHome';
 import Profile from './pages/Profile';
 
 import './App.css';

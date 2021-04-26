@@ -15,7 +15,7 @@ function App() {
 		<MuiThemeProvider theme={theme}>
 			<BrowserRouter>
 				<Switch>
-					<Route path="/" component={Home} />
+					<Route exact path="/" component={Home} />
 					<Route path="/profile" component={Profile} />
 					<Route path="/signin" component={Signin} />
 					<Route path="/signup" component={Signup} />

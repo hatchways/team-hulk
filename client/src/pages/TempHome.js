@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Navbar from '../components/layout/Navbar';
 import Dashboard from './Dashboard';
@@ -7,12 +7,14 @@ import Blog from './Blog';
 import Profile from './Profile';
 import Interview from './Interview';
 import HomePage from './HomePage'
+// import { SocketContext } from '../context/SocketContext'
 
 // import { UserProvider } from '../context/UserContext';
 
 const Home = () => {
 	const [navbarHeight, setHeightnavbarHieght] = useState(0);
 	const ref = useRef();
+	// const { socket, setupSocket } = useContext(SocketContext)
 
 	useEffect(() => {
 		ref.current && setHeightnavbarHieght(ref.current.clientHeight);

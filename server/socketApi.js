@@ -16,12 +16,21 @@ let currentUsers = 0
 io.on('connection', (socket) => {
     console.log('A user connected with socket id: ', socket.id);
     ++currentUsers
+
+    socket.on('joinInterviewRoom', ({ interviewId }) => {
+      socket.join(interviewId)
+      console.log(`A user joined interview room: ${interviewId}`)
+    })
+
+    socket.on('leaveInterviewRoom', ({ interviewId }) => {
+      socket.leave(interviewId)
+      console.log(`A user left interview room: ${interviewId}`)
+    })
     socket.on('username', user => {
         users[user.id] = user;
         socket.userId = user.id
         io.emit('connected', user);
         io.emit('users', Object.values(users));
-        console.log('users on connect:',users)
       });
 
     io.emit('user count', currentUsers)
@@ -32,7 +41,6 @@ io.on('connection', (socket) => {
         delete users[socket.userId];
         io.emit("disconnected", socket.userId);
         io.emit('user count', currentUsers)
-        console.log('users on disconnect afetr delete:',users)
         console.log(`user with id of ${socket.userId} disconnected.`)
     })
 });

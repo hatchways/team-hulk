@@ -13,7 +13,7 @@ const SocketProvider = ({ children }) => {
     const [currentUsers, setCurrentUsers] = useState(0)
     const [socket, setSocket] = useState(null)
     const { isAuthenticated } = useContext(AuthContext)
-    const [user] = useContext(UserContext)
+    const {user} = useContext(UserContext)
 
     const setupSocket = () => {
             newSocket = io(CONNECTION_PORT)
@@ -52,6 +52,7 @@ const SocketProvider = ({ children }) => {
             });
 
             setSocket(newSocket)
+            console.log('socket context setup')
     }
 
     useEffect(() => {
@@ -59,6 +60,10 @@ const SocketProvider = ({ children }) => {
             setupSocket()
         }
     }, [isAuthenticated])
+
+    // useEffect(() => {
+    //         setupSocket()
+    // }, [])
 
     return (
         <>

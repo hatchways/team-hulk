@@ -6,7 +6,7 @@ import { UserContext } from '../context/UserContext'
 function Home() {
     const { currentUsers, users } = useContext(SocketContext)
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext)
-    const [ user, setUser ] = useContext(UserContext)
+    const { user, setUser } = useContext(UserContext)
 
     const login = () => {
         setIsAuthenticated(true)

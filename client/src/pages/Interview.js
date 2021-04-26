@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
@@ -12,6 +12,8 @@ import Grid from '@material-ui/core/Grid';
 import CodeEditor from '../components/layout/CodeEditor';
 import Question from '../components/layout/Question';
 import Console from '../components/layout/Console';
+import { SocketContext } from '../context/SocketContext'
+import io from 'socket.io-client'
 
 const sampleQuestion = {
 	title: 'Diagonal Difference',
@@ -32,24 +34,24 @@ const sampleQuestion = {
 	answer: `A paragraph with *emphasis* and **strong importance**.
 
   > A block quote with ~strikethrough~ and a URL: https://reactjs.org.
-  
+
   * Lists
   * [ ] todo
   * [x] done
-  
+
   A table:
-  
+
   `,
 	preLoadCode: `import React from "react";
   import { MuiThemeProvider } from "@material-ui/core";
   import { BrowserRouter, Route } from "react-router-dom";
-  
+
   import { theme } from "./themes/theme";
   import LandingPage from "./pages/Landing";
   import Home from "./pages/TempHome";
-  
+
   import "./App.css";
-  
+
   function App() {
     return (
       <MuiThemeProvider theme={theme}>
@@ -59,7 +61,7 @@ const sampleQuestion = {
       </MuiThemeProvider>
     );
   }
-  
+
   export default App;`,
 };
 
@@ -88,9 +90,39 @@ const Interview = (props) => {
 	const [barHeight, setBarHeight] = useState(0);
 	const barRef = useRef(null);
 
+	const interviewId = props.match.params.id
+	console.log(interviewId)
+
+	const { socket, setupSocket } = useContext(SocketContext)
+
 	useEffect(() => {
 		barRef.current && setBarHeight(barRef.current.clientHeight);
 	}, [barRef]);
+
+	// useEffect(() => {
+	// 	if (!socket) {
+	// 		setupSocket()
+	// 	}
+	// }, [])
+
+	useEffect(() => {
+		console.log('socket in interview:', socket)
+
+		// if (!socket) {
+		// 	setupSocket()
+		// }
+
+		// if (socket) {
+			console.log('room')
+            socket.emit('joinInterviewRoom',  { interviewId })
+
+			return () => {
+				if (socket) {
+					socket.emit('leaveInterviewRoom', { interviewId })
+				}
+			}
+        // }
+	}, [])
 
 	const classes = useStyles();
 

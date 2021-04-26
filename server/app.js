@@ -10,6 +10,7 @@ require('dotenv').config({ path: './.env'})
 // const pingRouter = require("./routes/ping");
 const signupRouter = require("./routes/signup");
 const signinRouter = require("./routes/signin");
+const interviewRouter = require('./routes/interview');
 const passport = require('passport')
 
 const { json, urlencoded } = express;
@@ -37,6 +38,7 @@ app.use(express.static(join(__dirname, "public")));
 // app.use("/ping", pingRouter);
 app.use("/api/signup", signupRouter);
 app.use("/api/signin", signinRouter);
+app.use("/api/interview", interviewRouter);
 
 
 // catch 404 and forward to error handler

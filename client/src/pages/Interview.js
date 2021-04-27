@@ -96,13 +96,9 @@ const Interview = (props) => {
 
 	const classes = useStyles();
 
-	const handleFeedbackOpen = () => {
-		setFeedbackOpen(true)
+	const handleFeedbackOpenClose = () => {
+		setFeedbackOpen(!feedbackOpen)
 	};
-
-	const handleFeedbackClose = () => {
-		setFeedbackOpen(false)
-	}
 
 	const handleClose = () => {
 		props.history.push('/dashboard');
@@ -125,14 +121,14 @@ const Interview = (props) => {
 					</Typography>
 					<Button
 						color="inherit"
-						onClick={handleFeedbackOpen}
+						onClick={handleFeedbackOpenClose}
 						className={classes.btn}
 						variant="outlined"
 					>
 						save
 					</Button>
 					
-					<FeedbackDialog open={feedbackOpen} handleClose={handleFeedbackClose}/>
+					<FeedbackDialog open={feedbackOpen} handleClose={handleFeedbackOpenClose}/>
 				</Toolbar>
 			</AppBar>
 
@@ -140,8 +136,9 @@ const Interview = (props) => {
 				container
 				alignItems="stretch"
 				style={{
-					minHeight: `calc(100vh - ${props.navHeight ? props.navHeight : 0
-						}px - ${barHeight}px)`,
+					minHeight: `calc(100vh - ${
+						props.navHeight ? props.navHeight : 0
+					}px - ${barHeight}px)`,
 				}}
 			>
 				<Grid
@@ -151,8 +148,9 @@ const Interview = (props) => {
 					xs={12}
 					md={4}
 					style={{
-						minHeight: `calc(100vh - ${props.navHeight ? props.navHeight : 0
-							}px - ${barHeight}px)`,
+						minHeight: `calc(100vh - ${
+							props.navHeight ? props.navHeight : 0
+						}px - ${barHeight}px)`,
 					}}
 				>
 					<Question question={sampleQuestion} />
@@ -163,8 +161,9 @@ const Interview = (props) => {
 					md={8}
 					className={classes.codeContainer}
 					style={{
-						minHeight: `calc(100vh - ${props.navHeight ? props.navHeight : 0
-							}px - ${barHeight}px)`,
+						minHeight: `calc(100vh - ${
+							props.navHeight ? props.navHeight : 0
+						}px - ${barHeight}px)`,
 					}}
 				>
 					<CodeEditor language="javascript" value={code} onChange={setCode} />

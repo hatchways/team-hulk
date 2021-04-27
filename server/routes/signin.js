@@ -33,6 +33,8 @@ router.post("/", (req, res, next) => {
         httpOnly: true,
       });
 
+      return res.send(req.body.email);
+
       return res.send("Login successful");
     });
   })(req, res, next);

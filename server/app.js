@@ -5,11 +5,13 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 require("dotenv").config({ path: "./.env" });
+const cors = require("cors");
 
 const signupRouter = require("./routes/signup");
 const signinRouter = require("./routes/signin");
 const feedbackRouter = require("./routes/feedback");
 const passport = require("passport");
+const { config } = require("dotenv");
 
 const { json, urlencoded } = express;
 
@@ -23,10 +25,16 @@ app.use(express.json());
 
 mongoose.connect(process.env.MONGO_DB_URI);
 
+var corsOptions = {
+  origin: true,
+  credentials: true,
+};
+
 app.use(logger("dev"));
 app.use(json());
 app.use(cookieParser());
 app.use(express.static(join(__dirname, "public")));
+app.use(cors(corsOptions));
 
 app.use("/api/signup", signupRouter);
 app.use("/api/signin", signinRouter);

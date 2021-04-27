@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: ".5rem",
     borderRadius: "50px",
     width: "10px",
-    alignSelf:"flex-end"
+    alignSelf: "flex-end"
   },
   feedbackTitle: {
     alignSelf: "center",
@@ -48,10 +48,6 @@ export default function FeedbackDialog(props) {
   const decrementStep = () => {
     setStep(step - 1)
   }
-
-  const handleClose = () => {
-    props.handleClose();
-  };
 
   const handleSubmit = () => {
     // Save to database here
@@ -93,12 +89,12 @@ export default function FeedbackDialog(props) {
       maxWidth="md"
       fullWidth="true"
       open={open}
-      onClose={handleClose}
+      onClose={props.handleClose}
       aria-labelledby="feedback-form"
     >
-      <Button className={classes.feedbackExit} onClick={handleClose}>X</Button>
+      <Button className={classes.feedbackExit} onClick={props.handleClose}>X</Button>
       <Typography variant='h4' className={classes.feedbackTitle} id="feedback-form">Give Us Your Feedback</Typography>
-      <DialogContentText variant='subtitle1' style={{ alignSelf: "center", fontVariant: "italics" }}>
+      <DialogContentText variant='subtitle1' style={{ alignSelf: "center" }}>
         Please leave your comments here:
         </DialogContentText>
       <DialogContent >

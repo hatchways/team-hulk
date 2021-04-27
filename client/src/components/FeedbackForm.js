@@ -6,7 +6,7 @@ import { Grid, FormLabel, RadioGroup, Radio, FormControlLabel, TextField, Typogr
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
-    radioContainer: {
+    feedbackRadioContainer: {
         display: "flex",
     },
     overallScoreRadioGroup: {
@@ -16,39 +16,36 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "space-around",
         width: "100%"
     },
-    radioGroup: {
+    feedbackRadioGroup: {
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-around",
         width: "80%"
     },
-    radioButton: {
+    feedbackRadioButton: {
         paddingLeft: "1.5rem",
         paddingRight: "1.5rem",
         paddingTop: ".5rem"
     },
-    feedbackContent: {
-        alignSelf: "center"
-    },
-    radioLabel: {
+    feedbackRadioLabel: {
         alignSelf: "center",
         width: "20%",
         fontSize: "1rem",
     },
-    scoreTitleGrid: {
+    feedbackScoreTitleContainer: {
         marginLeft: "20%",
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-around",
         alignItems: "center"
     },
-    scoreTitle: {
+    feedbackScoreTitle: {
         textAlign: "center",
         width: "100px",
         color: theme.palette.primary.main
     },
-    questionTitle: {
+    feedbackQuestionTitle: {
         fontSize: "1rem",
         fontWeight: 700,
         marginBottom: "4rem"
@@ -65,7 +62,7 @@ export default function FeedbackForm(props) {
                 <Grid>
                     <DialogTitle><Typography variant="DialogTitle" display="inline" color="primary">Question 1</Typography> / 6</DialogTitle>
                     <DialogContent>
-                        <DialogContentText className={classes.questionTitle}>
+                        <DialogContentText className={classes.feedbackQuestionTitle}>
                             Overall, how did this person do in the interview?
                         </DialogContentText>
                         <RadioGroup
@@ -97,106 +94,106 @@ export default function FeedbackForm(props) {
                 <Grid>
                     <DialogTitle><Typography variant="DialogTitle" display="inline" color="primary">Question 2</Typography> / 6</DialogTitle>
                     <DialogContent>
-                        <DialogContentText className={classes.questionTitle}>
+                        <DialogContentText className={classes.feedbackQuestionTitle}>
                             Submit a review of the candidate in the following categories:
                         </DialogContentText>
-                        <Grid className={classes.scoreTitleGrid}>
-                            <Typography className={classes.scoreTitle}>Needs Improvement</Typography>
-                            <Typography className={classes.scoreTitle}>Satisfactory</Typography>
-                            <Typography className={classes.scoreTitle}>Good</Typography>
-                            <Typography className={classes.scoreTitle}>Great</Typography>
-                            <Typography className={classes.scoreTitle}>Excellent</Typography>
+                        <Grid className={classes.feedbackScoreTitleContainer}>
+                            <Typography className={classes.feedbackScoreTitle}>Needs Improvement</Typography>
+                            <Typography className={classes.feedbackScoreTitle}>Satisfactory</Typography>
+                            <Typography className={classes.feedbackScoreTitle}>Good</Typography>
+                            <Typography className={classes.feedbackScoreTitle}>Great</Typography>
+                            <Typography className={classes.feedbackScoreTitle}>Excellent</Typography>
                         </Grid>
-                        <Grid className={classes.radioContainer}>
-                            <FormLabel component="label" className={classes.radioLabel} >Communication skills</FormLabel>
+                        <Grid className={classes.feedbackRadioContainer}>
+                            <FormLabel component="label" className={classes.feedbackRadioLabel} >Communication skills</FormLabel>
                             <RadioGroup
                                 value={props.scores.communication}
-                                className={classes.radioGroup}
+                                className={classes.feedbackRadioGroup}
                                 aria-label="interviewee-review"
                                 name="interviewee-review"
                                 onChange={e => {
                                     props.setScores(scores => ({ ...scores, communication: e.target.value }))
                                 }}>
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="needs-improvement" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="satisfactory" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="good" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="great" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="excellent" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="needs-improvement" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="satisfactory" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="good" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="great" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="excellent" control={<Radio color="primary" />} />
                             </RadioGroup>
                         </Grid>
-                        <Grid className={classes.radioContainer}>
-                            <FormLabel component="label" className={classes.radioLabel}>Code efficiency</FormLabel>
+                        <Grid className={classes.feedbackRadioContainer}>
+                            <FormLabel component="label" className={classes.feedbackRadioLabel}>Code efficiency</FormLabel>
                             <RadioGroup
                                 value={props.scores.codeEfficiency}
-                                className={classes.radioGroup}
+                                className={classes.feedbackRadioGroup}
                                 onChange={e => {
                                     props.setScores(scores => ({ ...scores, codeEfficiency: e.target.value }))
                                 }}>
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="needs-improvement" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="satisfactory" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="good" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="great" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="excellent" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="needs-improvement" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="satisfactory" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="good" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="great" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="excellent" control={<Radio color="primary" />} />
                             </RadioGroup>
                         </Grid>
-                        <Grid className={classes.radioContainer}>
-                            <FormLabel component="label" className={classes.radioLabel}>Code organization</FormLabel>
+                        <Grid className={classes.feedbackRadioContainer}>
+                            <FormLabel component="label" className={classes.feedbackRadioLabel}>Code organization</FormLabel>
                             <RadioGroup
                                 value={props.scores.codeOrganization}
-                                className={classes.radioGroup}
+                                className={classes.feedbackRadioGroup}
                                 onChange={e => {
                                     props.setScores(scores => ({ ...scores, codeOrganization: e.target.value }))
                                 }}>
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="needs-improvement" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="satisfactory" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="good" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="great" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="excellent" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="needs-improvement" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="satisfactory" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="good" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="great" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="excellent" control={<Radio color="primary" />} />
                             </RadioGroup>
                         </Grid>
-                        <Grid className={classes.radioContainer}>
-                            <FormLabel component="label" className={classes.radioLabel}>Speed</FormLabel>
+                        <Grid className={classes.feedbackRadioContainer}>
+                            <FormLabel component="label" className={classes.feedbackRadioLabel}>Speed</FormLabel>
                             <RadioGroup
                                 value={props.scores.speed}
-                                className={classes.radioGroup}
+                                className={classes.feedbackRadioGroup}
                                 onChange={e => {
                                     props.setScores(scores => ({ ...scores, speed: e.target.value }))
                                 }}>
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="needs-improvement" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="satisfactory" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="good" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="great" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="excellent" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="needs-improvement" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="satisfactory" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="good" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="great" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="excellent" control={<Radio color="primary" />} />
                             </RadioGroup>
                         </Grid>
-                        <Grid className={classes.radioContainer}>
-                            <FormLabel component="label" className={classes.radioLabel}>Debugging skills</FormLabel>
+                        <Grid className={classes.feedbackRadioContainer}>
+                            <FormLabel component="label" className={classes.feedbackRadioLabel}>Debugging skills</FormLabel>
                             <RadioGroup
                                 value={props.scores.debugging}
-                                className={classes.radioGroup}
+                                className={classes.feedbackRadioGroup}
                                 onChange={e => {
                                     props.setScores(scores => ({ ...scores, debugging: e.target.value }))
                                 }}>
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="needs-improvement" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="satisfactory" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="good" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="great" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="excellent" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="needs-improvement" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="satisfactory" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="good" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="great" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="excellent" control={<Radio color="primary" />} />
                             </RadioGroup>
                         </Grid>
-                        <Grid className={classes.radioContainer}>
-                            <FormLabel component="label" className={classes.radioLabel}>Problem solving skills</FormLabel>
+                        <Grid className={classes.feedbackRadioContainer}>
+                            <FormLabel component="label" className={classes.feedbackRadioLabel}>Problem solving skills</FormLabel>
                             <RadioGroup
                                 value={props.scores.problemSolving}
-                                className={classes.radioGroup}
+                                className={classes.feedbackRadioGroup}
                                 onChange={e => {
                                     props.setScores(scores => ({ ...scores, problemSolving: e.target.value }))
                                 }}>
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="needs-improvement" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="satisfactory" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="good" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="great" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.radioButton} labelPlacement="top" value="excellent" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="needs-improvement" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="satisfactory" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="good" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="great" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="excellent" control={<Radio color="primary" />} />
                             </RadioGroup>
                         </Grid>
                     </DialogContent>
@@ -207,7 +204,7 @@ export default function FeedbackForm(props) {
                 <Grid>
                     <DialogTitle><Typography variant="DialogTitle" display="inline" color="primary">Question 3</Typography> / 6</DialogTitle>
                     <DialogContent>
-                        <DialogContentText className={classes.questionTitle}>
+                        <DialogContentText className={classes.feedbackQuestionTitle}>
                             What are some things this candidate did well? (The more specific the better)
                         </DialogContentText>
                         <TextField
@@ -233,7 +230,7 @@ export default function FeedbackForm(props) {
                 <Grid>
                     <DialogTitle><Typography variant="DialogTitle" display="inline" color="primary">Question 4</Typography> / 6</DialogTitle>
                     <DialogContent>
-                        <DialogContentText className={classes.questionTitle}>
+                        <DialogContentText className={classes.feedbackQuestionTitle}>
                             What are some things this candidate can improve on? (The more specific the better)
                         </DialogContentText>
                         <TextField
@@ -259,7 +256,7 @@ export default function FeedbackForm(props) {
                 <Grid>
                     <DialogTitle><Typography variant="DialogTitle" display="inline" color="primary">Question 5</Typography> / 6</DialogTitle>
                     <DialogContent>
-                        <DialogContentText className={classes.questionTitle}>
+                        <DialogContentText className={classes.feedbackQuestionTitle}>
                             Any recommendations on resources that can help this candidate improve?
                         </DialogContentText>
                         <TextField
@@ -285,7 +282,7 @@ export default function FeedbackForm(props) {
                 <Grid>
                     <DialogTitle><Typography variant="DialogTitle" display="inline" color="primary">Question 6</Typography> / 6</DialogTitle>
                     <DialogContent>
-                        <DialogContentText className={classes.questionTitle}>
+                        <DialogContentText className={classes.feedbackQuestionTitle}>
                             Anything else?
                         </DialogContentText>
                         <TextField

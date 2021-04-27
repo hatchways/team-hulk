@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Grid, FormLabel, RadioGroup, Radio, FormControlLabel, TextField, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 
-
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     radioContainer: {
         display: "flex",
     },
@@ -47,15 +46,14 @@ const useStyles = makeStyles({
     scoreTitle: {
         textAlign: "center",
         width: "100px",
-        color:"#3f50b5"
+        color: theme.palette.primary.main
     },
     questionTitle: {
         fontSize: "1rem",
         fontWeight: 700,
-        marginBottom:"4rem"
+        marginBottom: "4rem"
     }
-
-})
+}))
 
 export default function FeedbackForm(props) {
 
@@ -65,7 +63,7 @@ export default function FeedbackForm(props) {
         case 1:
             return (
                 <Grid>
-                    <DialogTitle>Question 1 / 6</DialogTitle>
+                    <DialogTitle><Typography variant="DialogTitle" display="inline" color="primary">Question 1</Typography> / 6</DialogTitle>
                     <DialogContent>
                         <DialogContentText className={classes.questionTitle}>
                             Overall, how did this person do in the interview?
@@ -97,7 +95,7 @@ export default function FeedbackForm(props) {
         case 2:
             return (
                 <Grid>
-                    <DialogTitle>Question 2 / 6</DialogTitle>
+                    <DialogTitle><Typography variant="DialogTitle" display="inline" color="primary">Question 2</Typography> / 6</DialogTitle>
                     <DialogContent>
                         <DialogContentText className={classes.questionTitle}>
                             Submit a review of the candidate in the following categories:
@@ -134,7 +132,6 @@ export default function FeedbackForm(props) {
                                 onChange={e => {
                                     props.setScores(scores => ({ ...scores, codeEfficiency: e.target.value }))
                                 }}>
-
                                 <FormControlLabel className={classes.radioButton} labelPlacement="top" value="needs-improvement" control={<Radio color="primary" />} />
                                 <FormControlLabel className={classes.radioButton} labelPlacement="top" value="satisfactory" control={<Radio color="primary" />} />
                                 <FormControlLabel className={classes.radioButton} labelPlacement="top" value="good" control={<Radio color="primary" />} />
@@ -208,7 +205,7 @@ export default function FeedbackForm(props) {
         case 3:
             return (
                 <Grid>
-                    <DialogTitle>Question 3 / 6</DialogTitle>
+                    <DialogTitle><Typography variant="DialogTitle" display="inline" color="primary">Question 3</Typography> / 6</DialogTitle>
                     <DialogContent>
                         <DialogContentText className={classes.questionTitle}>
                             What are some things this candidate did well? (The more specific the better)
@@ -234,7 +231,7 @@ export default function FeedbackForm(props) {
         case 4:
             return (
                 <Grid>
-                    <DialogTitle>Question 4 / 6</DialogTitle>
+                    <DialogTitle><Typography variant="DialogTitle" display="inline" color="primary">Question 4</Typography> / 6</DialogTitle>
                     <DialogContent>
                         <DialogContentText className={classes.questionTitle}>
                             What are some things this candidate can improve on? (The more specific the better)
@@ -260,7 +257,7 @@ export default function FeedbackForm(props) {
         case 5:
             return (
                 <Grid>
-                    <DialogTitle>Question 5 / 6</DialogTitle>
+                    <DialogTitle><Typography variant="DialogTitle" display="inline" color="primary">Question 5</Typography> / 6</DialogTitle>
                     <DialogContent>
                         <DialogContentText className={classes.questionTitle}>
                             Any recommendations on resources that can help this candidate improve?
@@ -286,7 +283,7 @@ export default function FeedbackForm(props) {
         case 6:
             return (
                 <Grid>
-                    <DialogTitle>Question 6 / 6</DialogTitle>
+                    <DialogTitle><Typography variant="DialogTitle" display="inline" color="primary">Question 6</Typography> / 6</DialogTitle>
                     <DialogContent>
                         <DialogContentText className={classes.questionTitle}>
                             Anything else?

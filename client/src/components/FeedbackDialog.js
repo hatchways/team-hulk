@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import { Typography } from '@material-ui/core'
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Typography } from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
 
 import FeedbackForm from './FeedbackForm';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
+  feedbackExit: {
+    marginTop: ".5rem",
+    borderRadius: "50px",
+    width: "10px",
+    alignSelf:"flex-end"
+  },
   feedbackTitle: {
     alignSelf: "center",
-    color:"#3f50b5",
-    padding:"1rem",
-    marginTop:"1rem"
+    color: theme.palette.primary.main,
+    padding: "1rem",
+    marginTop: "1rem"
   },
   feedbackContent: {
     alignSelf: "center"
@@ -29,20 +30,16 @@ const useStyles = makeStyles({
     padding: ".5rem",
     borderRadius: "50px",
     width: "20%",
-    marginBottom:"2rem"
+    marginBottom: "2rem"
   }
-})
-
+}))
 
 export default function FeedbackDialog(props) {
-
-  const [scores, setScores] = useState({ overallScore: "5", didWell: "", canImprove: "", recommendedResources: "", additionalFeedback: "" })
-
   const classes = useStyles();
 
-  const open = props.open
-
+  const [scores, setScores] = useState({ overallScore: "5", didWell: "", canImprove: "", recommendedResources: "", additionalFeedback: "" })
   const [step, setStep] = useState(1)
+  const open = props.open
 
   const incrementStep = () => {
     setStep(step + 1)
@@ -58,7 +55,7 @@ export default function FeedbackDialog(props) {
 
   const handleSubmit = () => {
     // Save to database here
-    setScores({overallScore: "5", didWell: "", canImprove: "", recommendedResources: "", additionalFeedback: ""})
+    setScores({ overallScore: "5", didWell: "", canImprove: "", recommendedResources: "", additionalFeedback: "" })
     setStep(1)
     props.handleClose();
   }
@@ -99,12 +96,13 @@ export default function FeedbackDialog(props) {
       onClose={handleClose}
       aria-labelledby="feedback-form"
     >
+      <Button className={classes.feedbackExit} onClick={handleClose}>X</Button>
       <Typography variant='h4' className={classes.feedbackTitle} id="feedback-form">Give Us Your Feedback</Typography>
-      <DialogContentText variant='subtitle1' style={{alignSelf:"center", fontVariant:"italics"}}>
+      <DialogContentText variant='subtitle1' style={{ alignSelf: "center", fontVariant: "italics" }}>
         Please leave your comments here:
         </DialogContentText>
       <DialogContent >
-        <FeedbackForm step={step} scores={scores} setScores={setScores}/>
+        <FeedbackForm step={step} scores={scores} setScores={setScores} />
         <DialogActions className={classes.feedbackActions}>
           {step > 1 &&
             <Button

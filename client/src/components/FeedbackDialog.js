@@ -4,14 +4,17 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import { Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 
 import FeedbackForm from './FeedbackForm';
 
 const useStyles = makeStyles({
   feedbackTitle: {
-    alignSelf: "center"
+    alignSelf: "center",
+    color:"#3f50b5",
+    padding:"1rem",
+    marginTop:"1rem"
   },
   feedbackContent: {
     alignSelf: "center"
@@ -25,25 +28,28 @@ const useStyles = makeStyles({
     marginTop: "1rem",
     padding: ".5rem",
     borderRadius: "50px",
-    width: "20%"
+    width: "20%",
+    marginBottom:"2rem"
   }
 })
 
 
 export default function FeedbackDialog(props) {
 
+  const [scores, setScores] = useState({ overallScore: "5", didWell: "", canImprove: "", recommendedResources: "", additionalFeedback: "" })
+
   const classes = useStyles();
 
   const open = props.open
 
-  const [step, addStep] = useState(1)
+  const [step, setStep] = useState(1)
 
   const incrementStep = () => {
-    addStep(step + 1)
+    setStep(step + 1)
   }
 
   const decrementStep = () => {
-    addStep(step - 1)
+    setStep(step - 1)
   }
 
   const handleClose = () => {
@@ -51,6 +57,9 @@ export default function FeedbackDialog(props) {
   };
 
   const handleSubmit = () => {
+    // Save to database here
+    setScores({overallScore: "5", didWell: "", canImprove: "", recommendedResources: "", additionalFeedback: ""})
+    setStep(1)
     props.handleClose();
   }
 
@@ -83,19 +92,19 @@ export default function FeedbackDialog(props) {
 
   return (
     <Dialog
-      maxWidth="lg"
+      className={classes.feedbackMain}
+      maxWidth="md"
       fullWidth="true"
-      display="flex"
       open={open}
       onClose={handleClose}
       aria-labelledby="feedback-form"
     >
-      <DialogTitle className={classes.feedbackTitle} color="primary" id="feedback-form">Give Us Your Feedback</DialogTitle>
-      <DialogContentText className={classes.feedbackTitle}>
+      <Typography variant='h4' className={classes.feedbackTitle} id="feedback-form">Give Us Your Feedback</Typography>
+      <DialogContentText variant='subtitle1' style={{alignSelf:"center", fontVariant:"italics"}}>
         Please leave your comments here:
         </DialogContentText>
       <DialogContent >
-        <FeedbackForm step={step} />
+        <FeedbackForm step={step} scores={scores} setScores={setScores}/>
         <DialogActions className={classes.feedbackActions}>
           {step > 1 &&
             <Button

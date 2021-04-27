@@ -21,7 +21,7 @@ function App() {
 					<Route path="/signin" component={Signin} />
 					<Route path="/signup" component={Signup} />
 					<Route path="/dashboard" component={Dashboard} />
-          <Route path="/interview" component={Interview} />
+					<Route path="/interview" component={Interview} />
 				</Switch>
 			</BrowserRouter>
 		</MuiThemeProvider>

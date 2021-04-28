@@ -1,11 +1,13 @@
 let express = require('express');
 let router = express.Router();
 
+const auth = require("../middleware/authenticateJWT");
+
 // Connect to Interview controller
 let interviewController = require('../controllers/interview');
 
 /* POST Route to perform Creation - CREATE INTERVIEW operation. */
-router.post('/', interviewController.createInterview);
+router.post('/', auth, interviewController.createInterview);
 
 /* GET Route to fetch the list of interviews - GET LIST operation. */
 router.get('/', interviewController.getInterviewList);

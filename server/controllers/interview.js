@@ -2,25 +2,28 @@
 let Interview = require ('../models/interview');
 
 module.exports.createInterview = (req, res, next) => {
-    const {participants, date, theme, questions, difficult} = req.body;
-    let newInterview = Interview({
-        "participants": participants,
-        "date": date,
-        "theme": theme,
-        "questions": questions,
-        "difficult": difficult
+    const { date, theme, questions, difficulty } = req.body;
+    const { user } = req.user;
+    console.log('req.body:', req.body)
+    console.log('req.user:', user)
+
+    const newInterview = new Interview({
+      owner: user,
+      date: date,
+      theme: theme,
+      questions: questions,
+      difficulty: difficulty,
     });
 
-    Interview.create(newInterview, (err, interview) => {
-        if (err){
-            console.log(err);
-            res.end(err);
-        } else {
-            res.json(interview);
-            // res.json({success: true, msg: 'Successfully Created New Interview'});
-        }
-    })
-}
+    newInterview.save().then((err) => {
+      if (err) {
+        console.log(err);
+        res.send(err);
+      } else {
+        res.json(newInterview)
+      }
+    });
+  };
 
 module.exports.getInterviewList = (req, res, next) => {
     Interview.find((err, InterviewList) => {

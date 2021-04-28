@@ -107,11 +107,10 @@ export default function CreateInterviewDialogs({ open, setOpen }) {
 
   const createInterview = async () => {
     const newInterview = {
-    participants: [tempUser.id],
     date: new Date(),
     theme: 'palindrome',
     // questions: questions,
-    difficult: Number(difficultyLevel)
+    difficulty: Number(difficultyLevel)
     }
 
     const res = await fetch('api/interview', {
@@ -123,7 +122,6 @@ export default function CreateInterviewDialogs({ open, setOpen }) {
     })
 
     const interviewObjFromDB = await res.json()
-    console.log('int from db:', interviewObjFromDB)  // date: "2021-04-25T14:29:56.929Z"   required: 'May 25, 2020 22:00:00'
 
     const newUpcomingInterview = {
 		date: new Date(moment(interviewObjFromDB.date).format('MMMM DD, YYYY hh:mm:ss')),

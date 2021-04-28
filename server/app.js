@@ -7,7 +7,9 @@ const mongoose = require("mongoose");
 require("dotenv").config({ path: "./.env" });
 let cors = require("cors");
 
+// Router connections
 const signupRouter = require("./routes/signup");
+const interviewRouter = require("./routes/interview");
 const signinRouter = require("./routes/signin");
 const passport = require("passport");
 const compilerRouter = require("./routes/compiler");
@@ -22,7 +24,18 @@ app.use(passport.initialize());
 
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_DB_URI);
+mongoose.connect(process.env.MONGO_DB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+let mongoDB = mongoose.connection;
+
+mongoDB.on("error", console.error.bind(console, "Connection Error:"));
+
+mongoDB.once("open", () => {
+  console.log("Connected to MongoDB...");
+});
 
 app.use(logger("dev"));
 app.use(json());
@@ -30,6 +43,8 @@ app.use(cookieParser());
 app.use(express.static(join(__dirname, "public")));
 app.use(cors());
 
+// Routing
+app.use("/api/interview", interviewRouter);
 app.use("/api/compiler", compilerRouter);
 app.use("/api/signup", signupRouter);
 app.use("/api/signin", signinRouter);

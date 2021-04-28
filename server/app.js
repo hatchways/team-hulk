@@ -13,7 +13,7 @@ const passport = require('passport')
 
 const { json, urlencoded } = express;
 
-var app = express();
+const app = express();
 
 app.use(urlencoded({ extended: true }));
 

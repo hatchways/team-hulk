@@ -9,7 +9,6 @@ import FAQ from './pages/FAQ';
 import Blog from './pages/Blog';
 import Profile from './pages/Profile';
 import axios from 'axios';
-import ProtectedRoute from './ProtectedRoute';
 import { UserProvider } from './context/UserContext';
 import { AuthContext } from './context/AuthContext';
 
@@ -44,10 +43,10 @@ function App() {
       <UserProvider>
         <BrowserRouter>
           <Switch>
-            <ProtectedRoute isAuthenticated={authorized} exact path={["/home", "/", "/dashboard"]} component={Dashboard} />
-            <ProtectedRoute isAuthenticated={authorized} path="/faq" component={FAQ} />
-            <ProtectedRoute isAuthenticated={authorized} path="/blog" component={Blog} />
-            <ProtectedRoute isAuthenticated={authorized} path="/profile" component={Profile} />
+            <Route exact path={["/home", "/", "/dashboard"]} component={Dashboard} />
+            <Route path="/faq" component={FAQ} />
+            <Route path="/blog" component={Blog} />
+            <Route path="/profile" component={Profile} />
           </Switch>
         </BrowserRouter>
       </UserProvider>

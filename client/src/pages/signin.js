@@ -92,7 +92,7 @@ export default function Signin() {
             });
     }
 
-    if (redirect) {
+    if (authorized) {
         return <Redirect to='/' />
     } else {
         return (

@@ -1,23 +1,23 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
+import React, { useState, useRef, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import CloseIcon from "@material-ui/icons/Close";
 
-import Grid from '@material-ui/core/Grid';
+import Grid from "@material-ui/core/Grid";
 
-import CodeEditor from '../components/layout/CodeEditor';
-import Question from '../components/layout/Question';
-import Console from '../components/layout/Console';
+import CodeEditor from "../components/layout/CodeEditor";
+import Question from "../components/layout/Question";
+import Console from "../components/layout/Console";
 
-import hatchways from '../APIs/hatchways';
+import axios from "axios";
 
 const sampleQuestion = {
-	title: 'Diagonal Difference',
-	body: `Given a square matrix, calculate the absolute difference between the sums of its diagonals.
+  title: "Diagonal Difference",
+  body: `Given a square matrix, calculate the absolute difference between the sums of its diagonals.
   For example, the square matrix **arr** is shown below:\n
   ~~~js
   1 2 3
@@ -31,7 +31,7 @@ const sampleQuestion = {
   diagonalDifference takes the following parameter:\n
   arr: an array of integers.
   `,
-	answer: `A paragraph with *emphasis* and **strong importance**.
+  answer: `A paragraph with *emphasis* and **strong importance**.
 
   > A block quote with ~strikethrough~ and a URL: https://reactjs.org.
   
@@ -42,7 +42,7 @@ const sampleQuestion = {
   A table:
   
   `,
-	preLoadCode: `import React from "react";
+  preLoadCode: `import React from "react";
   import { MuiThemeProvider } from "@material-ui/core";
   import { BrowserRouter, Route } from "react-router-dom";
   
@@ -66,132 +66,133 @@ const sampleQuestion = {
 };
 
 const useStyles = makeStyles((theme) => ({
-	appBar: {
-		position: 'relative',
-	},
-	title: {
-		marginLeft: theme.spacing(2),
-		flex: 1,
-	},
-	btn: {
-		borderRadius: '30px',
-	},
-	codeContainer: {
-		overflowY: 'scroll',
-		backgroundColor: '#263238',
-		'&::-webkit-scrollbar': {
-			display: 'none',
-		},
-	},
+  appBar: {
+    position: "relative",
+  },
+  title: {
+    marginLeft: theme.spacing(2),
+    flex: 1,
+  },
+  btn: {
+    borderRadius: "30px",
+  },
+  codeContainer: {
+    overflowY: "scroll",
+    backgroundColor: "#263238",
+    "&::-webkit-scrollbar": {
+      display: "none",
+    },
+  },
 }));
 
 const Interview = (props) => {
-	const [code, setCode] = useState(sampleQuestion.preLoadCode);
-	const [results, setResults] = useState('');
-	const [barHeight, setBarHeight] = useState(0);
-	const [language, setLanguage] = useState('javascript');
-	const barRef = useRef(null);
+  const [code, setCode] = useState(sampleQuestion.preLoadCode);
+  const [results, setResults] = useState("");
+  const [barHeight, setBarHeight] = useState(0);
+  const [language, setLanguage] = useState("javascript");
+  const barRef = useRef(null);
 
-	useEffect(() => {
-		barRef.current && setBarHeight(barRef.current.clientHeight);
-	}, [barRef]);
+  useEffect(() => {
+    barRef.current && setBarHeight(barRef.current.clientHeight);
+  }, [barRef]);
 
-	const classes = useStyles();
+  const classes = useStyles();
 
-	const handleClose = () => {
-		props.history.push('/dashboard');
-	};
+  const handleClose = () => {
+    props.history.push("/dashboard");
+  };
 
-	const compileCode = async () => {
-		let extension = 'js';
-		switch (language) {
-			case 'python':
-				extension = 'py';
-				break;
-			case 'java':
-				extension = 'java';
-				break;
-			default:
-				extension = 'js';
-		}
-		const result = await hatchways.post(`compiler/${language}`, {
-			files: [
-				{
-					name: `Main.${extension}`,
-					content: code,
-				},
-			],
-		});
+  const compileCode = async () => {
+    setResults("compiling...");
+    let extension = "js";
+    switch (language) {
+      case "python":
+        extension = "py";
+        break;
+      case "java":
+        extension = "java";
+        break;
+      default:
+        break;
+    }
+    const result = await axios.post(`/api/compiler/${language}`, {
+      files: [
+        {
+          name: `Main.${extension}`,
+          content: code,
+        },
+      ],
+    });
 
-		setResults(result.data.stderr || result.data.stdout);
-	};
+    setResults(result.data.stderr || result.data.stdout);
+  };
 
-	return (
-		<React.Fragment>
-			<AppBar ref={barRef} className={classes.appBar}>
-				<Toolbar>
-					<IconButton
-						edge="start"
-						color="inherit"
-						onClick={handleClose}
-						aria-label="close"
-					>
-						<CloseIcon />
-					</IconButton>
-					<Typography variant="h6" className={classes.title}>
-						{`Interview ${props.match.params.id}`}
-					</Typography>
-					<Button
-						color="inherit"
-						onClick={handleClose}
-						className={classes.btn}
-						variant="outlined"
-					>
-						save
-					</Button>
-				</Toolbar>
-			</AppBar>
+  return (
+    <React.Fragment>
+      <AppBar ref={barRef} className={classes.appBar}>
+        <Toolbar>
+          <IconButton
+            edge="start"
+            color="inherit"
+            onClick={handleClose}
+            aria-label="close"
+          >
+            <CloseIcon />
+          </IconButton>
+          <Typography variant="h6" className={classes.title}>
+            {`Interview ${props.match.params.id}`}
+          </Typography>
+          <Button
+            color="inherit"
+            onClick={handleClose}
+            className={classes.btn}
+            variant="outlined"
+          >
+            save
+          </Button>
+        </Toolbar>
+      </AppBar>
 
-			<Grid
-				container
-				alignItems="stretch"
-				style={{
-					minHeight: `calc(100vh - ${
-						props.navHeight ? props.navHeight : 0
-					}px - ${barHeight}px)`,
-				}}
-			>
-				<Grid
-					container
-					item
-					alignItems="flex-start"
-					xs={12}
-					md={4}
-					style={{
-						minHeight: `calc(100vh - ${
-							props.navHeight ? props.navHeight : 0
-						}px - ${barHeight}px)`,
-					}}
-				>
-					<Question question={sampleQuestion} />
-				</Grid>
-				<Grid
-					item
-					xs={12}
-					md={8}
-					className={classes.codeContainer}
-					style={{
-						minHeight: `calc(100vh - ${
-							props.navHeight ? props.navHeight : 0
-						}px - ${barHeight}px)`,
-					}}
-				>
-					<CodeEditor language={language} value={code} onChange={setCode} />
-					<Console compileCode={compileCode} value={results} />
-				</Grid>
-			</Grid>
-		</React.Fragment>
-	);
+      <Grid
+        container
+        alignItems="stretch"
+        style={{
+          minHeight: `calc(100vh - ${
+            props.navHeight ? props.navHeight : 0
+          }px - ${barHeight}px)`,
+        }}
+      >
+        <Grid
+          container
+          item
+          alignItems="flex-start"
+          xs={12}
+          md={4}
+          style={{
+            minHeight: `calc(100vh - ${
+              props.navHeight ? props.navHeight : 0
+            }px - ${barHeight}px)`,
+          }}
+        >
+          <Question question={sampleQuestion} />
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          md={8}
+          className={classes.codeContainer}
+          style={{
+            minHeight: `calc(100vh - ${
+              props.navHeight ? props.navHeight : 0
+            }px - ${barHeight}px)`,
+          }}
+        >
+          <CodeEditor language={language} value={code} onChange={setCode} />
+          <Console compileCode={compileCode} value={results} />
+        </Grid>
+      </Grid>
+    </React.Fragment>
+  );
 };
 
 export default Interview;

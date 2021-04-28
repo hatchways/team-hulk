@@ -36,7 +36,7 @@ router.post("/", async (req, res, next) => {
         httpOnly: true,
       });
 
-      return res.send("Login successful");
+      return res.send(req.body.email);
     });
   })(req, res, next);
 });

@@ -48,8 +48,6 @@ const useStyles = makeStyles((theme) => ({
 const Console = (props) => {
 	const classes = useStyles();
 
-	const { value = 'true' } = props;
-
 	return (
 		<Box className={classes.container} borderRadius={16} border={1}>
 			<AppBar className={classes.appBar}>
@@ -57,13 +55,18 @@ const Console = (props) => {
 					<Typography variant="h6" className={classes.title}>
 						Console
 					</Typography>
-					<Button variant="outlined" className={classes.btn} color="inherit">
+					<Button
+						variant="outlined"
+						className={classes.btn}
+						color="inherit"
+						onClick={props.compileCode}
+					>
 						Run
 					</Button>
 				</Toolbar>
 			</AppBar>
 			<ControlledEditor
-				value={value}
+				value={props.value}
 				className={classes.codeMirrorWrapper}
 				options={{
 					lineWrapping: true,

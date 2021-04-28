@@ -1,6 +1,6 @@
 // connect to the Feedback Model
 const Feedback = require("../models/feedback");
-const User = require("../models/user");
+const Interview = require("../models/interview");
 
 module.exports.createFeedback = (req, res, next) => {
   const newFeedback = new Feedback({
@@ -35,16 +35,43 @@ module.exports.createFeedback = (req, res, next) => {
 };
 
 module.exports.getFeedbackList = async (req, res, next) => {
-  const user = await User.findOne({ email: req.user.user }, "id");
+  const { user } = req.user;
 
-  Feedback.find({ interviewee: user }, (err, feedbackList) => {
-    if (err) {
-      console.log(err);
-      res.send(err);
-    } else {
-      res.json(feedbackList);
-    }
-  });
+  const feedbackList = await Feedback.find({ candidate: user._id });
+
+  const feedbackListShort = await Promise.all(
+    feedbackList.map(async (feedback) => {
+      try {
+        const interview = await Interview.findById(feedback.interview);
+        const {
+          codeEfficiency,
+          codeOrganization,
+          speed,
+          debugging,
+          problemSolving,
+        } = feedback;
+        const code = Math.round(
+          (codeEfficiency +
+            codeOrganization +
+            speed +
+            debugging +
+            problemSolving) /
+            5
+        );
+        return {
+          date: interview.date,
+          communication: feedback.communication,
+          code,
+          questions: interview.questions,
+          id: feedback.id,
+        };
+      } catch (err) {
+        throw err;
+      }
+    })
+  );
+
+  res.json(feedbackListShort);
 };
 
 module.exports.getSingleFeedback = (req, res, next) => {

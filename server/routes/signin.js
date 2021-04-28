@@ -32,11 +32,11 @@ router.post('/', (req, res, next) => {
         {expiresIn: "1d"}
         );
 
-      res.cookie("Token", token, {
+      res.cookie("token", token, {
         httpOnly: true,
       })
-      
-      return res.send("Login successful", "User: " + req.body.email)
+
+      return res.send(req.body.email)
 
     });
 

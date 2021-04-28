@@ -6,8 +6,6 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 require('dotenv').config({ path: './.env'})
 
-// const indexRouter = require("./routes/index");
-// const pingRouter = require("./routes/ping");
 const signupRouter = require("./routes/signup");
 const signinRouter = require("./routes/signin");
 const interviewRouter = require('./routes/interview');

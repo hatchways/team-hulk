@@ -16,7 +16,9 @@ const SocketProvider = ({ children }) => {
     const {user} = useContext(UserContext)
 
     const setupSocket = () => {
-            newSocket = io(CONNECTION_PORT)
+            newSocket = io(CONNECTION_PORT, {
+                withCredentials: true
+            })
 
             newSocket.on('connect', () => {
                 console.log('socket connected!')
@@ -60,10 +62,6 @@ const SocketProvider = ({ children }) => {
             setupSocket()
         }
     }, [isAuthenticated])
-
-    // useEffect(() => {
-    //         setupSocket()
-    // }, [])
 
     return (
         <>

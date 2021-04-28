@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom'
 import { Button, TextField, Paper, FormControl, Typography, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import laptopPhoto from '../images/blue-shirt-at-laptop.png'
 import { Link, Redirect } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
+import { UserContext } from '../context/UserContext';
 
 const useStyles = makeStyles({
     imageContainer: {
@@ -61,12 +64,16 @@ const useStyles = makeStyles({
     }
 })
 
-export default function Signin() {
+export default function Signin(props) {
+    const interviewId = props.location.state
 
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [errors, setErrors] = useState([]);
     const [redirect, setRedirect] = useState(false);
+    const { setIsAuthenticated } = useContext(AuthContext)
+    const { setUser } = useContext(UserContext)
+    const history = useHistory()
 
     const classes = useStyles();
 
@@ -80,7 +87,14 @@ export default function Signin() {
             credentials:'include'
         })
             .then((response) => {
-                setRedirect(true)
+                setIsAuthenticated(true)
+                console.log('res:', response)
+                setUser({ email: response.data})
+                if (interviewId) {
+                    history.push(`/interview/${interviewId}`)
+                } else {
+                    setRedirect(true)
+                }
             })
             .catch(function (error) {
                 console.log(error);

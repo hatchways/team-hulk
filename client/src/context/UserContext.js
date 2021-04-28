@@ -29,8 +29,18 @@ const upcomingInterviews_initial = [
 	},
 ];
 
+const tempUser = {
+    // id: 123,
+    // name: 'Jhon Doe',
+    email: 'jhondoe@hotmail.com',
+    // skills: ['JavaScript', 'React'],
+    // yearsOfExp: 1,
+    // seniority: 1,
+    // interviewLevel: 1
+};
+
 export const UserProvider = ({ children }) => {
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState(tempUser);
     const [upcomingInterviews, setUpcomingInterviews] = useState(upcomingInterviews_initial)
     const [WaitingRoomOpen, setWaitingRoomOpen] = useState(false)
     const [newlyCreatedInterview, setNewlyCreatedInterview] = useState(null)
@@ -38,17 +48,17 @@ export const UserProvider = ({ children }) => {
     useEffect(() => {
         // API CALL GOES HERE
 
-        const tempUser = {
-            id: 123,
-            name: 'Jhon Doe',
-            email: 'jhondoe@hotmail.com',
-            skills: ['JavaScript', 'React'],
-            yearsOfExp: 1,
-            seniority: 1,
-            interviewLevel: 1
-        };
+        // const tempUser = {
+        //     id: 123,
+        //     name: 'Jhon Doe',
+        //     email: 'jhondoe@hotmail.com',
+        //     skills: ['JavaScript', 'React'],
+        //     yearsOfExp: 1,
+        //     seniority: 1,
+        //     interviewLevel: 1
+        // };
 
-        setUser(tempUser);
+        setUser(user);
     }, [])
 
     return(

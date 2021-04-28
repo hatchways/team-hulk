@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -16,7 +16,6 @@ import { Avatar , Card, CardHeader } from '@material-ui/core';
 import facePhotoBoy from '../../images/face-pic-boy.png'
 import facePhotoGirl from '../../images/face-pic-girl.png'
 import { UserContext } from '../../context/UserContext'
-import { SocketContext } from '../../context/SocketContext'
 import copy from "copy-to-clipboard";
 import Snackbar from '@material-ui/core/Snackbar';
 
@@ -117,14 +116,12 @@ const DialogActions = withStyles((theme) => ({
 export default function WaitingRoom({ open, setOpen }) {
   const classes = useStyles();
   const { user, newlyCreatedInterview } = useContext(UserContext);
-  const { setupSocket } = useContext(SocketContext)
   const history = useHistory()
   const [showCopyNotification, setShowCopyNotification] = useState(false)
 
 
 
   const goToInterview = () => {
-    // setupSocket()
     history.push(`/interview/${newlyCreatedInterview._id}`)
     setOpen(false);
   };

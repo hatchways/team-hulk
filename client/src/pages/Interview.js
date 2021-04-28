@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
+import { useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
@@ -13,7 +14,6 @@ import CodeEditor from '../components/layout/CodeEditor';
 import Question from '../components/layout/Question';
 import Console from '../components/layout/Console';
 import { SocketContext } from '../context/SocketContext'
-import io from 'socket.io-client'
 
 const sampleQuestion = {
 	title: 'Diagonal Difference',
@@ -89,40 +89,43 @@ const Interview = (props) => {
 	const [code, setCode] = useState(sampleQuestion.preLoadCode);
 	const [barHeight, setBarHeight] = useState(0);
 	const barRef = useRef(null);
+	const history = useHistory()
 
 	const interviewId = props.match.params.id
-	console.log(interviewId)
 
-	const { socket, setupSocket } = useContext(SocketContext)
+	const { socket } = useContext(SocketContext)
 
 	useEffect(() => {
 		barRef.current && setBarHeight(barRef.current.clientHeight);
 	}, [barRef]);
 
-	// useEffect(() => {
-	// 	if (!socket) {
-	// 		setupSocket()
-	// 	}
-	// }, [])
-
 	useEffect(() => {
-		console.log('socket in interview:', socket)
+		if (socket) {
+			socket.emit('joinInterviewRoom',  { interviewId })
+        } else {
+			history.push({
+				pathname: '/signin',
+				state: interviewId
+			})
+		}
 
-		// if (!socket) {
-		// 	setupSocket()
-		// }
-
-		// if (socket) {
-			console.log('room')
-            socket.emit('joinInterviewRoom',  { interviewId })
-
-			return () => {
-				if (socket) {
-					socket.emit('leaveInterviewRoom', { interviewId })
-				}
+		return () => {
+			if (socket) {
+				socket.emit('leaveInterviewRoom', { interviewId })
 			}
-        // }
+		}
 	}, [])
+	// useEffect(() => {
+	// 	if (socket) {
+    //         socket.emit('joinInterviewRoom',  { interviewId })
+
+	// 		return () => {
+	// 			if (socket) {
+	// 				socket.emit('leaveInterviewRoom', { interviewId })
+	// 			}
+	// 		}
+    //     }
+	// }, [])
 
 	const classes = useStyles();
 

@@ -23,4 +23,4 @@ yarn-error.log*
 server/.env
 server\.env
 
-client\public 
+/client/public 

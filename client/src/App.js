@@ -9,7 +9,7 @@ import Dashboard from './pages/Dashboard';
 import FAQ from './pages/FAQ';
 import Blog from './pages/Blog';
 import Profile from './pages/Profile';
-import Home from "./pages/TempHome";
+import Home from "./pages/HomePage";
 import axios from 'axios';
 import { UserProvider } from './context/UserContext';
 import { AuthContext } from './context/AuthContext';

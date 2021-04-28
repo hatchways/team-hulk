@@ -40,9 +40,7 @@ io.on('connection', (socket) => {
       console.log(`A user with socket id of ${socket.id} left interview room: ${interviewId}`)
     })
     socket.on('username', user => {
-        // users[user.id] = user;
         users[socket.id] = user;
-        // socket.userId = user.id
         io.emit('connected', user);
         io.emit('users', Object.values(users));
       });
@@ -52,12 +50,9 @@ io.on('connection', (socket) => {
     socket.on('disconnect', (reason) => {
         --currentUsers
         console.log('users on disconnect before delete:',users)
-        // delete users[socket.userId];
         delete users[socket.id];
-        // io.emit("disconnected", socket.userId);
         io.emit("disconnected", socket.id);
         io.emit('user count', currentUsers)
-        // console.log(`user with id of ${socket.userId} disconnected.`)
         console.log(`user with id of ${socket.id} disconnected.`)
     })
 });

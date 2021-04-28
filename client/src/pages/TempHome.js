@@ -5,6 +5,7 @@ import Dashboard from './Dashboard';
 import FAQ from './FAQ';
 import Blog from './Blog';
 import Profile from './Profile';
+import HomePage from './HomePage'
 import Interview from './Interview';
 import HomePage from './HomePage'
 import Signin from './signin';

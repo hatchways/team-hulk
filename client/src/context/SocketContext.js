@@ -47,14 +47,12 @@ const SocketProvider = ({ children }) => {
             })
 
             newSocket.on('disconnected', userId => {
-                console.log('dis:', userId)
                 setUsers(users => {
                   return users.filter(user => user.id !== userId);
                 });
             });
 
             setSocket(newSocket)
-            console.log('socket context setup')
     }
 
     useEffect(() => {

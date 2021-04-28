@@ -8,16 +8,18 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 
-import Grid from '@material-ui/core/Grid';
+import Grid from "@material-ui/core/Grid";
 
 import CodeEditor from '../components/layout/CodeEditor';
 import Question from '../components/layout/Question';
 import Console from '../components/layout/Console';
 import { SocketContext } from '../context/SocketContext'
+import axios from "axios";
+
 
 const sampleQuestion = {
-	title: 'Diagonal Difference',
-	body: `Given a square matrix, calculate the absolute difference between the sums of its diagonals.
+  title: "Diagonal Difference",
+  body: `Given a square matrix, calculate the absolute difference between the sums of its diagonals.
   For example, the square matrix **arr** is shown below:\n
   ~~~js
   1 2 3
@@ -31,7 +33,7 @@ const sampleQuestion = {
   diagonalDifference takes the following parameter:\n
   arr: an array of integers.
   `,
-	answer: `A paragraph with *emphasis* and **strong importance**.
+  answer: `A paragraph with *emphasis* and **strong importance**.
 
   > A block quote with ~strikethrough~ and a URL: https://reactjs.org.
 
@@ -42,7 +44,7 @@ const sampleQuestion = {
   A table:
 
   `,
-	preLoadCode: `import React from "react";
+  preLoadCode: `import React from "react";
   import { MuiThemeProvider } from "@material-ui/core";
   import { BrowserRouter, Route } from "react-router-dom";
 
@@ -66,27 +68,28 @@ const sampleQuestion = {
 };
 
 const useStyles = makeStyles((theme) => ({
-	appBar: {
-		position: 'relative',
-	},
-	title: {
-		marginLeft: theme.spacing(2),
-		flex: 1,
-	},
-	btn: {
-		borderRadius: '30px',
-	},
-	codeContainer: {
-		overflowY: 'scroll',
-		backgroundColor: '#263238',
-		'&::-webkit-scrollbar': {
-			display: 'none',
-		},
-	},
+  appBar: {
+    position: "relative",
+  },
+  title: {
+    marginLeft: theme.spacing(2),
+    flex: 1,
+  },
+  btn: {
+    borderRadius: "30px",
+  },
+  codeContainer: {
+    overflowY: "scroll",
+    backgroundColor: "#263238",
+    "&::-webkit-scrollbar": {
+      display: "none",
+    },
+  },
 }));
 
 const Interview = (props) => {
 	const [code, setCode] = useState(sampleQuestion.preLoadCode);
+  const [results, setResults] = useState("");
 	const [barHeight, setBarHeight] = useState(0);
 	const barRef = useRef(null);
 	const history = useHistory()
@@ -115,23 +118,37 @@ const Interview = (props) => {
 			}
 		}
 	}, [])
-	// useEffect(() => {
-	// 	if (socket) {
-    //         socket.emit('joinInterviewRoom',  { interviewId })
-
-	// 		return () => {
-	// 			if (socket) {
-	// 				socket.emit('leaveInterviewRoom', { interviewId })
-	// 			}
-	// 		}
-    //     }
-	// }, [])
 
 	const classes = useStyles();
 
 	const handleClose = () => {
 		props.history.push('/dashboard');
 	};
+
+  const compileCode = async () => {
+    setResults("compiling...");
+    let extension = "js";
+    switch (language) {
+      case "python":
+        extension = "py";
+        break;
+      case "java":
+        extension = "java";
+        break;
+      default:
+        break;
+    }
+    const result = await axios.post(`/api/compiler/${language}`, {
+      files: [
+        {
+          name: `Main.${extension}`,
+          content: code,
+        },
+      ],
+    });
+
+    setResults(result.data.stderr || result.data.stdout);
+  };
 
 	return (
 		<React.Fragment>
@@ -193,8 +210,8 @@ const Interview = (props) => {
 						}px - ${barHeight}px)`,
 					}}
 				>
-					<CodeEditor language="javascript" value={code} onChange={setCode} />
-					<Console />
+          <CodeEditor language={language} value={code} onChange={setCode} />
+          <Console compileCode={compileCode} value={results} />
 				</Grid>
 			</Grid>
 		</React.Fragment>

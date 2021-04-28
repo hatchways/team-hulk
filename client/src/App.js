@@ -13,7 +13,7 @@ import Blog from './pages/Blog'
 import HomePage from './pages/HomePage'
 
 
-import './App.css';
+import "./App.css";
 
 function App() {
 	const [navbarHeight, setHeightnavbarHieght] = useState(0);

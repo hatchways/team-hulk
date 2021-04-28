@@ -5,13 +5,16 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 require("dotenv").config({ path: "./.env" });
+let cors = require("cors");
 
 // Router connections
 const signupRouter = require("./routes/signup");
 const interviewRouter = require("./routes/interview");
 const signinRouter = require("./routes/signin");
+
 const JWTRouter = require("./routes/JWT")
-const passport = require('passport')
+const passport = require("passport");
+const compilerRouter = require("./routes/compiler");
 
 const { json, urlencoded } = express;
 
@@ -40,9 +43,11 @@ app.use(logger("dev"));
 app.use(json());
 app.use(cookieParser());
 app.use(express.static(join(__dirname, "public")));
+app.use(cors());
 
 // Routing
 app.use("/api/interview", interviewRouter);
+app.use("/api/compiler", compilerRouter);
 app.use("/api/signup", signupRouter);
 app.use("/api/signin", signinRouter);
 app.use("/api/JWT", JWTRouter);

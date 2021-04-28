@@ -9,6 +9,7 @@ import Dashboard from './pages/Dashboard';
 import FAQ from './pages/FAQ';
 import Blog from './pages/Blog';
 import Profile from './pages/Profile';
+import Home from "./pages/TempHome";
 import axios from 'axios';
 import { UserProvider } from './context/UserContext';
 import { AuthContext } from './context/AuthContext';
@@ -42,9 +43,10 @@ function App() {
     <MuiThemeProvider theme={theme}>
       <UserProvider>
         <BrowserRouter>
-        <Navbar />
+          <Navbar />
           <Switch>
-            <Route exact path={["/home", "/", "/dashboard"]} component={Dashboard} />
+            <Route exact path="/" component={Home} />
+            <Route path="/dashboard" component={Dashboard} />
             <Route path="/faq" component={FAQ} />
             <Route path="/blog" component={Blog} />
             <Route path="/profile" component={Profile} />

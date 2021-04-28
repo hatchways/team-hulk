@@ -89,7 +89,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Interview = (props) => {
 	const [code, setCode] = useState(sampleQuestion.preLoadCode);
-  const [results, setResults] = useState("");
+  	const [results, setResults] = useState("");
+	const [language, setLanguage] = useState("javascript");
 	const [barHeight, setBarHeight] = useState(0);
 	const barRef = useRef(null);
 	const history = useHistory()

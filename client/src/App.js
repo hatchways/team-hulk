@@ -1,7 +1,8 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { MuiThemeProvider } from "@material-ui/core";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { theme } from "./themes/theme";
+import Navbar from './components/layout/Navbar'
 import Signup from "./pages/signup";
 import Signin from "./pages/signin";
 import Dashboard from './pages/Dashboard';
@@ -15,21 +16,20 @@ import { AuthContext } from './context/AuthContext';
 import "./App.css";
 
 function App() {
-  const [authorized, setAuthorized] = useContext(AuthContext);
-
+  const [isAuthenticated, setIsAuthenticated] = useContext(AuthContext);
 
   useEffect(() => {
     axios.get('/api/JWT')
       .then(() => {
-        setAuthorized(true)
+        setIsAuthenticated(true)
       })
       .catch((err) => {
         console.log(err)
-        setAuthorized(false)
+        setIsAuthenticated(false)
       })
   })
 
-  return (!authorized ?
+  return (!isAuthenticated ?
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
         <Switch>
@@ -42,6 +42,7 @@ function App() {
     <MuiThemeProvider theme={theme}>
       <UserProvider>
         <BrowserRouter>
+        <Navbar />
           <Switch>
             <Route exact path={["/home", "/", "/dashboard"]} component={Dashboard} />
             <Route path="/faq" component={FAQ} />

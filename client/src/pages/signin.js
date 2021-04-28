@@ -70,7 +70,7 @@ export default function Signin() {
     const [errors, setErrors] = useState([]);
     const [redirect, setRedirect] = useState(false);
 
-    const [authorized, setAuthorized] = useContext(AuthContext);
+    const [isAuthenticated, setIsAuthenticated] = useContext(AuthContext);
 
     const classes = useStyles();
 
@@ -84,7 +84,7 @@ export default function Signin() {
             credentials:'include'
         })
             .then((response) => {
-                setAuthorized(true)
+                setIsAuthenticated(true)
                 setRedirect(true)
             })
             .catch(function (error) {
@@ -92,7 +92,7 @@ export default function Signin() {
             });
     }
 
-    if (authorized) {
+    if (isAuthenticated) {
         return <Redirect to='/' />
     } else {
         return (

@@ -1,10 +1,9 @@
 // connect to the Interview Model
 const Interview = require("../models/interview");
-const User = require("../models/user");
 
-module.exports.createInterview = async (req, res, next) => {
-  const { guest, date, theme, questions, difficulty } = req.body;
-  const user = await User.findOne({ email: req.user.user }, "id");
+module.exports.createInterview = (req, res, next) => {
+  const { date, theme, questions, difficulty } = req.body;
+  const { user } = req.user;
 
   const newInterview = new Interview({
     owner: user,
@@ -27,8 +26,8 @@ module.exports.createInterview = async (req, res, next) => {
   });
 };
 
-module.exports.getInterviewList = async (req, res, next) => {
-  const user = await User.findOne({ email: req.user.user }, "id");
+module.exports.getInterviewList = (req, res, next) => {
+  const { user } = req.user;
 
   Interview.find(
     { $or: [{ owner: user }, { guest: user }] },
@@ -79,9 +78,9 @@ module.exports.updateInterview = (req, res, next) => {
   });
 };
 
-module.exports.addInterviewGuest = async (req, res, next) => {
+module.exports.addInterviewGuest = (req, res, next) => {
   const id = req.params.id;
-  const user = await User.findOne({ email: req.user.user }, "id");
+  const { user } = req.user;
 
   Interview.updateOne({ _id: id }, { $set: { guest: user } }, (err) => {
     if (err) {

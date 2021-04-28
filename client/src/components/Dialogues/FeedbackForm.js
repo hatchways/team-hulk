@@ -114,11 +114,11 @@ export default function FeedbackForm(props) {
                                 onChange={e => {
                                     props.setScores(scores => ({ ...scores, communication: e.target.value }))
                                 }}>
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="needs-improvement" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="satisfactory" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="good" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="great" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="excellent" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="1" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="2" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="3" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="4" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="5" control={<Radio color="primary" />} />
                             </RadioGroup>
                         </Grid>
                         <Grid className={classes.feedbackRadioContainer}>
@@ -129,11 +129,11 @@ export default function FeedbackForm(props) {
                                 onChange={e => {
                                     props.setScores(scores => ({ ...scores, codeEfficiency: e.target.value }))
                                 }}>
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="needs-improvement" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="satisfactory" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="good" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="great" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="excellent" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="1" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="2" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="3" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="4" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="5" control={<Radio color="primary" />} />
                             </RadioGroup>
                         </Grid>
                         <Grid className={classes.feedbackRadioContainer}>
@@ -144,11 +144,11 @@ export default function FeedbackForm(props) {
                                 onChange={e => {
                                     props.setScores(scores => ({ ...scores, codeOrganization: e.target.value }))
                                 }}>
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="needs-improvement" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="satisfactory" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="good" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="great" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="excellent" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="1" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="2" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="3" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="4" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="5" control={<Radio color="primary" />} />
                             </RadioGroup>
                         </Grid>
                         <Grid className={classes.feedbackRadioContainer}>
@@ -159,11 +159,11 @@ export default function FeedbackForm(props) {
                                 onChange={e => {
                                     props.setScores(scores => ({ ...scores, speed: e.target.value }))
                                 }}>
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="needs-improvement" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="satisfactory" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="good" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="great" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="excellent" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="1" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="2" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="3" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="4" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="5" control={<Radio color="primary" />} />
                             </RadioGroup>
                         </Grid>
                         <Grid className={classes.feedbackRadioContainer}>
@@ -174,11 +174,11 @@ export default function FeedbackForm(props) {
                                 onChange={e => {
                                     props.setScores(scores => ({ ...scores, debugging: e.target.value }))
                                 }}>
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="needs-improvement" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="satisfactory" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="good" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="great" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="excellent" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="1" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="2" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="3" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="4" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="5" control={<Radio color="primary" />} />
                             </RadioGroup>
                         </Grid>
                         <Grid className={classes.feedbackRadioContainer}>
@@ -189,11 +189,11 @@ export default function FeedbackForm(props) {
                                 onChange={e => {
                                     props.setScores(scores => ({ ...scores, problemSolving: e.target.value }))
                                 }}>
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="needs-improvement" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="satisfactory" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="good" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="great" control={<Radio color="primary" />} />
-                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="excellent" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="1" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="2" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="3" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="4" control={<Radio color="primary" />} />
+                                <FormControlLabel className={classes.feedbackRadioButton} labelPlacement="top" value="5" control={<Radio color="primary" />} />
                             </RadioGroup>
                         </Grid>
                     </DialogContent>

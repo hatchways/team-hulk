@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -11,6 +11,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Rating from '@material-ui/lab/Rating';
 import Typography from '@material-ui/core/Typography';
+
+import FeedbackHistoryDialog from "./Dialogues/FeedbackHistoryDialog"
 
 const useStyles = makeStyles((theme) => ({
 	table: {
@@ -62,6 +64,8 @@ const StyledTableCell = withStyles((theme) => ({
 export default function PastInterviews({ rows }) {
 	const classes = useStyles();
 
+	const [ feedbackHistoryOpen, setFeedbackHistoryOpen ] = useState(false)
+
 	const formatDate = (date) => {
 		return `${days[date.getDay()]}, ${
 			months[date.getMonth()]
@@ -75,6 +79,10 @@ export default function PastInterviews({ rows }) {
 			minutes < 10 ? 0 : ''
 		} ${hours < 13 ? 'AM' : 'PM'}`;
 	};
+
+	const handleFeedbackOpenClose = () => {
+		setFeedbackHistoryOpen(!feedbackHistoryOpen)
+	}
 
 	return (
 		<React.Fragment>
@@ -134,9 +142,10 @@ export default function PastInterviews({ rows }) {
 											</Button>
 										</StyledTableCell>
 										<StyledTableCell align="center">
-											<Button variant="outlined" className={classes.btn}>
+											<Button variant="outlined" className={classes.btn} onClick={handleFeedbackOpenClose}>
 												View
 											</Button>
+											<FeedbackHistoryDialog date={formatDate(row.date)} open={feedbackHistoryOpen} handleClose={handleFeedbackOpenClose}/>
 										</StyledTableCell>
 									</TableRow>
 								))}

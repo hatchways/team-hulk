@@ -12,7 +12,7 @@ import Grid from '@material-ui/core/Grid';
 import CodeEditor from '../components/layout/CodeEditor';
 import Question from '../components/layout/Question';
 import Console from '../components/layout/Console';
-import FeedbackDialog from '../components/FeedbackDialog'
+import FeedbackDialog from '../components/Dialogues/FeedbackDialog'
 
 const sampleQuestion = {
 	title: 'Diagonal Difference',

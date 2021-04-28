@@ -51,6 +51,7 @@ export default function FeedbackDialog(props) {
 
   const handleSubmit = () => {
     // Save to database here
+    console.log(scores)
     setScores({ overallScore: "5", didWell: "", canImprove: "", recommendedResources: "", additionalFeedback: "" })
     setStep(1)
     props.handleClose();

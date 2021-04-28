@@ -4,11 +4,14 @@ const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
+const User = require("../models/user");
 
 const initPassport = require("../passport-config");
 initPassport(passport);
 
-router.post("/", (req, res, next) => {
+router.post("/", async (req, res, next) => {
+  const userId = await User.findOne({ email: req.body.email }, "id");
+
   passport.authenticate("local", (err, user, info) => {
     if (err) {
       console.log(err);
@@ -25,7 +28,7 @@ router.post("/", (req, res, next) => {
         return next(err);
       }
 
-      const token = jwt.sign({ user: req.body.email }, process.env.JWT_SECRET, {
+      const token = jwt.sign({ user: userId }, process.env.JWT_SECRET, {
         expiresIn: "1d",
       });
 
@@ -34,8 +37,6 @@ router.post("/", (req, res, next) => {
       });
 
       return res.send(req.body.email);
-
-      return res.send("Login successful");
     });
   })(req, res, next);
 });

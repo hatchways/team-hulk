@@ -100,7 +100,7 @@ const Interview = (props) => {
   const classes = useStyles();
 
   const handleFeedbackOpenClose = () => {
-		setFeedbackOpen(!feedbackOpen)
+		setFeedbackOpen(prevState => !prevState)
 	};
 
   const handleClose = () => {

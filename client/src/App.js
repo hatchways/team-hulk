@@ -20,17 +20,17 @@ import "./App.css";
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useContext(AuthContext);
 
-	useEffect(() => {
-		axios.get('/api/JWT')
-			.then(() => {
-				setIsAuthenticated(true)
-			})
-			.catch((err) => {
-				console.log(err)
-				setIsAuthenticated(false)
-			})
-	}, [setIsAuthenticated]
-	)
+  useEffect(() => {
+    axios.get('/api/JWT')
+      .then(() => {
+        setIsAuthenticated(true)
+      })
+      .catch((err) => {
+        console.log(err)
+        setIsAuthenticated(false)
+      })
+  }, [setIsAuthenticated]
+  )
 
   return (!isAuthenticated ?
     <MuiThemeProvider theme={theme}>
@@ -52,7 +52,7 @@ function App() {
             <Route path="/faq" component={FAQ} />
             <Route path="/blog" component={Blog} />
             <Route path="/profile" component={Profile} />
-			<Route path="/interview" component={Interview} />
+            <Route path="/interview" component={Interview} />
           </Switch>
         </BrowserRouter>
       </UserProvider>

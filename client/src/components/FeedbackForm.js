@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     feedbackRadioButton: {
         paddingLeft: "1.5rem",
         paddingRight: "1.5rem",
-        paddingTop: ".5rem"
+        paddingTop: "0.5rem"
     },
     feedbackRadioLabel: {
         alignSelf: "center",

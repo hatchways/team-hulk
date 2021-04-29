@@ -32,7 +32,7 @@ export default function RubricBubble(props) {
         return numbers;
     }
 
-    let columns = getOneToNumber(props.numColumns)
+    const columns = getOneToNumber(props.numColumns)
 
     return (
         <RadioGroup

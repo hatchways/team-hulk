@@ -14,6 +14,7 @@ import CodeEditor from '../components/layout/CodeEditor';
 import Question from '../components/layout/Question';
 import Console from '../components/layout/Console';
 import { SocketContext } from '../context/SocketContext'
+import FeedbackDialog from '../components/FeedbackDialog';
 import axios from "axios";
 
 
@@ -88,8 +89,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Interview = (props) => {
-	const [code, setCode] = useState(sampleQuestion.preLoadCode);
-  	const [results, setResults] = useState("");
+	const [feedbackOpen, setFeedbackOpen] = useState(false);
+  const [code, setCode] = useState(sampleQuestion.preLoadCode);
+  const [results, setResults] = useState("");
 	const [language, setLanguage] = useState("javascript");
 	const [barHeight, setBarHeight] = useState(0);
 	const barRef = useRef(null);
@@ -122,9 +124,14 @@ const Interview = (props) => {
 
 	const classes = useStyles();
 
+	const handleFeedbackOpenClose = () => {
+		setFeedbackOpen(prevState => !prevState)
+	};
+
 	const handleClose = () => {
 		props.history.push('/dashboard');
 	};
+
 
   const compileCode = async () => {
     setResults("compiling...");
@@ -151,66 +158,67 @@ const Interview = (props) => {
     setResults(result.data.stderr || result.data.stdout);
   };
 
-	return (
-		<React.Fragment>
-			<AppBar ref={barRef} className={classes.appBar}>
-				<Toolbar>
-					<IconButton
-						edge="start"
-						color="inherit"
-						onClick={handleClose}
-						aria-label="close"
-					>
-						<CloseIcon />
-					</IconButton>
-					<Typography variant="h6" className={classes.title}>
-						{`Interview ${props.match.params.id}`}
-					</Typography>
-					<Button
-						color="inherit"
-						onClick={handleClose}
-						className={classes.btn}
-						variant="outlined"
-					>
-						save
-					</Button>
-				</Toolbar>
-			</AppBar>
+  return (
+    <React.Fragment>
+      <AppBar ref={barRef} className={classes.appBar}>
+        <Toolbar>
+          <IconButton
+            edge="start"
+            color="inherit"
+            onClick={handleClose}
+            aria-label="close"
+          >
+            <CloseIcon />
+          </IconButton>
+          <Typography variant="h6" className={classes.title}>
+            {`Interview ${props.match.params.id}`}
+          </Typography>
+          <Button
+            color="inherit"
+            onClick={handleFeedbackOpenClose}
+            className={classes.btn}
+            variant="outlined"
+          >
+            save
+          </Button>
+          <FeedbackDialog open={feedbackOpen} handleClose={handleFeedbackOpenClose}/>
+        </Toolbar>
+      </AppBar>
 
-			<Grid
-				container
-				alignItems="stretch"
-				style={{
-					minHeight: `calc(100vh - ${
-						props.navHeight ? props.navHeight : 0
-					}px - ${barHeight}px)`,
-				}}
-			>
-				<Grid
-					container
-					item
-					alignItems="flex-start"
-					xs={12}
-					md={4}
-					style={{
-						minHeight: `calc(100vh - ${
-							props.navHeight ? props.navHeight : 0
-						}px - ${barHeight}px)`,
-					}}
-				>
-					<Question question={sampleQuestion} />
-				</Grid>
-				<Grid
-					item
-					xs={12}
-					md={8}
-					className={classes.codeContainer}
-					style={{
-						minHeight: `calc(100vh - ${
-							props.navHeight ? props.navHeight : 0
-						}px - ${barHeight}px)`,
-					}}
-				>
+      <Grid
+        container
+        alignItems="stretch"
+        style={{
+          minHeight: `calc(100vh - ${
+            props.navHeight ? props.navHeight : 0
+          }px - ${barHeight}px)`,
+        }}
+      >
+        <Grid
+          container
+          item
+          alignItems="flex-start"
+          xs={12}
+          md={4}
+          style={{
+            minHeight: `calc(100vh - ${
+              props.navHeight ? props.navHeight : 0
+            }px - ${barHeight}px)`,
+          }}
+        >
+          <Question question={sampleQuestion} />
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          md={8}
+          className={classes.codeContainer}
+          style={{
+            minHeight: `calc(100vh - ${
+              props.navHeight ? props.navHeight : 0
+            }px - ${barHeight}px)`,
+          }}
+        >
           <CodeEditor language={language} value={code} onChange={setCode} />
           <Console compileCode={compileCode} value={results} />
 				</Grid>

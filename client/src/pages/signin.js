@@ -8,6 +8,8 @@ import { Link, Redirect } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { UserContext } from '../context/UserContext';
 
+import { AuthContext } from '../context/AuthContext';
+
 const useStyles = makeStyles({
     imageContainer: {
         width: '500px',
@@ -75,6 +77,8 @@ export default function Signin(props) {
     const { setUser } = useContext(UserContext)
     const history = useHistory()
 
+    const [isAuthenticated, setIsAuthenticated] = useContext(AuthContext);
+
     const classes = useStyles();
 
     const handleSubmit = (e) => {
@@ -100,8 +104,8 @@ export default function Signin(props) {
             });
     }
 
-    if (redirect) {
-        return <Redirect to='/dashboard' />
+    if (isAuthenticated) {
+        return <Redirect to='/' />
     } else {
         return (
             <Grid style={{ display: "flex", flexDirection: "row" }}>

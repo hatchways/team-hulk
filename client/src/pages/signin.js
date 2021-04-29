@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, TextField, Paper, FormControl, Typography, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import laptopPhoto from '../images/blue-shirt-at-laptop.png'
 import { Link, Redirect } from 'react-router-dom';
+
+import { AuthContext } from '../context/AuthContext';
 
 const useStyles = makeStyles({
     imageContainer: {
@@ -68,6 +70,8 @@ export default function Signin() {
     const [errors, setErrors] = useState([]);
     const [redirect, setRedirect] = useState(false);
 
+    const [isAuthenticated, setIsAuthenticated] = useContext(AuthContext);
+
     const classes = useStyles();
 
     const handleSubmit = (e) => {
@@ -80,6 +84,7 @@ export default function Signin() {
             credentials:'include'
         })
             .then((response) => {
+                setIsAuthenticated(true)
                 setRedirect(true)
             })
             .catch(function (error) {
@@ -87,8 +92,8 @@ export default function Signin() {
             });
     }
 
-    if (redirect) {
-        return <Redirect to='/dashboard' />
+    if (isAuthenticated) {
+        return <Redirect to='/' />
     } else {
         return (
             <Grid style={{ display: "flex", flexDirection: "row" }}>

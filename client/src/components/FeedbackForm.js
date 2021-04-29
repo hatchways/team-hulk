@@ -43,7 +43,7 @@ function TextQuestion(props) {
 
     return (
         <Grid>
-            <DialogTitle><Typography variant="DialogTitle" display="inline" color="primary">Question {props.questionNum}</Typography> / 6</DialogTitle>
+            <DialogTitle><Typography variant="h6" display="inline" color="primary">Question {props.questionNum}</Typography> / 6</DialogTitle>
             <DialogContent>
                 <DialogContentText className={classes.feedbackQuestionTitle}>
                     {props.question}
@@ -85,7 +85,7 @@ export default function FeedbackForm(props) {
         case 1:
             return (
                 <Grid>
-                    <DialogTitle><Typography variant="DialogTitle" display="inline" color="primary">Question 1</Typography> / 6</DialogTitle>
+                    <DialogTitle><Typography variant="h6" display="inline" color="primary">Question 1</Typography> / 6</DialogTitle>
                     <DialogContent>
                         <DialogContentText className={classes.feedbackQuestionTitle}>
                             Overall, how did this person do in the interview?
@@ -107,7 +107,7 @@ export default function FeedbackForm(props) {
         case 2:
             return (
                 <Grid>
-                    <DialogTitle><Typography variant="DialogTitle" display="inline" color="primary">Question 2</Typography> / 6</DialogTitle>
+                    <DialogTitle><Typography variant="h6" display="inline" color="primary">Question 2</Typography> / 6</DialogTitle>
                     <DialogContent>
                         <DialogContentText className={classes.feedbackQuestionTitle}>
                             Submit a review of the candidate in the following categories:

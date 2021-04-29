@@ -64,23 +64,24 @@ const StyledTableCell = withStyles((theme) => ({
 export default function PastInterviews({ rows }) {
 	const classes = useStyles();
 
-	const [ feedbackHistoryOpen, setFeedbackHistoryOpen ] = useState(false)
+	const [feedbackHistoryOpen, setFeedbackHistoryOpen] = useState(false)
+
+	const [animateDialog, setAnimateDialog] = useState(false)
 
 	const formatDate = (date) => {
-		return `${days[date.getDay()]}, ${
-			months[date.getMonth()]
-		} ${date.getDate()} ${date.getFullYear()}`;
+		return `${days[date.getDay()]}, ${months[date.getMonth()]
+			} ${date.getDate()} ${date.getFullYear()}`;
 	};
 
 	const formatHour = (date) => {
 		const hours = date.getHours();
 		const minutes = date.getMinutes();
-		return `${hours < 12 ? hours : hours - 12}:${minutes}${
-			minutes < 10 ? 0 : ''
-		} ${hours < 13 ? 'AM' : 'PM'}`;
+		return `${hours < 12 ? hours : hours - 12}:${minutes}${minutes < 10 ? 0 : ''
+			} ${hours < 13 ? 'AM' : 'PM'}`;
 	};
 
 	const handleFeedbackOpenClose = () => {
+		setAnimateDialog(!animateDialog)
 		setFeedbackHistoryOpen(!feedbackHistoryOpen)
 	}
 
@@ -145,7 +146,11 @@ export default function PastInterviews({ rows }) {
 											<Button variant="outlined" className={classes.btn} onClick={handleFeedbackOpenClose}>
 												View
 											</Button>
-											<FeedbackHistoryDialog date={formatDate(row.date)} open={feedbackHistoryOpen} handleClose={handleFeedbackOpenClose}/>
+											<FeedbackHistoryDialog
+												animate={animateDialog}
+												date={formatDate(row.date)}
+												open={feedbackHistoryOpen}
+												handleClose={handleFeedbackOpenClose} />
 										</StyledTableCell>
 									</TableRow>
 								))}

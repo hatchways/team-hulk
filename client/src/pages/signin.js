@@ -88,7 +88,6 @@ export default function Signin(props) {
         })
             .then((response) => {
                 setIsAuthenticated(true)
-                console.log('res:', response)
                 setUser({ email: response.data})
                 if (interviewId) {
                     history.push(`/interview/${interviewId}`)

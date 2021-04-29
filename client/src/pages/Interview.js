@@ -118,7 +118,7 @@ const Interview = (props) => {
 				socket.emit('leaveInterviewRoom', { interviewId })
 			}
 		}
-	}, [])
+	}, [history, interviewId, socket, ])
 
 	const classes = useStyles();
 

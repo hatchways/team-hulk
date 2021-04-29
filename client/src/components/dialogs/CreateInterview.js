@@ -67,7 +67,6 @@ const DialogContent = withStyles((theme) => ({
     },
     marginRight: '5rem',
     marginLeft: '5rem',
-    ['@media (max-width:600px)']: { marginRight: '1rem', marginLeft: '1rem' },
     '& .MuiSelect-select': {
       textAlign: 'center',
       fontWeight: 'bold'
@@ -77,7 +76,6 @@ const DialogContent = withStyles((theme) => ({
 
 const DialogActions = withStyles((theme) => ({
   root: {
-    margin: 0,
     padding: theme.spacing(1),
     margin: 'auto',
     '& .MuiButton-root': {
@@ -93,23 +91,12 @@ export default function CreateInterviewDialogs({ open, setOpen }) {
 
   const {upcomingInterviews, setUpcomingInterviews, setWaitingRoomOpen, setNewlyCreatedInterview} = useContext(UserContext);
 
-  const tempUser = {
-    id: '604bb5c8a8f6e1143cd96dea',
-    name: 'Jhon Doe',
-    email: 'jhondoe@hotmail.com',
-    skills: ['JavaScript', 'React'],
-    yearsOfExp: 1,
-    seniority: 1,
-    interviewLevel: 1
-  };
-
   const [difficultyLevel, setDifficultyLevel] = useState('0')
 
   const createInterview = async () => {
     const newInterview = {
     date: new Date(),
     theme: 'palindrome',
-    // questions: questions,
     difficulty: Number(difficultyLevel)
     }
 

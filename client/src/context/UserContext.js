@@ -30,13 +30,7 @@ const upcomingInterviews_initial = [
 ];
 
 const tempUser = {
-    // id: 123,
-    // name: 'Jhon Doe',
-    email: 'jhondoe@hotmail.com',
-    // skills: ['JavaScript', 'React'],
-    // yearsOfExp: 1,
-    // seniority: 1,
-    // interviewLevel: 1
+    email: 'jhondoe@hotmail.com'
 };
 
 export const UserProvider = ({ children }) => {
@@ -47,19 +41,8 @@ export const UserProvider = ({ children }) => {
 
     useEffect(() => {
         // API CALL GOES HERE
-
-        // const tempUser = {
-        //     id: 123,
-        //     name: 'Jhon Doe',
-        //     email: 'jhondoe@hotmail.com',
-        //     skills: ['JavaScript', 'React'],
-        //     yearsOfExp: 1,
-        //     seniority: 1,
-        //     interviewLevel: 1
-        // };
-
         setUser(user);
-    }, [])
+    }, [user])
 
     return(
         <UserContext.Provider value={{

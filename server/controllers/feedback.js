@@ -3,22 +3,40 @@ const Feedback = require("../models/feedback");
 const Interview = require("../models/interview");
 
 module.exports.createFeedback = (req, res, next) => {
+  const {
+    interview,
+    candidate,
+    overallScore,
+    communication,
+    codeEfficiency,
+    codeOrganization,
+    speed,
+    debugging,
+    problemSolving,
+    didWell,
+    canImprove,
+    recommendedResources,
+    additionalFeedback,
+    experienceRating,
+    experienceDescription,
+  } = req.body;
+
   const newFeedback = new Feedback({
-    interview: req.body.interview,
-    candidate: req.body.candidate,
-    overallScore: req.body.overallScore,
-    communication: req.body.communication,
-    codeEfficiency: req.body.codeEfficiency,
-    codeOrganization: req.body.codeOrganization,
-    speed: req.body.speed,
-    debugging: req.body.debugging,
-    problemSolving: req.body.problemSolving,
-    didWell: req.body.didWell,
-    canImprove: req.body.canImprove,
-    recommendedResources: req.body.recommendedResources,
-    additionalFeedback: req.body.additionalFeedback,
-    experienceRating: req.body.experienceRating,
-    experienceDescription: req.body.experienceDescription,
+    interview,
+    candidate,
+    overallScore,
+    communication,
+    codeEfficiency,
+    codeOrganization,
+    speed,
+    debugging,
+    problemSolving,
+    didWell,
+    canImprove,
+    recommendedResources,
+    additionalFeedback,
+    experienceRating,
+    experienceDescription,
   });
 
   newFeedback.save((err) => {

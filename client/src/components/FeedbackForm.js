@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },
     feedbackScoreTitleContainer: {
         marginLeft: "22.5%",
-        width:"71.5%",
+        width: "71.5%",
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-around",
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     },
     feedbackScoreTitle: {
         textAlign: "center",
-        width:"100px",
+        width: "100px",
         color: theme.palette.primary.main
     },
     feedbackQuestionTitle: {
@@ -36,6 +36,46 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: "4rem"
     }
 }))
+
+function TextQuestion(props) {
+
+    const classes = useStyles();
+
+    return (
+        <Grid>
+            <DialogTitle><Typography variant="DialogTitle" display="inline" color="primary">Question {props.questionNum}</Typography> / 6</DialogTitle>
+            <DialogContent>
+                <DialogContentText className={classes.feedbackQuestionTitle}>
+                    {props.question}
+                </DialogContentText>
+                <TextField
+                    onChange={props.onChange}
+                    value={props.value}
+                    autoFocus
+                    multiline
+                    rows={5}
+                    variant="outlined"
+                    margin="dense"
+                    id={props.id}
+                    label="Your answer..."
+                    fullWidth
+                />
+            </DialogContent>
+        </Grid>
+    )
+}
+
+function FeedbackRadioContainer(props) {
+
+    const classes = useStyles();
+
+    return (
+        <Grid className={classes.feedbackRadioContainer}>
+            <FormLabel component="label" className={classes.feedbackRadioLabel}>{props.label}</FormLabel>
+            {props.children}
+        </Grid>
+    )
+}
 
 export default function FeedbackForm(props) {
 
@@ -62,7 +102,7 @@ export default function FeedbackForm(props) {
                                 props.setScores(scores => ({ ...scores, overallScore: e.target.value }))
                             }} />
                     </DialogContent>
-                </Grid >
+                </Grid>
             )
         case 2:
             return (
@@ -79,8 +119,7 @@ export default function FeedbackForm(props) {
                             <Typography className={classes.feedbackScoreTitle}>Great</Typography>
                             <Typography className={classes.feedbackScoreTitle}>Excellent</Typography>
                         </Grid>
-                        <Grid className={classes.feedbackRadioContainer}>
-                            <FormLabel component="label" className={classes.feedbackRadioLabel}>Communication skills</FormLabel>
+                        <FeedbackRadioContainer label="Communication Skills">
                             <RubricBubble
                                 name="interviewee-review"
                                 numColumns={5}
@@ -89,9 +128,8 @@ export default function FeedbackForm(props) {
                                 onChange={e => {
                                     props.setScores(scores => ({ ...scores, communication: e.target.value }))
                                 }} />
-                        </Grid>
-                        <Grid className={classes.feedbackRadioContainer}>
-                            <FormLabel component="label" className={classes.feedbackRadioLabel}>Code efficiency</FormLabel>
+                        </ FeedbackRadioContainer >
+                        <FeedbackRadioContainer label="Code Efficiency">
                             <RubricBubble
                                 name="interviewee-review"
                                 numColumns={5}
@@ -100,9 +138,8 @@ export default function FeedbackForm(props) {
                                 onChange={e => {
                                     props.setScores(scores => ({ ...scores, codeEfficiency: e.target.value }))
                                 }} />
-                        </Grid>
-                        <Grid className={classes.feedbackRadioContainer}>
-                            <FormLabel component="label" className={classes.feedbackRadioLabel}>Code organization</FormLabel>
+                        </ FeedbackRadioContainer >
+                        <FeedbackRadioContainer label="Code Organization">
                             <RubricBubble
                                 name="interviewee-review"
                                 numColumns={5}
@@ -111,9 +148,8 @@ export default function FeedbackForm(props) {
                                 onChange={e => {
                                     props.setScores(scores => ({ ...scores, codeOrganization: e.target.value }))
                                 }} />
-                        </Grid>
-                        <Grid className={classes.feedbackRadioContainer}>
-                            <FormLabel component="label" className={classes.feedbackRadioLabel}>Speed</FormLabel>
+                        </ FeedbackRadioContainer>
+                        <FeedbackRadioContainer label="Speed">
                             <RubricBubble
                                 name="interviewee-review"
                                 numColumns={5}
@@ -122,9 +158,8 @@ export default function FeedbackForm(props) {
                                 onChange={e => {
                                     props.setScores(scores => ({ ...scores, speed: e.target.value }))
                                 }} />
-                        </Grid>
-                        <Grid className={classes.feedbackRadioContainer}>
-                            <FormLabel component="label" className={classes.feedbackRadioLabel}>Debugging skills</FormLabel>
+                        </ FeedbackRadioContainer>
+                        <FeedbackRadioContainer label="Debugging skills">
                             <RubricBubble
                                 name="interviewee-review"
                                 numColumns={5}
@@ -133,9 +168,8 @@ export default function FeedbackForm(props) {
                                 onChange={e => {
                                     props.setScores(scores => ({ ...scores, debugging: e.target.value }))
                                 }} />
-                        </Grid>
-                        <Grid className={classes.feedbackRadioContainer}>
-                            <FormLabel component="label" className={classes.feedbackRadioLabel}>Problem solving skills</FormLabel>
+                        </ FeedbackRadioContainer>
+                        <FeedbackRadioContainer label="Problem solving skills">
                             <RubricBubble
                                 name="interviewee-review"
                                 numColumns={5}
@@ -144,112 +178,57 @@ export default function FeedbackForm(props) {
                                 onChange={e => {
                                     props.setScores(scores => ({ ...scores, problemSolving: e.target.value }))
                                 }} />
-                        </Grid>
+                        </ FeedbackRadioContainer>
                     </DialogContent>
                 </Grid >
             );
         case 3:
             return (
-                <Grid>
-                    <DialogTitle><Typography variant="DialogTitle" display="inline" color="primary">Question 3</Typography> / 6</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText className={classes.feedbackQuestionTitle}>
-                            What are some things this candidate did well? (The more specific the better)
-                        </DialogContentText>
-                        <TextField
-                            onChange={e => {
-                                props.setScores(scores => ({ ...scores, didWell: e.target.value }))
-                            }}
-                            value={props.scores.didWell}
-                            autoFocus
-                            multiline
-                            rows={5}
-                            variant="outlined"
-                            margin="dense"
-                            id="didWell"
-                            label="Your answer..."
-                            fullWidth
-                        />
-                    </DialogContent>
-
-                </Grid>
-            );
+                <TextQuestion
+                    questionNum={3}
+                    question={"What are some things this candidate did well? (The more specific the better)"}
+                    onChange={e => {
+                        props.setScores(scores => ({ ...scores, didWell: e.target.value }))
+                    }}
+                    value={props.scores.didWell}
+                    id="didWell"
+                />
+            )
         case 4:
             return (
-                <Grid>
-                    <DialogTitle><Typography variant="DialogTitle" display="inline" color="primary">Question 4</Typography> / 6</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText className={classes.feedbackQuestionTitle}>
-                            What are some things this candidate can improve on? (The more specific the better)
-                        </DialogContentText>
-                        <TextField
-                            onChange={e => {
-                                props.setScores(scores => ({ ...scores, canImprove: e.target.value }))
-                            }}
-                            value={props.scores.canImprove}
-                            autoFocus
-                            multiline
-                            rows={5}
-                            variant="outlined"
-                            margin="dense"
-                            id="canImprove"
-                            label="Your answer..."
-                            fullWidth
-                        />
-                    </DialogContent>
-
-                </Grid>
+                <TextQuestion
+                    questionNum={4}
+                    question={"What are some things this candidate can improve on? (The more specific the better)"}
+                    onChange={e => {
+                        props.setScores(scores => ({ ...scores, canImprove: e.target.value }))
+                    }}
+                    value={props.scores.canImprove}
+                    id="canImprove"
+                />
             );
         case 5:
             return (
-                <Grid>
-                    <DialogTitle><Typography variant="DialogTitle" display="inline" color="primary">Question 5</Typography> / 6</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText className={classes.feedbackQuestionTitle}>
-                            Any recommendations on resources that can help this candidate improve?
-                        </DialogContentText>
-                        <TextField
-                            onChange={e => {
-                                props.setScores(scores => ({ ...scores, recommendedResources: e.target.value }))
-                            }}
-                            value={props.scores.recommendedResources}
-                            autoFocus
-                            multiline
-                            rows={5}
-                            variant="outlined"
-                            margin="dense"
-                            id="recommendedResources"
-                            label="Your answer..."
-                            fullWidth
-                        />
-                    </DialogContent>
-
-                </Grid>
+                <TextQuestion
+                    questionNum={5}
+                    question={"Any recommendations on resources that can help this candidate improve?"}
+                    onChange={e => {
+                        props.setScores(scores => ({ ...scores, recommendedResources: e.target.value }))
+                    }}
+                    value={props.scores.recommendedResources}
+                    id="recommendedResources"
+                />
             );
         case 6:
             return (
-                <Grid>
-                    <DialogTitle><Typography variant="DialogTitle" display="inline" color="primary">Question 6</Typography> / 6</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText className={classes.feedbackQuestionTitle}>
-                            Anything else?
-                        </DialogContentText>
-                        <TextField
-                            onChange={e => {
-                                props.setScores(scores => ({ ...scores, additionalFeedback: e.target.value }))
-                            }}
-                            value={props.scores.additionalFeedback}
-                            autoFocus
-                            multiline
-                            rows={5}
-                            variant="outlined"
-                            margin="dense"
-                            id="additionalFeedback"
-                            label="Your answer..."
-                            fullWidth
-                        />
-                    </DialogContent>
-                </Grid>
+                <TextQuestion
+                    questionNum={6}
+                    question={"Anything else?"}
+                    onChange={e => {
+                        props.setScores(scores => ({ ...scores, additionalFeedback: e.target.value }))
+                    }}
+                    value={props.scores.additionalFeedback}
+                    id="additionalFeedback"
+                />
             );
         default:
     }

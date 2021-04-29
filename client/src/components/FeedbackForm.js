@@ -4,6 +4,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import RubricBubble from './RubricBubble'
 
 const useStyles = makeStyles((theme) => ({
+    dialogTitleEmbed: {
+        fontSize:"1.25rem"
+    },
     feedbackRadioContainer: {
         display: "flex",
     },
@@ -43,7 +46,7 @@ function TextQuestion(props) {
 
     return (
         <Grid>
-            <DialogTitle><Typography variant="DialogTitle" display="inline" color="primary">Question {props.questionNum}</Typography> / 6</DialogTitle>
+            <DialogTitle><Typography className={classes.dialogTitleEmbed} display="inline" color="primary">Question {props.questionNum}</Typography> / 6</DialogTitle>
             <DialogContent>
                 <DialogContentText className={classes.feedbackQuestionTitle}>
                     {props.question}
@@ -85,7 +88,7 @@ export default function FeedbackForm(props) {
         case 1:
             return (
                 <Grid>
-                    <DialogTitle><Typography variant="DialogTitle" display="inline" color="primary">Question 1</Typography> / 6</DialogTitle>
+                    <DialogTitle><Typography className={classes.dialogTitleEmbed} display="inline" color="primary">Question 1</Typography> / 6</DialogTitle>
                     <DialogContent>
                         <DialogContentText className={classes.feedbackQuestionTitle}>
                             Overall, how did this person do in the interview?
@@ -107,7 +110,7 @@ export default function FeedbackForm(props) {
         case 2:
             return (
                 <Grid>
-                    <DialogTitle><Typography variant="DialogTitle" display="inline" color="primary">Question 2</Typography> / 6</DialogTitle>
+                    <DialogTitle><Typography className={classes.dialogTitleEmbed} display="inline" color="primary">Question 2</Typography> / 6</DialogTitle>
                     <DialogContent>
                         <DialogContentText className={classes.feedbackQuestionTitle}>
                             Submit a review of the candidate in the following categories:

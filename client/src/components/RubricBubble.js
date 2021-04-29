@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function RubricBubble(props) {
 
-
     const classes = useStyles();
 
     function getOneToNumber(number) {
@@ -42,15 +41,17 @@ export default function RubricBubble(props) {
             value={props.score}
             onChange={props.onChange}>
             <FormLabel component="label">{props.leftLabel}</FormLabel>
-            {columns.map((column) => (
+            {columns.map((column, i) => (
                 props.columnLabelToggle ?
                     <FormControlLabel
+                        key={i}
                         labelPlacement="top"
                         value={column.toString()}
                         control={<Radio color="primary" />}
                         label={column} />
                     :
                     <FormControlLabel
+                        key={i}
                         labelPlacement="top"
                         value={column.toString()}
                         control={<Radio color="primary" />}

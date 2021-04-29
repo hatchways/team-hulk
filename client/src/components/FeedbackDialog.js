@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 export default function FeedbackDialog(props) {
   const classes = useStyles();
 
-  const [scores, setScores] = useState({ overallScore: "5", didWell: "", canImprove: "", recommendedResources: "", additionalFeedback: "" })
+  const [scores, setScores] = useState({ overallScore: "5", communication: "", codeEfficiency: "", codeOrganization: "", speed: "", debugging: "", problemSolving: "", didWell: "", canImprove: "", recommendedResources: "", additionalFeedback: "" })
   const [step, setStep] = useState(1)
   const open = props.open
 
@@ -51,7 +51,7 @@ export default function FeedbackDialog(props) {
 
   const handleSubmit = () => {
     // Save to database here
-    setScores({ overallScore: "5", didWell: "", canImprove: "", recommendedResources: "", additionalFeedback: "" })
+    setScores({ overallScore: "5", communication: "", codeEfficiency: "", codeOrganization: "", speed: "", debugging: "", problemSolving: "", didWell: "", canImprove: "", recommendedResources: "", additionalFeedback: "" })
     setStep(1)
     props.handleClose();
   }
@@ -87,7 +87,7 @@ export default function FeedbackDialog(props) {
     <Dialog
       className={classes.feedbackMain}
       maxWidth="md"
-      fullWidth="true"
+      fullWidth={true}
       open={open}
       onClose={props.handleClose}
       aria-labelledby="feedback-form"

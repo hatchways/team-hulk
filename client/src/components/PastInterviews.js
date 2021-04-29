@@ -66,8 +66,6 @@ export default function PastInterviews({ rows }) {
 
 	const [feedbackHistoryOpen, setFeedbackHistoryOpen] = useState(false)
 
-	const [animateDialog, setAnimateDialog] = useState(false)
-
 	const formatDate = (date) => {
 		return `${days[date.getDay()]}, ${months[date.getMonth()]
 			} ${date.getDate()} ${date.getFullYear()}`;
@@ -81,7 +79,6 @@ export default function PastInterviews({ rows }) {
 	};
 
 	const handleFeedbackOpenClose = () => {
-		setAnimateDialog(!animateDialog)
 		setFeedbackHistoryOpen(!feedbackHistoryOpen)
 	}
 
@@ -118,7 +115,7 @@ export default function PastInterviews({ rows }) {
 							</TableHead>
 							<TableBody>
 								{rows.map((row) => (
-									<TableRow key={row.id}>
+									<TableRow key={row.id}>										
 										<StyledTableCell>
 											<Typography>{formatDate(row.date)}</Typography>
 											<Typography>{formatHour(row.date)}</Typography>
@@ -147,7 +144,6 @@ export default function PastInterviews({ rows }) {
 												View
 											</Button>
 											<FeedbackHistoryDialog
-												animate={animateDialog}
 												date={formatDate(row.date)}
 												open={feedbackHistoryOpen}
 												handleClose={handleFeedbackOpenClose} />

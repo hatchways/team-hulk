@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Divider, Grid, Button, Dialog, DialogActions, DialogContent, DialogContentText, Typography, CircularProgress } from '@material-ui/core/';
+import { Box, Divider, Grid, Button, Dialog, DialogActions, DialogContent, DialogContentText, Typography, CircularProgress } from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
 
 const feedback = {
@@ -9,8 +9,8 @@ const feedback = {
     debugging: "5",
     problemSolving: "4",
     speed: "3",
-    didWell: "Great job with x - y - z",
-    canImprove: "You could do better with a - b - c",
+    didWell: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    canImprove: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     recommendedResources: "Have you heard of this thing called \"The Docs\"?",
     additionalFeedback: "Keep at it!"
 }
@@ -49,19 +49,43 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: "2rem"
     },
     pointsDisplayHeader: {
-        color: theme.palette.primary.main,
-        fontWeight: "bold"
-    },
-    pointsDisplayItem: {
-        padding: "1rem",
-        height: "50px",
+        height: "110px",
         width: "150px",
+        position: "relative",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        color: theme.palette.primary.main,
+        fontWeight: "bold",
+        fontSize:"1.15rem"
+    },
+    pointsDisplayCircleContainer: {
+        height: "110px",
+        width: "150px",
+        position: "relative",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        paddingBottom:"1rem"
+    },
+    pointsDisplayNumbersContainer: {
+        fontSize: "1.25rem",
+        position: "absolute",
+        position: "relative",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "110px",
+        width: "150px",
+
     },
     bottomProgCircle: {
-        color: "#CCCCCC"
+        color: "#CCCCCC",
+        position: "absolute"
     },
     topProgCircle: {
-        color: theme.palette.primary.light
+        color: theme.palette.primary.light,
+        position: "absolute",
     },
     feedbackDisplayItem: {
         paddingTop: "0.5rem",
@@ -86,37 +110,32 @@ function PointsDisplay(props) {
         const value = getPercent(props.score, props.outOf)
         const timer = setInterval(() => {
             setProgress((prevProgress) => (prevProgress >= value ? value : prevProgress + 5));
-        }, 100);
-        return () => {
-            clearInterval(timer);
-        };
+        }, 50);
     }, []);
 
     return (
         <Grid style={{ display: "flex", justifyContent: "center" }}>
-            <Typography className={classes.pointsDisplayItem}>
-                <Typography className={classes.pointsDisplayHeader} >
-                    {props.scoreTitle}
-                </Typography>
-                <Typography>
-                    {props.score} / {props.outOf}
-                </Typography>
+            <Typography className={classes.pointsDisplayHeader} >
+                {props.scoreTitle}
             </Typography>
-            <Grid className={classes.pointsDisplayItem}>
+            <Grid className={classes.pointsDisplayCircleContainer}>
                 <CircularProgress
                     className={classes.bottomProgCircle}
                     variant="determinate"
+                    size="100px"
                     color="secondary"
                     thickness={4}
                     value={100}
-                    style={{ position: "absolute" }}
                 />
+                <Typography className={classes.pointsDisplayNumbersContainer}>
+                    {props.score} / {props.outOf}
+                </Typography>
                 <CircularProgress
                     className={classes.topProgCircle}
                     variant="determinate"
+                    size="100px"
                     thickness={4}
                     value={progress}
-                    style={{ position: "absolute" }}
                 />
             </Grid>
         </Grid>
@@ -132,9 +151,11 @@ function FeedbackDisplay(props) {
             <Typography variant="h6" className={classes.feedbackDisplayItem}>
                 {props.questionNum}. {props.questionTitle}
             </Typography>
-            <Typography className={classes.feedbackDisplayItem}>
-                "{props.feedback}"
+            <Box overflow="auto">
+                <Typography className={classes.feedbackDisplayItem}>
+                    "{props.feedback}"
             </Typography>
+            </Box>
             <Divider style={{ marginTop: "1rem" }} />
         </Grid>
     )
@@ -158,8 +179,8 @@ export default function FeedbackHistoryDialog(props) {
                 <DialogContentText variant='subtitle1' style={{ alignSelf: "center" }}>
                     From your interview on {props.date}
                 </DialogContentText>
-                <Grid style={{ display: "flex" }}>
-                    <Grid style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                <Grid style={{ display: "flex", marginTop: "1rem" }}>
+                    <Grid style={{ display: "flex", flexDirection: "column" }}>
                         <PointsDisplay open={props.animate} score={feedback.overallScore} scoreTitle="Overall Score" outOf={10} />
                         <PointsDisplay open={props.animate} score={feedback.codeEfficiency} scoreTitle="Code Efficiency" outOf={5} />
                         <PointsDisplay open={props.animate} score={feedback.communication} scoreTitle="Communication" outOf={5} />
@@ -167,7 +188,7 @@ export default function FeedbackHistoryDialog(props) {
                         <PointsDisplay open={props.animate} score={feedback.problemSolving} scoreTitle="Problem Solving" outOf={5} />
                         <PointsDisplay open={props.animate} score={feedback.speed} scoreTitle="Speed" outOf={5} />
                     </Grid>
-                    <Grid style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                    <Grid style={{ display: "flex", flexDirection: "column", paddingLeft:"1.5rem"}}>
                         <Divider />
                         <FeedbackDisplay questionNum={1} questionTitle={"What are some things this candidate did well?"} feedback={feedback.didWell} />
                         <FeedbackDisplay questionNum={2} questionTitle={"What are some things this candidate can improve on?"} feedback={feedback.canImprove} />

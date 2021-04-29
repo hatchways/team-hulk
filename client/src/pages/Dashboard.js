@@ -44,6 +44,11 @@ const pastInterviews = [
 		codingScore: 3,
 		communicationScore: 5,
 	},
+	{
+		date: new Date('June 12, 2020 01:00:00'),
+		codingScore: 3,
+		communicationScore: 5,
+	}
 ];
 
 const Dashboard = () => {

@@ -1,18 +1,20 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
-const passport = require('passport')
-const jwt = require("jsonwebtoken")
+const passport = require("passport");
+const jwt = require("jsonwebtoken");
+const User = require("../models/user");
 
-const initPassport = require('../passport-config')
-initPassport(passport)
+const initPassport = require("../passport-config");
+initPassport(passport);
 
-router.post('/', (req, res, next) => {
-  passport.authenticate('local',
-  (err, user, info) => {
+router.post("/", async (req, res, next) => {
+  const userId = await User.findOne({ email: req.body.email }, "id");
+
+  passport.authenticate("local", (err, user, info) => {
     if (err) {
-      console.log(err)
+      console.log(err);
       return next(err);
     }
 
@@ -20,26 +22,22 @@ router.post('/', (req, res, next) => {
       return res.status(400).send("User not found!");
     }
 
-    req.logIn(user, function(err) {
+    req.logIn(user, function (err) {
       if (err) {
-        console.log(err)
+        console.log(err);
         return next(err);
       }
 
-      const token = jwt.sign(
-        {user: req.body.email},
-        process.env.JWT_SECRET,
-        {expiresIn: "1d"}
-        );
+      const token = jwt.sign({ user: userId }, process.env.JWT_SECRET, {
+        expiresIn: "1d",
+      });
 
       res.cookie("token", token, {
         httpOnly: true,
-      })
-      
-      return res.send(req.body.email)
+      });
 
+      return res.send(req.body.email);
     });
-
   })(req, res, next);
 });
 

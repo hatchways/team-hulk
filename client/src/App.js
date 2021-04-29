@@ -9,7 +9,7 @@ import Home from './pages/TempHome';
 import Interview from './pages/Interview';
 import Profile from './pages/Profile';
 
-import './App.css';
+import "./App.css";
 
 function App() {
 	return (

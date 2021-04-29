@@ -64,7 +64,7 @@ const StyledTableCell = withStyles((theme) => ({
 export default function PastInterviews({ rows }) {
 	const classes = useStyles();
 
-	const [feedbackHistoryOpen, setFeedbackHistoryOpen] = useState(false)
+	const [feedbackHistories, setFeedbackHistories] = useState({})
 
 	const formatDate = (date) => {
 		return `${days[date.getDay()]}, ${months[date.getMonth()]
@@ -78,8 +78,22 @@ export default function PastInterviews({ rows }) {
 			} ${hours < 13 ? 'AM' : 'PM'}`;
 	};
 
-	const handleFeedbackOpenClose = () => {
-		setFeedbackHistoryOpen(!feedbackHistoryOpen)
+	const handleFeedbackOpenClose = (id) => {
+		setFeedbackHistories(prevState => ({
+			...prevState,
+			[id]: {
+				open: !prevState[id].open
+			}
+		}))
+	}
+
+	const saveFeedbackHistory = (id) => {
+		setFeedbackHistories(prevState => ({
+			...prevState,
+			[id]: {
+				open: false
+			}
+		}))
 	}
 
 	return (
@@ -115,7 +129,7 @@ export default function PastInterviews({ rows }) {
 							</TableHead>
 							<TableBody>
 								{rows.map((row) => (
-									<TableRow key={row.id}>										
+									<TableRow key={row.id}>
 										<StyledTableCell>
 											<Typography>{formatDate(row.date)}</Typography>
 											<Typography>{formatHour(row.date)}</Typography>
@@ -140,13 +154,18 @@ export default function PastInterviews({ rows }) {
 											</Button>
 										</StyledTableCell>
 										<StyledTableCell align="center">
-											<Button variant="outlined" className={classes.btn} onClick={handleFeedbackOpenClose}>
+											<Button variant="outlined" className={classes.btn}
+												onClick={() => handleFeedbackOpenClose(row.id)}
+											>
 												View
 											</Button>
 											<FeedbackHistoryDialog
+												saveDialog={saveFeedbackHistory}
+												id={row.id}
 												date={formatDate(row.date)}
-												open={feedbackHistoryOpen}
-												handleClose={handleFeedbackOpenClose} />
+												open={feedbackHistories[row.id].open}
+												handleClose={() => handleFeedbackOpenClose(row.id)}
+											/>
 										</StyledTableCell>
 									</TableRow>
 								))}

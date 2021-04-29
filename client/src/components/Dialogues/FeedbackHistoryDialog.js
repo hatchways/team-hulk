@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "center",
         color: theme.palette.primary.main,
         fontWeight: "bold",
-        fontSize:"1.15rem"
+        fontSize: "1.15rem"
     },
     pointsDisplayCircleContainer: {
         height: "110px",
@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        paddingBottom:"1rem"
+        paddingBottom: "1rem"
     },
     pointsDisplayNumbersContainer: {
         fontSize: "1.25rem",
@@ -166,6 +166,10 @@ export default function FeedbackHistoryDialog(props) {
 
     const open = props.open
 
+    useEffect(() => {
+        props.saveDialog(props.id)
+    }, [])
+
     return (
         <Dialog
             maxWidth="md"
@@ -188,7 +192,7 @@ export default function FeedbackHistoryDialog(props) {
                         <PointsDisplay open={props.animate} score={feedback.problemSolving} scoreTitle="Problem Solving" outOf={5} />
                         <PointsDisplay open={props.animate} score={feedback.speed} scoreTitle="Speed" outOf={5} />
                     </Grid>
-                    <Grid style={{ display: "flex", flexDirection: "column", paddingLeft:"1.5rem"}}>
+                    <Grid style={{ display: "flex", flexDirection: "column", paddingLeft: "1.5rem" }}>
                         <Divider />
                         <FeedbackDisplay questionNum={1} questionTitle={"What are some things this candidate did well?"} feedback={feedback.didWell} />
                         <FeedbackDisplay questionNum={2} questionTitle={"What are some things this candidate can improve on?"} feedback={feedback.canImprove} />

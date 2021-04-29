@@ -35,16 +35,19 @@ const upcomingInterviews = [
 
 const pastInterviews = [
 	{
+		id: 1,
 		date: new Date('May 25, 2020 22:00:00'),
 		codingScore: 5,
 		communicationScore: 4,
 	},
 	{
+		id:2,
 		date: new Date('May 27, 2020 14:00:00'),
 		codingScore: 3,
 		communicationScore: 5,
 	},
 	{
+		id:3,
 		date: new Date('June 12, 2020 01:00:00'),
 		codingScore: 3,
 		communicationScore: 5,

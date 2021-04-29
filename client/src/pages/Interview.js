@@ -9,17 +9,10 @@ import CloseIcon from "@material-ui/icons/Close";
 
 import Grid from "@material-ui/core/Grid";
 
-<<<<<<< HEAD
 import CodeEditor from '../components/layout/CodeEditor';
 import Question from '../components/layout/Question';
 import Console from '../components/layout/Console';
 import FeedbackDialog from '../components/FeedbackDialog';
-=======
-import CodeEditor from "../components/layout/CodeEditor";
-import Question from "../components/layout/Question";
-import Console from "../components/layout/Console";
-
->>>>>>> 8a789dfaca1c0180318d0d7b3a70c97d7eaae446
 import axios from "axios";
 
 const sampleQuestion = {
@@ -93,10 +86,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Interview = (props) => {
-<<<<<<< HEAD
 	const [feedbackOpen, setFeedbackOpen] = useState(false);
-=======
->>>>>>> 8a789dfaca1c0180318d0d7b3a70c97d7eaae446
   const [code, setCode] = useState(sampleQuestion.preLoadCode);
   const [results, setResults] = useState("");
   const [barHeight, setBarHeight] = useState(0);
@@ -109,13 +99,10 @@ const Interview = (props) => {
 
   const classes = useStyles();
 
-<<<<<<< HEAD
   const handleFeedbackOpenClose = () => {
 		setFeedbackOpen(!feedbackOpen)
 	};
 
-=======
->>>>>>> 8a789dfaca1c0180318d0d7b3a70c97d7eaae446
   const handleClose = () => {
     props.history.push("/dashboard");
   };
@@ -162,16 +149,13 @@ const Interview = (props) => {
           </Typography>
           <Button
             color="inherit"
-            onClick={handleClose}
+            onClick={handleFeedbackOpenClose}
             className={classes.btn}
             variant="outlined"
           >
             save
           </Button>
-<<<<<<< HEAD
           <FeedbackDialog open={feedbackOpen} handleClose={handleFeedbackOpenClose}/>
-=======
->>>>>>> 8a789dfaca1c0180318d0d7b3a70c97d7eaae446
         </Toolbar>
       </AppBar>
 
@@ -215,11 +199,6 @@ const Interview = (props) => {
       </Grid>
     </React.Fragment>
   );
-<<<<<<< HEAD
-}
-
-=======
 };
->>>>>>> 8a789dfaca1c0180318d0d7b3a70c97d7eaae446
 
 export default Interview;

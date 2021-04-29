@@ -11,6 +11,8 @@ let cors = require("cors");
 const signupRouter = require("./routes/signup");
 const interviewRouter = require("./routes/interview");
 const signinRouter = require("./routes/signin");
+
+const JWTRouter = require("./routes/JWT")
 const passport = require("passport");
 const compilerRouter = require("./routes/compiler");
 
@@ -48,6 +50,7 @@ app.use("/api/interview", interviewRouter);
 app.use("/api/compiler", compilerRouter);
 app.use("/api/signup", signupRouter);
 app.use("/api/signin", signinRouter);
+app.use("/api/JWT", JWTRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

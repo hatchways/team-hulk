@@ -1,59 +1,63 @@
-<<<<<<< HEAD
-import React from 'react';
-import { MuiThemeProvider } from '@material-ui/core';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { theme } from './themes/theme';
-import Signup from './pages/signup';
-import Signin from './pages/signin';
-import Dashboard from './pages/Dashboard';
-import Home from './pages/TempHome';
-import Interview from './pages/Interview';
-import Profile from './pages/Profile';
-=======
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { MuiThemeProvider } from "@material-ui/core";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { theme } from "./themes/theme";
+import Navbar from './components/layout/Navbar'
 import Signup from "./pages/signup";
 import Signin from "./pages/signin";
-import Dashboard from "./pages/Dashboard";
-import Home from "./pages/TempHome";
-import Profile from "./pages/Profile";
->>>>>>> 8a789dfaca1c0180318d0d7b3a70c97d7eaae446
+import Dashboard from './pages/Dashboard';
+import FAQ from './pages/FAQ';
+import Blog from './pages/Blog';
+import Profile from './pages/Profile';
+import Home from "./pages/HomePage";
+import Interview from './pages/Interview'
+import axios from 'axios';
+import { UserProvider } from './context/UserContext';
+import { AuthContext } from './context/AuthContext';
 
 import "./App.css";
 
 function App() {
-<<<<<<< HEAD
-	return (
-		<MuiThemeProvider theme={theme}>
-			<BrowserRouter>
-				<Switch>
-					<Route exact path="/" component={Home} />
-					<Route path="/profile" component={Profile} />
-					<Route path="/signin" component={Signin} />
-					<Route path="/signup" component={Signup} />
-					<Route path="/dashboard" component={Dashboard} />
-					<Route path="/interview" component={Interview} />
-				</Switch>
-			</BrowserRouter>
-		</MuiThemeProvider>
-	);
-=======
-  return (
+  const [isAuthenticated, setIsAuthenticated] = useContext(AuthContext);
+
+	useEffect(() => {
+		axios.get('/api/JWT')
+			.then(() => {
+				setIsAuthenticated(true)
+			})
+			.catch((err) => {
+				console.log(err)
+				setIsAuthenticated(false)
+			})
+	}, [setIsAuthenticated]
+	)
+
+  return (!isAuthenticated ?
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
         <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/profile" component={Profile} />
-          <Route path="/signin" component={Signin} />
-          <Route path="/signup" component={Signup} />
-          <Route path="/dashboard" component={Dashboard} />
+          <Route exact path="/signup" component={Signup} />
+          <Route component={Signin} />
         </Switch>
       </BrowserRouter>
     </MuiThemeProvider>
+    :
+    <MuiThemeProvider theme={theme}>
+      <UserProvider>
+        <BrowserRouter>
+          <Navbar />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/faq" component={FAQ} />
+            <Route path="/blog" component={Blog} />
+            <Route path="/profile" component={Profile} />
+			<Route path="/interview" component={Interview} />
+          </Switch>
+        </BrowserRouter>
+      </UserProvider>
+    </MuiThemeProvider>
   );
->>>>>>> 8a789dfaca1c0180318d0d7b3a70c97d7eaae446
 }
 
 export default App;

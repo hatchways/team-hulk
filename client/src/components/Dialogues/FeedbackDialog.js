@@ -1,65 +1,95 @@
-import React, { useState } from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Typography } from '@material-ui/core/';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useState } from "react";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  Typography,
+} from "@material-ui/core/";
+import { makeStyles } from "@material-ui/core/styles";
 
-import FeedbackForm from './FeedbackForm';
+import FeedbackForm from "./FeedbackForm";
 
 const useStyles = makeStyles((theme) => ({
   feedbackExit: {
     marginTop: ".5rem",
     borderRadius: "50px",
     width: "10px",
-    alignSelf: "flex-end"
+    alignSelf: "flex-end",
   },
   feedbackTitle: {
     alignSelf: "center",
     color: theme.palette.primary.main,
     padding: "1rem",
-    marginTop: "1rem"
+    marginTop: "1rem",
   },
   feedbackContent: {
-    alignSelf: "center"
+    alignSelf: "center",
   },
   feedbackActions: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   feedbackButton: {
     marginTop: "1rem",
     padding: ".5rem",
     borderRadius: "50px",
     width: "20%",
-    marginBottom: "2rem"
-  }
-}))
+    marginBottom: "2rem",
+  },
+}));
 
 export default function FeedbackDialog(props) {
   const classes = useStyles();
-
-  const [scores, setScores] = useState({ overallScore: "5", communication: "", codeEfficiency: "", codeOrganization: "", speed: "", debugging: "", problemSolving: "", didWell: "", canImprove: "", recommendedResources: "", additionalFeedback: "" })
-  const [step, setStep] = useState(1)
-  const open = props.open
+  const [scores, setScores] = useState({
+    overallScore: "5",
+    communication: "",
+    codeEfficiency: "",
+    codeOrganization: "",
+    speed: "",
+    debugging: "",
+    problemSolving: "",
+    didWell: "",
+    canImprove: "",
+    recommendedResources: "",
+    additionalFeedback: "",
+  });
+  const [step, setStep] = useState(1);
+  const open = props.open;
 
   const incrementStep = () => {
-    setStep(step + 1)
-  }
+    setStep(step + 1);
+  };
 
   const decrementStep = () => {
-    setStep(step - 1)
-  }
+    setStep(step - 1);
+  };
 
   const handleSubmit = () => {
     // Save to database here
-    setScores({ overallScore: "5", communication: "", codeEfficiency: "", codeOrganization: "", speed: "", debugging: "", problemSolving: "", didWell: "", canImprove: "", recommendedResources: "", additionalFeedback: "" })
-    setStep(1)
+    setScores({
+      overallScore: "5",
+      communication: "",
+      codeEfficiency: "",
+      codeOrganization: "",
+      speed: "",
+      debugging: "",
+      problemSolving: "",
+      didWell: "",
+      canImprove: "",
+      recommendedResources: "",
+      additionalFeedback: "",
+    });
+    setStep(1);
     props.handleClose();
-  }
+  };
 
   let continueButton;
 
   if (step === 6) {
-    continueButton =
+    continueButton = (
       <Button
         className={classes.feedbackButton}
         type="submit"
@@ -70,8 +100,9 @@ export default function FeedbackDialog(props) {
       >
         Submit
       </Button>
+    );
   } else {
-    continueButton =
+    continueButton = (
       <Button
         className={classes.feedbackButton}
         id="form-continue"
@@ -80,7 +111,8 @@ export default function FeedbackDialog(props) {
         onClick={incrementStep}
       >
         Next Question
-        </Button>
+      </Button>
+    );
   }
 
   return (
@@ -92,27 +124,35 @@ export default function FeedbackDialog(props) {
       onClose={props.handleClose}
       aria-labelledby="feedback-form"
     >
-      <Button className={classes.feedbackExit} onClick={props.handleClose}>X</Button>
-      <Typography variant='h4' className={classes.feedbackTitle} id="feedback-form">Give Us Your Feedback</Typography>
-      <DialogContentText variant='subtitle1' style={{ alignSelf: "center" }}>
+      <Button className={classes.feedbackExit} onClick={props.handleClose}>
+        X
+      </Button>
+      <Typography
+        variant="h4"
+        className={classes.feedbackTitle}
+        id="feedback-form"
+      >
+        Give Us Your Feedback
+      </Typography>
+      <DialogContentText variant="subtitle1" style={{ alignSelf: "center" }}>
         Please leave your comments here:
-        </DialogContentText>
-      <DialogContent >
+      </DialogContentText>
+      <DialogContent>
         <FeedbackForm step={step} scores={scores} setScores={setScores} />
         <DialogActions className={classes.feedbackActions}>
-          {step > 1 &&
+          {step > 1 && (
             <Button
               className={classes.feedbackButton}
               id="form-backwards"
               variant="outlined"
               onClick={decrementStep}
             >
-              Previous Question</Button>
-          }
+              Previous Question
+            </Button>
+          )}
           {continueButton}
         </DialogActions>
       </DialogContent>
     </Dialog>
   );
 }
-

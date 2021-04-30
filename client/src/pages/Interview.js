@@ -9,10 +9,10 @@ import CloseIcon from "@material-ui/icons/Close";
 
 import Grid from "@material-ui/core/Grid";
 
-import CodeEditor from '../components/layout/CodeEditor';
-import Question from '../components/layout/Question';
-import Console from '../components/layout/Console';
-import FeedbackDialog from '../components/Dialogues/FeedbackDialog';
+import CodeEditor from "../components/layout/CodeEditor";
+import Question from "../components/layout/Question";
+import Console from "../components/layout/Console";
+import FeedbackDialog from "../components/Dialogues/FeedbackDialog";
 import axios from "axios";
 
 const sampleQuestion = {
@@ -86,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Interview = (props) => {
-	const [feedbackOpen, setFeedbackOpen] = useState(false);
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [code, setCode] = useState(sampleQuestion.preLoadCode);
   const [results, setResults] = useState("");
   const [barHeight, setBarHeight] = useState(0);
@@ -100,8 +100,8 @@ const Interview = (props) => {
   const classes = useStyles();
 
   const handleFeedbackOpenClose = () => {
-		setFeedbackOpen(prevState => !prevState)
-	};
+    setFeedbackOpen((prevState) => !prevState);
+  };
 
   const handleClose = () => {
     props.history.push("/dashboard");
@@ -155,7 +155,10 @@ const Interview = (props) => {
           >
             save
           </Button>
-          <FeedbackDialog open={feedbackOpen} handleClose={handleFeedbackOpenClose}/>
+          <FeedbackDialog
+            open={feedbackOpen}
+            handleClose={handleFeedbackOpenClose}
+          />
         </Toolbar>
       </AppBar>
 

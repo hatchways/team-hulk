@@ -2,18 +2,18 @@ import React, { useContext, useEffect } from "react";
 import { MuiThemeProvider } from "@material-ui/core";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { theme } from "./themes/theme";
-import Navbar from './components/layout/Navbar'
+import Navbar from "./components/layout/Navbar";
 import Signup from "./pages/signup";
 import Signin from "./pages/signin";
-import Dashboard from './pages/Dashboard';
-import FAQ from './pages/FAQ';
-import Blog from './pages/Blog';
-import Profile from './pages/Profile';
+import Dashboard from "./pages/Dashboard";
+import FAQ from "./pages/FAQ";
+import Blog from "./pages/Blog";
+import Profile from "./pages/Profile";
 import Home from "./pages/HomePage";
-import Interview from './pages/Interview'
-import axios from 'axios';
-import { UserProvider } from './context/UserContext';
-import { AuthContext } from './context/AuthContext';
+import Interview from "./pages/Interview";
+import axios from "axios";
+import { UserProvider } from "./context/UserContext";
+import { AuthContext } from "./context/AuthContext";
 
 import "./App.css";
 
@@ -21,18 +21,18 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useContext(AuthContext);
 
   useEffect(() => {
-    axios.get('/api/JWT')
+    axios
+      .get("/api/JWT")
       .then(() => {
-        setIsAuthenticated(true)
+        setIsAuthenticated(true);
       })
       .catch((err) => {
-        console.log(err)
-        setIsAuthenticated(false)
-      })
-  }, [setIsAuthenticated]
-  )
+        console.log(err);
+        setIsAuthenticated(false);
+      });
+  }, [setIsAuthenticated]);
 
-  return (!isAuthenticated ?
+  return !isAuthenticated ? (
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
         <Switch>
@@ -41,7 +41,7 @@ function App() {
         </Switch>
       </BrowserRouter>
     </MuiThemeProvider>
-    :
+  ) : (
     <MuiThemeProvider theme={theme}>
       <UserProvider>
         <BrowserRouter>

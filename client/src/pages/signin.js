@@ -8,8 +8,6 @@ import { Link, Redirect } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { UserContext } from '../context/UserContext';
 
-import { AuthContext } from '../context/AuthContext';
-
 const useStyles = makeStyles({
     imageContainer: {
         width: '500px',
@@ -73,11 +71,9 @@ export default function Signin(props) {
     const [password, setPassword] = useState();
     const [errors, setErrors] = useState([]);
     const [redirect, setRedirect] = useState(false);
-    const { setIsAuthenticated } = useContext(AuthContext)
+    const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext)
     const { setUser } = useContext(UserContext)
     const history = useHistory()
-
-    const [isAuthenticated, setIsAuthenticated] = useContext(AuthContext);
 
     const classes = useStyles();
 

@@ -24,24 +24,24 @@ function App() {
 		ref.current && setHeightnavbarHieght(ref.current.clientHeight);
 	}, [ref]);
 
-  useEffect(() => {
-    axios.get('/api/JWT')
-      .then(() => {
-        setIsAuthenticated(true)
-      })
-      .catch((err) => {
-        console.log(err)
-        setIsAuthenticated(false)
-      })
-  }, [setIsAuthenticated]
-  )
+  // useEffect(() => {
+  //   axios.get('/api/JWT')
+  //     .then(() => {
+  //       setIsAuthenticated(true)
+  //     })
+  //     .catch((err) => {
+  //       console.log(err)
+  //       setIsAuthenticated(false)
+  //     })
+  // }, [setIsAuthenticated]
+  // )
 
   return (!isAuthenticated ?
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
         <Switch>
           <Route exact path="/signup" component={Signup} />
-          <Route path="/signin" component={Signin} />
+          <Route component={Signin} />
         </Switch>
       </BrowserRouter>
     </MuiThemeProvider>

@@ -12,7 +12,8 @@ import Paper from '@material-ui/core/Paper';
 import Rating from '@material-ui/lab/Rating';
 import Typography from '@material-ui/core/Typography';
 
-import FeedbackHistoryDialog from "./Dialogues/FeedbackHistoryDialog"
+import FeedbackHistoryDialog from "./Dialogues/FeedbackHistoryDialog";
+import QuestionDialog from "./Dialogues/QuestionsHistoryDialog";
 
 const useStyles = makeStyles((theme) => ({
 	table: {
@@ -66,6 +67,8 @@ export default function PastInterviews({ rows }) {
 
 	const [feedbackHistories, setFeedbackHistories] = useState({})
 
+	const [questionHistories, setQuestionHistories] = useState({})
+
 	const formatDate = (date) => {
 		return `${days[date.getDay()]}, ${months[date.getMonth()]
 			} ${date.getDate()} ${date.getFullYear()}`;
@@ -78,6 +81,16 @@ export default function PastInterviews({ rows }) {
 			} ${hours < 13 ? 'AM' : 'PM'}`;
 	};
 
+	const checkHistories = (history, id) => {
+		if (history === "feedback") {
+			if (feedbackHistories[id].open === undefined) {
+				return false
+			} else {
+				return feedbackHistories[id].open
+			}
+		}
+	}
+
 	const handleFeedbackOpenClose = (id) => {
 		setFeedbackHistories(prevState => ({
 			...prevState,
@@ -89,6 +102,24 @@ export default function PastInterviews({ rows }) {
 
 	const saveFeedbackHistory = (id) => {
 		setFeedbackHistories(prevState => ({
+			...prevState,
+			[id]: {
+				open: false
+			}
+		}))
+	}
+
+	const handleQuestionOpenClose = (id) => {
+		setQuestionHistories(prevState => ({
+			...prevState,
+			[id]: {
+				open: !prevState[id].open
+			}
+		}))
+	}
+
+	const saveQuestionHistory = (id) => {
+		setQuestionHistories(prevState => ({
 			...prevState,
 			[id]: {
 				open: false
@@ -149,12 +180,23 @@ export default function PastInterviews({ rows }) {
 											/>
 										</StyledTableCell>
 										<StyledTableCell align="center">
-											<Button variant="outlined" className={classes.btn}>
+											<Button variant="outlined"
+												className={classes.btn}
+												onClick={() => handleQuestionOpenClose(row.id)}>
 												View
 											</Button>
+											<QuestionDialog
+												saveDialog={saveQuestionHistory}
+												id={row.id}
+												date={formatDate(row.date)}
+												open={questionHistories[row.id] === undefined ? false : questionHistories[row.id].open}
+												openSibling={() => { handleQuestionOpenClose(row.id); handleFeedbackOpenClose(row.id) }}
+												handleClose={() => handleQuestionOpenClose(row.id)}
+											/>
 										</StyledTableCell>
 										<StyledTableCell align="center">
-											<Button variant="outlined" className={classes.btn}
+											<Button variant="outlined"
+												className={classes.btn}
 												onClick={() => handleFeedbackOpenClose(row.id)}
 											>
 												View
@@ -163,7 +205,8 @@ export default function PastInterviews({ rows }) {
 												saveDialog={saveFeedbackHistory}
 												id={row.id}
 												date={formatDate(row.date)}
-												open={feedbackHistories[row.id].open}
+												open={feedbackHistories[row.id] === undefined ? false : feedbackHistories[row.id].open}
+												openSibling={() => {handleFeedbackOpenClose(row.id); handleQuestionOpenClose(row.id)}}
 												handleClose={() => handleFeedbackOpenClose(row.id)}
 											/>
 										</StyledTableCell>

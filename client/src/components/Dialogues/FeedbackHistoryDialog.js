@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Divider, Grid, Button, Dialog, DialogActions, DialogContent, DialogContentText, Typography, CircularProgress } from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
+import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 
 const feedback = {
     overallScore: "5",
@@ -19,13 +20,21 @@ const feedback = {
 const useStyles = makeStyles((theme) => ({
     feedbackMain: {
         display: "flex",
-        flexDirection: "column"
+        flexDirection: "column",
+        position:"relative"
     },
-    feedbackExit: {
-        marginTop: ".5rem",
+    leftButton: {
         borderRadius: "50px",
         width: "10px",
-        alignSelf: "flex-end"
+        alignSelf: "flex-start",
+        position: "absolute"
+    },
+    feedbackExit: {
+        marginTop: "0.5rem",
+        borderRadius: "50px",
+        width: "10px",
+        alignSelf: "flex-end",
+        position: "absolute"
     },
     feedbackTitle: {
         alignSelf: "center",
@@ -43,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     },
     feedbackButton: {
         marginTop: "1rem",
-        padding: ".5rem",
+        padding: "0.5rem",
         borderRadius: "50px",
         width: "20%",
         marginBottom: "2rem"
@@ -108,7 +117,7 @@ function PointsDisplay(props) {
 
     useEffect(() => {
         const value = getPercent(props.score, props.outOf)
-        const timer = setInterval(() => {
+        setInterval(() => {
             setProgress((prevProgress) => (prevProgress >= value ? value : prevProgress + 5));
         }, 50);
     }, []);
@@ -178,7 +187,9 @@ export default function FeedbackHistoryDialog(props) {
             onClose={props.handleClose}
         >
             <DialogContent className={classes.feedbackMain}>
-                <Button className={classes.feedbackExit} onClick={props.handleClose}>X</Button>
+                <Button className={classes.leftButton} onClick={props.openSibling}>
+                    <KeyboardArrowLeftIcon />
+                </Button>
                 <Typography variant='h4' className={classes.feedbackTitle} id="feedback-form">Your Feedback</Typography>
                 <DialogContentText variant='subtitle1' style={{ alignSelf: "center" }}>
                     From your interview on {props.date}

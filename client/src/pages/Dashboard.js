@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Dashboard = () => {
-	const classes = useStyles();
+	const classes = useStyles()
 	const [open, setOpen] = useState(false)
 	const {upcomingInterviews, WaitingRoomOpen, setWaitingRoomOpen} = useContext(UserContext)
 

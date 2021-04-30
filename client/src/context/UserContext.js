@@ -38,6 +38,7 @@ export const UserProvider = ({ children }) => {
     const [upcomingInterviews, setUpcomingInterviews] = useState(upcomingInterviews_initial)
     const [WaitingRoomOpen, setWaitingRoomOpen] = useState(false)
     const [newlyCreatedInterview, setNewlyCreatedInterview] = useState(null)
+	const [difficulty, setDifficulty] = useState('')
 
     useEffect(() => {
         // API CALL GOES HERE
@@ -53,7 +54,9 @@ export const UserProvider = ({ children }) => {
                 WaitingRoomOpen,
                 setWaitingRoomOpen,
                 newlyCreatedInterview,
-                setNewlyCreatedInterview
+                setNewlyCreatedInterview,
+				difficulty,
+				setDifficulty
                 }}>
             {children}
         </UserContext.Provider>

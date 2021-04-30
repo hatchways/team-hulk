@@ -41,7 +41,7 @@ const styles = (theme) => ({
 });
 
 const DialogTitle = withStyles(styles)((props) => {
-  const { children, classes, onClose, ...other } = props;
+  const { children, classes, onClose, ...other } = props
   return (
     <>
       {onClose ? (
@@ -84,12 +84,12 @@ const DialogActions = withStyles((theme) => ({
     },
     marginBottom: '4rem'
   }
-}))(MuiDialogActions);
+}))(MuiDialogActions)
 
 export default function CreateInterviewDialogs({ open, setOpen }) {
   const classes = useStyles();
 
-  const {upcomingInterviews, setUpcomingInterviews, setWaitingRoomOpen, setNewlyCreatedInterview} = useContext(UserContext);
+  const {upcomingInterviews, setUpcomingInterviews, setWaitingRoomOpen, setNewlyCreatedInterview, setDifficulty} = useContext(UserContext);
 
   const [difficultyLevel, setDifficultyLevel] = useState('0')
 
@@ -99,6 +99,8 @@ export default function CreateInterviewDialogs({ open, setOpen }) {
     theme: 'palindrome',
     difficulty: Number(difficultyLevel)
     }
+
+    setDifficulty(Number(difficultyLevel))
 
     const res = await fetch('api/interview', {
         method: 'post',
@@ -111,17 +113,17 @@ export default function CreateInterviewDialogs({ open, setOpen }) {
     const interviewObjFromDB = await res.json()
 
     const newUpcomingInterview = {
-		date: new Date(moment(interviewObjFromDB.date).format('MMMM DD, YYYY hh:mm:ss')),
-		theme: interviewObjFromDB.theme,
-		id: interviewObjFromDB._id,
-		live: true,
-	}
+      date: new Date(moment(interviewObjFromDB.date).format('MMMM DD, YYYY hh:mm:ss')),
+      theme: interviewObjFromDB.theme,
+      id: interviewObjFromDB._id,
+      live: true,
+	  }
 
     setUpcomingInterviews([...upcomingInterviews, newUpcomingInterview])
 
     setNewlyCreatedInterview(interviewObjFromDB)
 
-    setOpen(false);
+    setOpen(false)
 
     setWaitingRoomOpen(true)
   };
@@ -149,11 +151,10 @@ export default function CreateInterviewDialogs({ open, setOpen }) {
                   onChange={e => setDifficultyLevel(e.target.value)}
                 >
                   <MenuItem value="0">
-                    Beginner
+                    easy
                   </MenuItem>
-                  <MenuItem value="1">Intermediate</MenuItem>
-                  <MenuItem value="2">Advanced</MenuItem>
-                  <MenuItem value="3">Expert</MenuItem>
+                  <MenuItem value="1">medium</MenuItem>
+                  <MenuItem value="2">hard</MenuItem>
                 </Select>
             </FormControl>
         </DialogContent>

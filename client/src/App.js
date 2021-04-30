@@ -24,17 +24,17 @@ function App() {
 		ref.current && setHeightnavbarHieght(ref.current.clientHeight);
 	}, [ref]);
 
-  // useEffect(() => {
-  //   axios.get('/api/JWT')
-  //     .then(() => {
-  //       setIsAuthenticated(true)
-  //     })
-  //     .catch((err) => {
-  //       console.log(err)
-  //       setIsAuthenticated(false)
-  //     })
-  // }, [setIsAuthenticated]
-  // )
+  useEffect(() => {
+    axios.get('/api/JWT')
+      .then(() => {
+        setIsAuthenticated(true)
+      })
+      .catch((err) => {
+        console.log(err)
+        setIsAuthenticated(false)
+      })
+  }, [setIsAuthenticated]
+  )
 
   return (!isAuthenticated ?
     <MuiThemeProvider theme={theme}>

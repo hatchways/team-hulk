@@ -69,45 +69,60 @@ const getQuestions = async () => {
   });
 
   console.log(urls.length);
+  let questions = [];
 
-  await page.goto(urls[0], { waitUntil: "networkidle0" });
+  for (let i = 0; i < 5; i++) {
+    await page.goto(urls[i], { waitUntil: "networkidle0" });
 
-  let question = await page.evaluate(() => {
-    // Get title
-    let title = document.querySelector(".css-v3d350").innerText;
-    title = title.slice(title.indexOf(".") + 2);
+    const isLocked = await page.evaluate(() => {
+      const isLocked = document
+        .querySelector('[data-key="solution"] svg')
+        .classList.contains("css-ut75m1-ColoredIcon");
+      return [isLocked];
+    });
 
-    // Get difficulty
-    const difficulty = document.querySelector(".css-10o4wqw > div").innerText;
+    console.log(isLocked);
 
-    // get body
-    const body = document.querySelector(
-      "div.content__u3I1.question-content__JfgR"
-    ).innerHTML;
+    if (isLocked[0]) continue;
 
-    const themes = [...document.querySelectorAll(".topic-tag__1jni")].map(
-      (t) => t.innerText
-    );
+    questions[i] = await page.evaluate(() => {
+      // Get title
+      let title = document.querySelector(".css-v3d350").innerText;
+      title = title.slice(title.indexOf(".") + 2);
 
-    return [{ title, difficulty, body, themes }];
-  });
+      // Get difficulty
+      const difficulty = document.querySelector(".css-10o4wqw > div").innerText;
 
-  await page.goto(urls[0] + "/solution", { waitUntil: "networkidle0" });
+      // get body
+      const body = document.querySelector(
+        "div.content__u3I1.question-content__JfgR"
+      ).innerHTML;
 
-  const solution = await page.evaluate(() => {
-    const solution = document.querySelector(".content__QRGW > div:nth-child(1)")
-      .innerHTML;
-    return [{ data: solution }];
-  });
+      const themes = [...document.querySelectorAll(".topic-tag__1jni")].map(
+        (t) => t.innerText
+      );
 
-  // console.log(solution);
-  question.solution = solution[0].data;
+      return { title, difficulty, body, themes };
+    });
+
+    await page.goto(urls[i] + "/solution", { waitUntil: "networkidle0" });
+
+    const solution = await page.evaluate(() => {
+      const solution = document.querySelector(
+        ".content__QRGW > div:nth-child(1)"
+      ).innerHTML;
+      return { solution };
+    });
+
+    questions[i].solution = solution.solution;
+  }
 
   browser.close();
-  return question;
+  return questions;
 };
 
 (async () => {
-  const question = await getQuestions();
-  console.log(question);
+  const questions = await getQuestions();
+  debugger;
+  questions.forEach((q) => console.log(q.title));
 })();

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { MuiThemeProvider } from "@material-ui/core";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { theme } from "./themes/theme";
 import Signup from "./pages/signup";
 import Signin from "./pages/signin";
@@ -19,30 +19,39 @@ function App() {
   const [navbarHeight, setHeightnavbarHieght] = useState(0);
   const ref = useRef();
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
-  console.log("isAuth:", isAuthenticated);
 
   useEffect(() => {
     ref.current && setHeightnavbarHieght(ref.current.clientHeight);
   }, [ref]);
 
-  // useEffect(() => {
-  //   axios
-  //     .get("/api/JWT")
-  //     .then(() => {
-  //       setIsAuthenticated(true);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       setIsAuthenticated(false);
-  //     });
-  // }, [setIsAuthenticated]);
+  useEffect(() => {
+    axios
+      .get("/api/JWT")
+      .then(() => {
+        console.log("usee effect in app.js");
+        setIsAuthenticated(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsAuthenticated(false);
+      });
+  }, [setIsAuthenticated]);
 
   return !isAuthenticated ? (
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
         <Switch>
+          <Route exact path="/">
+            <Redirect to="/signin" />
+          </Route>
           <Route exact path="/signup" component={Signup} />
-          <Route component={Signin} />
+          <Route path="/signin" component={Signin} />
+          <Route
+            path="/interview/:id"
+            render={(props) => (
+              <Interview {...props} navHeight={navbarHeight} />
+            )}
+          />
         </Switch>
       </BrowserRouter>
     </MuiThemeProvider>

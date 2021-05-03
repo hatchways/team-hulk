@@ -16,6 +16,7 @@ import Console from "../components/layout/Console";
 import { SocketContext } from "../context/SocketContext";
 import FeedbackDialog from "../components/FeedbackDialog";
 import axios from "axios";
+import { AuthContext } from "../context/AuthContext";
 
 const sampleQuestion = {
   title: "Diagonal Difference",
@@ -95,10 +96,9 @@ const Interview = (props) => {
   const [barHeight, setBarHeight] = useState(0);
   const barRef = useRef(null);
   const history = useHistory();
+  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
 
   const interviewId = props.match.params.id;
-  console.log("interview props:", props.match);
-  console.log("interview id in interview comp:", interviewId);
 
   const { socket } = useContext(SocketContext);
 
@@ -108,11 +108,8 @@ const Interview = (props) => {
 
   useEffect(() => {
     if (socket) {
-      console.log("socket:", socket);
       socket.emit("joinInterviewRoom", { interviewId });
     } else {
-      console.log("interview props:", props.match);
-      console.log("interview id in interview comp:", interviewId);
       history.push({
         pathname: "/signin",
         state: interviewId,

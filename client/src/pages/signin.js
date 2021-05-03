@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import {
   Button,
@@ -73,7 +73,6 @@ const useStyles = makeStyles({
 
 export default function Signin(props) {
   const interviewId = props.location.state;
-  console.log("int id:", interviewId);
 
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -84,6 +83,12 @@ export default function Signin(props) {
   const history = useHistory();
 
   const classes = useStyles();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      history.push(`/interview/${interviewId}`);
+    }
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -103,7 +108,6 @@ export default function Signin(props) {
         setIsAuthenticated(true);
         setUser({ email: response.data });
         if (interviewId) {
-          console.log("inside push:", interviewId);
           history.push(`/interview/${interviewId}`);
         } else {
           setRedirect(true);

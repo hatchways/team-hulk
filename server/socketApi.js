@@ -57,7 +57,7 @@ io.on("connection", (socket) => {
     delete users[socket.id];
     io.emit("disconnected", socket.id);
     io.emit("user count", currentUsers);
-    console.log(`user with id of ${socket.id} disconnected.`);
+    console.log(`user with socket id of ${socket.id} disconnected.`);
   });
 });
 

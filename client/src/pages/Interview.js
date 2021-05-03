@@ -1,22 +1,22 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
-import { useHistory } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
+import React, { useState, useRef, useEffect, useContext } from "react";
+import { useHistory } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import CloseIcon from "@material-ui/icons/Close";
 
 import Grid from "@material-ui/core/Grid";
 
-import CodeEditor from '../components/layout/CodeEditor';
-import Question from '../components/layout/Question';
-import Console from '../components/layout/Console';
-import { SocketContext } from '../context/SocketContext'
-import FeedbackDialog from '../components/FeedbackDialog';
+import CodeEditor from "../components/layout/CodeEditor";
+import Question from "../components/layout/Question";
+import Console from "../components/layout/Console";
+import { SocketContext } from "../context/SocketContext";
+import { UserContext } from "../context/UserContext";
+import FeedbackDialog from "../components/FeedbackDialog";
 import axios from "axios";
-
 
 const sampleQuestion = {
   title: "Diagonal Difference",
@@ -89,49 +89,66 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Interview = (props) => {
-	const [feedbackOpen, setFeedbackOpen] = useState(false);
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [code, setCode] = useState(sampleQuestion.preLoadCode);
   const [results, setResults] = useState("");
-	const [language, setLanguage] = useState("javascript");
-	const [barHeight, setBarHeight] = useState(0);
-	const barRef = useRef(null);
-	const history = useHistory()
+  const [language, setLanguage] = useState("javascript");
+  const [barHeight, setBarHeight] = useState(0);
+  const [question, setQuestion] = useState({});
+  const barRef = useRef(null);
+  const history = useHistory();
 
-	const interviewId = props.match.params.id
+  const interviewId = props.match.params.id;
 
-	const { socket } = useContext(SocketContext)
+  const { socket } = useContext(SocketContext);
+  const { difficulty } = useContext(UserContext);
 
-	useEffect(() => {
-		barRef.current && setBarHeight(barRef.current.clientHeight);
-	}, [barRef]);
+  useEffect(() => {
+    barRef.current && setBarHeight(barRef.current.clientHeight);
+  }, [barRef]);
 
-	useEffect(() => {
-		if (socket) {
-			socket.emit('joinInterviewRoom',  { interviewId })
-        } else {
-			history.push({
-				pathname: '/signin',
-				state: interviewId
-			})
-		}
+  useEffect(() => {
+    const getQuestion = async () => {
+      const res = await fetch("/api/question", {
+        method: "post",
+        body: JSON.stringify({ difficulty }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const question = await res.json();
+      setQuestion(question);
+    };
 
-		return () => {
-			if (socket) {
-				socket.emit('leaveInterviewRoom', { interviewId })
-			}
-		}
-	}, [history, interviewId, socket, ])
+    getQuestion();
+  }, []);
 
-	const classes = useStyles();
+  useEffect(() => {
+    if (socket) {
+      socket.emit("joinInterviewRoom", { interviewId });
+    } else {
+      history.push({
+        pathname: "/signin",
+        state: interviewId,
+      });
+    }
 
-	const handleFeedbackOpenClose = () => {
-		setFeedbackOpen(prevState => !prevState)
-	};
+    return () => {
+      if (socket) {
+        socket.emit("leaveInterviewRoom", { interviewId });
+      }
+    };
+  }, [history, interviewId, socket]);
 
-	const handleClose = () => {
-		props.history.push('/dashboard');
-	};
+  const classes = useStyles();
 
+  const handleFeedbackOpenClose = () => {
+    setFeedbackOpen((prevState) => !prevState);
+  };
+
+  const handleClose = () => {
+    props.history.push("/dashboard");
+  };
 
   const compileCode = async () => {
     setResults("compiling...");
@@ -181,7 +198,10 @@ const Interview = (props) => {
           >
             save
           </Button>
-          <FeedbackDialog open={feedbackOpen} handleClose={handleFeedbackOpenClose}/>
+          <FeedbackDialog
+            open={feedbackOpen}
+            handleClose={handleFeedbackOpenClose}
+          />
         </Toolbar>
       </AppBar>
 
@@ -206,7 +226,7 @@ const Interview = (props) => {
             }px - ${barHeight}px)`,
           }}
         >
-          <Question question={sampleQuestion} />
+          <Question question={question} />
         </Grid>
         <Grid
           item
@@ -221,10 +241,10 @@ const Interview = (props) => {
         >
           <CodeEditor language={language} value={code} onChange={setCode} />
           <Console compileCode={compileCode} value={results} />
-				</Grid>
-			</Grid>
-		</React.Fragment>
-	);
+        </Grid>
+      </Grid>
+    </React.Fragment>
+  );
 };
 
 export default Interview;

@@ -56,6 +56,7 @@ app.use("/api/interview", interviewRouter);
 app.use("/api/compiler", compilerRouter);
 app.use("/api/signup", signupRouter);
 app.use("/api/signin", signinRouter);
+app.use("/api/interview", interviewRouter);
 app.use("/api/feedback", feedbackRouter);
 app.use("/api/JWT", JWTRouter);
 

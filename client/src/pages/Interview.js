@@ -97,6 +97,8 @@ const Interview = (props) => {
   const history = useHistory();
 
   const interviewId = props.match.params.id;
+  console.log("interview props:", props.match);
+  console.log("interview id in interview comp:", interviewId);
 
   const { socket } = useContext(SocketContext);
 
@@ -106,8 +108,11 @@ const Interview = (props) => {
 
   useEffect(() => {
     if (socket) {
+      console.log("socket:", socket);
       socket.emit("joinInterviewRoom", { interviewId });
     } else {
+      console.log("interview props:", props.match);
+      console.log("interview id in interview comp:", interviewId);
       history.push({
         pathname: "/signin",
         state: interviewId,

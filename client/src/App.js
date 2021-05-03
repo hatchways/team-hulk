@@ -19,22 +19,23 @@ function App() {
   const [navbarHeight, setHeightnavbarHieght] = useState(0);
   const ref = useRef();
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  console.log("isAuth:", isAuthenticated);
 
   useEffect(() => {
     ref.current && setHeightnavbarHieght(ref.current.clientHeight);
   }, [ref]);
 
-  useEffect(() => {
-    axios
-      .get("/api/JWT")
-      .then(() => {
-        setIsAuthenticated(true);
-      })
-      .catch((err) => {
-        console.log(err);
-        setIsAuthenticated(false);
-      });
-  }, [setIsAuthenticated]);
+  // useEffect(() => {
+  //   axios
+  //     .get("/api/JWT")
+  //     .then(() => {
+  //       setIsAuthenticated(true);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       setIsAuthenticated(false);
+  //     });
+  // }, [setIsAuthenticated]);
 
   return !isAuthenticated ? (
     <MuiThemeProvider theme={theme}>

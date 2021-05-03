@@ -73,6 +73,7 @@ const useStyles = makeStyles({
 
 export default function Signin(props) {
   const interviewId = props.location.state;
+  console.log("int id:", interviewId);
 
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -102,6 +103,7 @@ export default function Signin(props) {
         setIsAuthenticated(true);
         setUser({ email: response.data });
         if (interviewId) {
+          console.log("inside push:", interviewId);
           history.push(`/interview/${interviewId}`);
         } else {
           setRedirect(true);

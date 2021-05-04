@@ -15,7 +15,8 @@ import Question from "../components/layout/Question";
 import Console from "../components/layout/Console";
 import { SocketContext } from "../context/SocketContext";
 import { UserContext } from "../context/UserContext";
-import FeedbackDialog from "../components/FeedbackDialog";
+import FeedbackDialog from "../components/dialogues/FeedbackDialog";
+import RoomBlockDialog from "../components/dialogues/RoomBlockDialog";
 import axios from "axios";
 
 const sampleQuestion = {
@@ -94,6 +95,7 @@ const Interview = (props) => {
   const [results, setResults] = useState("");
   const [language, setLanguage] = useState("javascript");
   const [barHeight, setBarHeight] = useState(0);
+  const [roomBlockOpen, setRoomBlockOpen] = useState(false);
   const barRef = useRef(null);
   const history = useHistory();
 
@@ -109,20 +111,24 @@ const Interview = (props) => {
 
   useEffect(() => {
     if (socket) {
-      // Do an API call here that checks getSingleInterview.
       axios
         .get(`/api/interview/${interviewId}`)
         .then((res) => {
-          console.log(res);
           if (res.data.guest && res.data.guest !== socket.id) {
+            setRoomBlockOpen(true);
             console.log("This room already has the maximum number of members!");
-            history.push(`/dashboard`);
           } else {
-            socket.emit("joinInterviewRoom", { interviewId });
-            axios.put(`api/interview/guest/${interviewId}`, {
-              // Below should be a user object, not just the user id number
-              user: socket.id,
-            });
+            socket.emit(
+              "joinInterviewRoom",
+              (axios.defaults.withCredentials = true),
+              { interviewId }
+            );
+            axios
+              .put(`/api/interview/guest/${interviewId}`, {
+                id: interviewId,
+                user: user,
+              })
+              .catch((err) => console.log(err));
           }
         })
         .catch(function (error) {
@@ -145,6 +151,10 @@ const Interview = (props) => {
 
   const handleFeedbackOpenClose = () => {
     setFeedbackOpen((prevState) => !prevState);
+  };
+
+  const handleRoomBlockClose = () => {
+    setRoomBlockOpen(false);
   };
 
   const handleClose = () => {
@@ -178,6 +188,7 @@ const Interview = (props) => {
 
   return (
     <React.Fragment>
+      <RoomBlockDialog open={roomBlockOpen} close={handleRoomBlockClose} />
       <AppBar ref={barRef} className={classes.appBar}>
         <Toolbar>
           <IconButton

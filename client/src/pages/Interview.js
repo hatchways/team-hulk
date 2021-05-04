@@ -17,6 +17,7 @@ import { SocketContext } from "../context/SocketContext";
 import { UserContext } from "../context/UserContext";
 import FeedbackDialog from "../components/dialogues/FeedbackDialog";
 import RoomBlockDialog from "../components/dialogues/RoomBlockDialog";
+import WaitingRoom from "../components/dialogues/WaitingRoom";
 import axios from "axios";
 
 const sampleQuestion = {
@@ -105,6 +106,12 @@ const Interview = (props) => {
 
   const { socket } = useContext(SocketContext);
 
+  const {
+    upcomingInterviews,
+    WaitingRoomOpen,
+    setWaitingRoomOpen,
+  } = useContext(UserContext);
+
   useEffect(() => {
     barRef.current && setBarHeight(barRef.current.clientHeight);
   }, [barRef]);
@@ -123,9 +130,10 @@ const Interview = (props) => {
               (axios.defaults.withCredentials = true),
               { interviewId }
             );
+            // Add user to guest in interview object
             axios
               .put(`/api/interview/guest/${interviewId}`, {
-                id: interviewId,
+                // id: interviewId,
                 user: user,
               })
               .catch((err) => console.log(err));
@@ -188,7 +196,6 @@ const Interview = (props) => {
 
   return (
     <React.Fragment>
-      <RoomBlockDialog open={roomBlockOpen} close={handleRoomBlockClose} />
       <AppBar ref={barRef} className={classes.appBar}>
         <Toolbar>
           <IconButton
@@ -255,6 +262,8 @@ const Interview = (props) => {
           <Console compileCode={compileCode} value={results} />
         </Grid>
       </Grid>
+      <WaitingRoom open={WaitingRoomOpen} setOpen={setWaitingRoomOpen} />
+      <RoomBlockDialog open={roomBlockOpen} close={handleRoomBlockClose} />
     </React.Fragment>
   );
 };

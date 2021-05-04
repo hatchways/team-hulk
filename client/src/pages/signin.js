@@ -98,9 +98,14 @@ export default function Signin(props) {
           credentials: "include",
         }
       )
-      .then((response) => {
+      .then((res) => {
         setIsAuthenticated(true);
-        setUser({ email: response.data });
+        setUser({
+          id: res.data._id,
+          email: res.data.email,
+          firstName: res.data.firstName,
+          lastName: res.data.lastName,
+        });
         if (interviewId) {
           history.push(`/interview/${interviewId}`);
         } else {

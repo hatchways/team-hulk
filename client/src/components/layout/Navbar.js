@@ -200,7 +200,7 @@ const Navbar = React.forwardRef((props, ref) => {
         className={classes.user}
       >
         <Avatar className={classes.user__img} alt="avatar" src={avatar} />
-        <Typography className={classes.user__name}>{user.name}</Typography>
+        <Typography className={classes.user__name}>{user.firstName}</Typography>
       </Grid>
       {popover}
     </div>

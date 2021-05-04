@@ -20,19 +20,52 @@ import axios from "axios";
 
 const sampleQuestion = {
   title: "Diagonal Difference",
-  body: `Given a square matrix, calculate the absolute difference between the sums of its diagonals.
-  For example, the square matrix **arr** is shown below:\n
-  ~~~js
-  1 2 3
-  4 5 6
-  9 8 9
-  ~~~
-  The left-to-right diagonal = **1 + 5 + 9 = 15**. The right to left diagonal = **3 + 5 + 9 = 17**. Their absolute difference is  **[ 15 - 17 ] = 2**.
+  body: `Given a string *s*, return&nbsp;*the longest palindromic substring* in *s*.
 
-  ### Function description\n
-  Complete the  function in the **diagonalDifference** editor below. It must return an integer representing the absolute diagonal difference.
-  diagonalDifference takes the following parameter:\n
-  arr: an array of integers.
+
+  &nbsp;
+  
+  **Example 1:**
+  
+  
+  ~~~js
+  Input: s = "babad"
+  Output: "bab"
+  Note: "aba" is also a valid answer.
+  ~~~
+  
+  **Example 2:**
+  
+  
+  ~~~js
+  Input: s = "cbbd"
+  Output: "bb"
+  ~~~
+  
+  **Example 3:**
+  
+  
+  ~~~js
+  Input: s = "a"
+  Output: "a"
+  ~~~
+  
+  **Example 4:**
+  
+  
+  ~~~js
+  Input: s = "ac"
+  Output: "a"
+  ~~~
+  
+  &nbsp;
+  
+  **Constraints:**
+  
+  
+  
+  - *1 &lt;= s.length &lt;= 1000*
+  - *s* consist of only digits and English letters (lower-case and/or upper-case),
   `,
   answer: `A paragraph with *emphasis* and **strong importance**.
 

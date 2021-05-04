@@ -1,7 +1,7 @@
 const Question = require("../models/question");
 const mongoose = require("mongoose");
 
-require("dotenv").config({ path: "./.env" });
+require("dotenv").config({ path: "../.env" });
 
 mongoose.connect(process.env.MONGO_DB_URI, {
   useNewUrlParser: true,

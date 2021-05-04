@@ -18,6 +18,13 @@ let QuestionSchema = new Schema({
     enum: [0, 1, 2], // 0 - easy, 1 - medium, 2 - hard
     required: true,
   },
+  themes: {
+    type: [String],
+  },
+  url: {
+    type: String,
+    required: true,
+  },
   // userIds: [{ type: Schema.Types.ObjectId, ref: "Users" }],
 });
 

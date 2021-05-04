@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.primary.light,
   },
   markdownContainer: {
-    "& p": {
+    "& p, & li": {
       fontFamily: ['"Open Sans"', "sans-serif"].join(","),
       fontSize: 16,
       fontWeight: 400,

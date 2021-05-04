@@ -1,6 +1,4 @@
 const puppeteer = require("puppeteer");
-const Turndown = require("turndown");
-const turndownService = new Turndown();
 const markdownFormatter = require("./html2markdown");
 
 const Question = require("../models/question");
@@ -10,7 +8,6 @@ require("dotenv").config({ path: "../.env" });
 
 const getQuestions = async (from, to, length = false) => {
   const browser = await puppeteer.launch();
-  // const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
 
   await page.goto(
@@ -94,6 +91,7 @@ const getQuestions = async (from, to, length = false) => {
     useUnifiedTopology: true,
   });
 
+  // change getQuestion parameters to more questions
   const questions = await getQuestions(0, 10);
   const dbQuestions = questions.map((q) => {
     const difficulty =
@@ -105,12 +103,9 @@ const getQuestions = async (from, to, length = false) => {
   await Question.insertMany(dbQuestions, (err) => {
     if (err) {
       console.log(err);
-      mongoose.disconnect();
     } else {
       console.log("Success");
-      mongoose.disconnect();
     }
+    mongoose.disconnect();
   });
-
-  // mongoose.disconnect();
 })();

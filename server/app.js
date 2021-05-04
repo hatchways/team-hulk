@@ -30,6 +30,7 @@ app.use(express.json());
 mongoose.connect(process.env.MONGO_DB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useFindAndModify: false,
 });
 
 let mongoDB = mongoose.connection;
@@ -56,6 +57,7 @@ app.use("/api/interview", interviewRouter);
 app.use("/api/compiler", compilerRouter);
 app.use("/api/signup", signupRouter);
 app.use("/api/signin", signinRouter);
+app.use("/api/interview", interviewRouter);
 app.use("/api/feedback", feedbackRouter);
 app.use("/api/JWT", JWTRouter);
 

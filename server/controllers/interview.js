@@ -18,10 +18,7 @@ module.exports.createInterview = (req, res, next) => {
       console.log(err);
       res.send(err);
     } else {
-      res.json({
-        success: true,
-        msg: "Successfully Created New Interview",
-      });
+      res.json(newInterview);
     }
   });
 };

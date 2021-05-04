@@ -27,7 +27,7 @@ let Interview = new mongoose.Schema(
     },
     difficulty: {
       type: Number,
-      enum: [0, 1, 2, 3, 4], // 0 - Beginer, 1 - Junior, 2 - Intermediate, 3 - Senior, 4 - Expert
+      enum: [0, 1, 2],
       required: true,
     },
   },

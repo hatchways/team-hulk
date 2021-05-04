@@ -79,10 +79,42 @@ export default function Signin(props) {
   const [errors, setErrors] = useState([]);
   const [redirect, setRedirect] = useState(false);
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
-  const { setUser } = useContext(UserContext);
+  const { setUser, setIsUserGuest } = useContext(UserContext);
   const history = useHistory();
 
   const classes = useStyles();
+
+  const loginGuestUser = async (guestNumber) => {
+    const guestUser = {
+      firstName: "guest-name",
+      lastName: "guet-last",
+      email: `guest-${guestNumber}@gmail.com`,
+      password: "123456",
+    };
+
+    let response;
+
+    try {
+      response = await axios.post("/api/signin", {
+        email: guestUser.email,
+        password: guestUser.password,
+      });
+    } catch (error) {
+      await axios.post("/api/signup", guestUser);
+      response = await axios.post("/api/signin", {
+        email: guestUser.email,
+        password: guestUser.password,
+      });
+    }
+
+    setIsAuthenticated(true);
+    setUser({ email: response.data });
+    if (interviewId) {
+      history.push(`/interview/${interviewId}`);
+    } else {
+      setRedirect(true);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -100,6 +132,7 @@ export default function Signin(props) {
       )
       .then((response) => {
         setIsAuthenticated(true);
+        console.log(response);
         setUser({ email: response.data });
         if (interviewId) {
           history.push(`/interview/${interviewId}`);
@@ -126,6 +159,12 @@ export default function Signin(props) {
             <Link to="/signup">
               <Button variant="outlined">Sign Up</Button>
             </Link>
+            <Button variant="outlined" onClick={() => loginGuestUser("one")}>
+              Guest 1
+            </Button>
+            <Button variant="outlined" onClick={() => loginGuestUser("two")}>
+              Guest 2
+            </Button>
           </Grid>
           <Grid className={classes.signIn}>
             <Typography variant="h3" style={{ paddingBottom: "1rem" }}>

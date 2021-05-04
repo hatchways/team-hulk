@@ -152,6 +152,7 @@ export default function Signup() {
           lastName: inputFields.lastName,
           email: inputFields.email,
           password: inputFields.password,
+          isUserGuest: false,
         })
         .then(() => {
           setRedirect(true);

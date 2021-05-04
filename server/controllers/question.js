@@ -4,9 +4,7 @@ var ObjectId = require("mongoose").Types.ObjectId;
 
 module.exports.getSingleQuestion = async (req, res, next) => {
   const { difficulty } = req.body;
-  const { user } = req.user;
-  const userId = user._id;
-  console.log("user id:", userId);
+  const userId = req.user.user;
 
   try {
     const user = await User.findById(userId);
@@ -16,10 +14,8 @@ module.exports.getSingleQuestion = async (req, res, next) => {
     });
 
     if (question) {
-      await User.findOneAndUpdate(
-        { _id: userId },
-        { $push: { questionIds: question._id } }
-      );
+      user.questionIds.push(question._id);
+      await user.save();
       res.status(200).json(question);
     } else {
       let allQuestionIdsWithSameDifficultyLevel = await Question.find(
@@ -44,7 +40,6 @@ module.exports.getSingleQuestion = async (req, res, next) => {
       const newQuestion = await Question.findOne({
         difficulty,
       });
-      // console.log("new quest:", newQuestion);
       await User.findOneAndUpdate(
         { _id: userId },
         { $push: { questionIds: newQuestion._id } }

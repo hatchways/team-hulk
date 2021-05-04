@@ -10,6 +10,11 @@ const initPassport = require("../passport-config");
 initPassport(passport);
 
 router.post("/", async (req, res, next) => {
+  const { user } = req.body;
+  if (user === "guest") {
+    return res.status(200).json({ isAuthenticated: true });
+  }
+
   const userId = await User.findOne({ email: req.body.email }, "id");
 
   passport.authenticate("local", (err, user, info) => {

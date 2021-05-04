@@ -114,7 +114,7 @@ const Navbar = React.forwardRef((props, ref) => {
 	const classes = useStyles();
 	const [anchorEl, setAnchorEl] = useState(null);
 	let location = useLocation();
-	const {user} = useContext(UserContext);
+	const [user] = useContext(UserContext);
 
 	const handleClick = (event) => {
 		setAnchorEl(event.currentTarget);

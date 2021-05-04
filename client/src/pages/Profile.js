@@ -87,12 +87,12 @@ const Profile = () => {
 	const [ rating, setRating ] = useState(2);
 
 	const handleRatingChange = (e, value) => {
-			setRating(value);
+		setRating(value);
 	};
 
 	const showRating = () => {
 		return ratingLevels.map((ratingObj) => {
-			if (ratingObj.value === rating) {
+			if (ratingObj.value == rating) {
 				return (
 					<React.Fragment>
 						<Grid container item>
@@ -111,8 +111,6 @@ const Profile = () => {
 						</Grid>
 					</React.Fragment>
 				);
-			} else {
-				return null
 			}
 		});
 	};

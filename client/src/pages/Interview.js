@@ -1,22 +1,19 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
-import { useHistory } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
+import React, { useState, useRef, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import CloseIcon from "@material-ui/icons/Close";
 
 import Grid from "@material-ui/core/Grid";
 
 import CodeEditor from '../components/layout/CodeEditor';
 import Question from '../components/layout/Question';
 import Console from '../components/layout/Console';
-import { SocketContext } from '../context/SocketContext'
 import FeedbackDialog from '../components/FeedbackDialog';
 import axios from "axios";
-
 
 const sampleQuestion = {
   title: "Diagonal Difference",
@@ -37,24 +34,24 @@ const sampleQuestion = {
   answer: `A paragraph with *emphasis* and **strong importance**.
 
   > A block quote with ~strikethrough~ and a URL: https://reactjs.org.
-
+  
   * Lists
   * [ ] todo
   * [x] done
-
+  
   A table:
-
+  
   `,
   preLoadCode: `import React from "react";
   import { MuiThemeProvider } from "@material-ui/core";
   import { BrowserRouter, Route } from "react-router-dom";
-
+  
   import { theme } from "./themes/theme";
   import LandingPage from "./pages/Landing";
   import Home from "./pages/TempHome";
-
+  
   import "./App.css";
-
+  
   function App() {
     return (
       <MuiThemeProvider theme={theme}>
@@ -64,7 +61,7 @@ const sampleQuestion = {
       </MuiThemeProvider>
     );
   }
-
+  
   export default App;`,
 };
 
@@ -92,46 +89,23 @@ const Interview = (props) => {
 	const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [code, setCode] = useState(sampleQuestion.preLoadCode);
   const [results, setResults] = useState("");
-	const [language, setLanguage] = useState("javascript");
-	const [barHeight, setBarHeight] = useState(0);
-	const barRef = useRef(null);
-	const history = useHistory()
+  const [barHeight, setBarHeight] = useState(0);
+  const [language, setLanguage] = useState("javascript");
+  const barRef = useRef(null);
 
-	const interviewId = props.match.params.id
+  useEffect(() => {
+    barRef.current && setBarHeight(barRef.current.clientHeight);
+  }, [barRef]);
 
-	const { socket } = useContext(SocketContext)
+  const classes = useStyles();
 
-	useEffect(() => {
-		barRef.current && setBarHeight(barRef.current.clientHeight);
-	}, [barRef]);
-
-	useEffect(() => {
-		if (socket) {
-			socket.emit('joinInterviewRoom',  { interviewId })
-        } else {
-			history.push({
-				pathname: '/signin',
-				state: interviewId
-			})
-		}
-
-		return () => {
-			if (socket) {
-				socket.emit('leaveInterviewRoom', { interviewId })
-			}
-		}
-	}, [history, interviewId, socket, ])
-
-	const classes = useStyles();
-
-	const handleFeedbackOpenClose = () => {
+  const handleFeedbackOpenClose = () => {
 		setFeedbackOpen(prevState => !prevState)
 	};
 
-	const handleClose = () => {
-		props.history.push('/dashboard');
-	};
-
+  const handleClose = () => {
+    props.history.push("/dashboard");
+  };
 
   const compileCode = async () => {
     setResults("compiling...");
@@ -221,10 +195,10 @@ const Interview = (props) => {
         >
           <CodeEditor language={language} value={code} onChange={setCode} />
           <Console compileCode={compileCode} value={results} />
-				</Grid>
-			</Grid>
-		</React.Fragment>
-	);
+        </Grid>
+      </Grid>
+    </React.Fragment>
+  );
 };
 
 export default Interview;

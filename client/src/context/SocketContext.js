@@ -1,7 +1,6 @@
-import React, { createContext, useState, useEffect, useContext, useCallback } from 'react'
+import React, { createContext, useState, useEffect, useContext } from 'react'
 import io from 'socket.io-client'
-import { AuthContext } from './AuthContext'
-import { UserContext } from './UserContext';
+import { AuthContext } from '../context/AuthContext'
 
 export const SocketContext = createContext()
 
@@ -12,13 +11,10 @@ const SocketProvider = ({ children }) => {
     const [users, setUsers] = useState([])
     const [currentUsers, setCurrentUsers] = useState(0)
     const [socket, setSocket] = useState(null)
-    const { isAuthenticated } = useContext(AuthContext)
-    const {user} = useContext(UserContext)
+    const { isAuthenticated, user } = useContext(AuthContext)
 
-    const setupSocket = useCallback(() => {
-            newSocket = io(CONNECTION_PORT, {
-                withCredentials: true
-            })
+    const setupSocket = () => {
+            newSocket = io(CONNECTION_PORT)
 
             newSocket.on('connect', () => {
                 console.log('socket connected!')
@@ -53,13 +49,13 @@ const SocketProvider = ({ children }) => {
             });
 
             setSocket(newSocket)
-    }, [user])
+    }
 
     useEffect(() => {
         if (isAuthenticated && !socket) {
             setupSocket()
         }
-    }, [isAuthenticated, setupSocket, socket])
+    }, [isAuthenticated])
 
     return (
         <>

@@ -108,7 +108,7 @@ export default function PastInterviews({ rows }) {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{rows.map(row => (
+								{rows.map((row) => (
 									<TableRow key={row.id}>
 										<StyledTableCell>
 											<Typography>{formatDate(row.date)}</Typography>

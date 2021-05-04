@@ -5,15 +5,12 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import SocketProvider from './context/SocketContext'
 import AuthProvider from './context/AuthContext'
-import { UserProvider } from './context/UserContext';
 
 ReactDOM.render(
     <AuthProvider>
-        <UserProvider>
-            <SocketProvider>
-                <App />
-            </SocketProvider>
-        </UserProvider>
+        <SocketProvider>
+            <App />
+        </SocketProvider>
     </AuthProvider>,
     document.getElementById('root'));
 

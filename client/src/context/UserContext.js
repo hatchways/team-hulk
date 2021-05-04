@@ -31,6 +31,7 @@ const upcomingInterviews_initial = [
 
 const tempUser = {
   email: "jhondoe@hotmail.com",
+  name: "John",
 };
 
 export const UserProvider = ({ children }) => {

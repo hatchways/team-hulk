@@ -11,6 +11,7 @@ module.exports.createInterview = (req, res, next) => {
     theme: theme,
     questions: questions,
     difficulty: difficulty,
+    participants: [user._id],
   });
 
   newInterview.save().then((err) => {

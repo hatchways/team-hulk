@@ -30,6 +30,9 @@ let Interview = new mongoose.Schema(
       enum: [0, 1, 2],
       required: true,
     },
+    participants: {
+      type: Array,
+    },
   },
   {
     collection: "interviews",

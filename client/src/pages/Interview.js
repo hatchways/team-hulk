@@ -14,6 +14,7 @@ import CodeEditor from "../components/layout/CodeEditor";
 import Question from "../components/layout/Question";
 import Console from "../components/layout/Console";
 import { SocketContext } from "../context/SocketContext";
+import { UserContext } from "../context/UserContext";
 import FeedbackDialog from "../components/FeedbackDialog";
 import axios from "axios";
 
@@ -96,6 +97,8 @@ const Interview = (props) => {
   const barRef = useRef(null);
   const history = useHistory();
 
+  const { user } = useContext(UserContext);
+
   const interviewId = props.match.params.id;
 
   const { socket } = useContext(SocketContext);
@@ -106,14 +109,31 @@ const Interview = (props) => {
 
   useEffect(() => {
     if (socket) {
-      socket.emit("joinInterviewRoom", { interviewId });
+      // Do an API call here that checks getSingleInterview.
+      axios
+        .get(`/api/interview/${interviewId}`)
+        .then((res) => {
+          console.log(res);
+          if (res.data.guest && res.data.guest !== socket.id) {
+            console.log("This room already has the maximum number of members!");
+            history.push(`/dashboard`);
+          } else {
+            socket.emit("joinInterviewRoom", { interviewId });
+            axios.put(`api/interview/guest/${interviewId}`, {
+              // Below should be a user object, not just the user id number
+              user: socket.id,
+            });
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     } else {
       history.push({
         pathname: "/signin",
         state: interviewId,
       });
     }
-
     return () => {
       if (socket) {
         socket.emit("leaveInterviewRoom", { interviewId });

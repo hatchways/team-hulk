@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     position: "relative",
   },
-  rightButton: {
+  feedbackExit: {
     borderRadius: "50px",
     width: "10px",
     alignSelf: "flex-end",
@@ -140,8 +140,8 @@ export default function FeedbackHistoryDialog(props) {
       onClose={props.handleClose}
     >
       <DialogContent className={classes.feedbackMain}>
-        <Button className={classes.rightButton} onClick={props.openSibling}>
-          <KeyboardArrowRightIcon />
+        <Button className={classes.feedbackExit} onClick={props.handleClose}>
+          X
         </Button>
         <Typography
           variant="h4"
@@ -157,7 +157,7 @@ export default function FeedbackHistoryDialog(props) {
         <QuestionsDisplay />
 
         <DialogActions className={classes.feedbackActions}>
-          <Button onClick={props.handleClose}>Close</Button>
+          <Button onClick={props.openSibling}>Next</Button>
         </DialogActions>
       </DialogContent>
     </Dialog>

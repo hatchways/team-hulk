@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const passportLocalMongoose = require("passport-local-mongoose");
 
 mongoose.Promise = global.Promise;
@@ -7,12 +7,11 @@ const userSchema = new mongoose.Schema({
   firstName: String,
   lastName: String,
   email: String,
-  password: String
+  password: String,
 });
 
-userSchema.plugin(passportLocalMongoose, {usernameField: "email"});
+userSchema.plugin(passportLocalMongoose, { usernameField: "email" });
 
 const User = mongoose.model("Users", userSchema, "users");
 
-
-module.exports = User
+module.exports = User;

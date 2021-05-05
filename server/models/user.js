@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
   lastName: String,
   email: String,
   password: String,
+  questionIds: [{ type: mongoose.Schema.Types.ObjectId, ref: "question" }],
 });
 
 userSchema.plugin(passportLocalMongoose, { usernameField: "email" });

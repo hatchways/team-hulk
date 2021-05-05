@@ -12,8 +12,8 @@ import Paper from "@material-ui/core/Paper";
 import Rating from "@material-ui/lab/Rating";
 import Typography from "@material-ui/core/Typography";
 
-import FeedbackHistoryDialog from "./Dialogues/FeedbackHistoryDialog";
-import QuestionDialog from "./Dialogues/QuestionsHistoryDialog";
+import FeedbackHistoryDialog from "./dialogues/FeedbackHistoryDialog";
+import QuestionDialog from "./dialogues/QuestionsHistoryDialog";
 
 const useStyles = makeStyles((theme) => ({
   table: {

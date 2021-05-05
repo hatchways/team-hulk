@@ -28,7 +28,6 @@ function App() {
     axios
       .get("/api/JWT")
       .then(() => {
-        console.log("usee effect in app.js");
         setIsAuthenticated(true);
       })
       .catch((err) => {

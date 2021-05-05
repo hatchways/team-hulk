@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import {
   Button,
@@ -83,12 +83,6 @@ export default function Signin(props) {
   const history = useHistory();
 
   const classes = useStyles();
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      history.push(`/interview/${interviewId}`);
-    }
-  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();

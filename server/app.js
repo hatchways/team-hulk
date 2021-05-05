@@ -10,6 +10,7 @@ const cors = require("cors");
 // Router connections
 const signupRouter = require("./routes/signup");
 const interviewRouter = require("./routes/interview");
+const questionRouter = require("./routes/question");
 const signinRouter = require("./routes/signin");
 const feedbackRouter = require("./routes/feedback");
 const JWTRouter = require("./routes/JWT");
@@ -58,6 +59,7 @@ app.use("/api/compiler", compilerRouter);
 app.use("/api/signup", signupRouter);
 app.use("/api/signin", signinRouter);
 app.use("/api/interview", interviewRouter);
+app.use("/api/question", questionRouter);
 app.use("/api/feedback", feedbackRouter);
 app.use("/api/JWT", JWTRouter);
 

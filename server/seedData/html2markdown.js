@@ -24,6 +24,7 @@ module.exports.formatHTML = (html) => {
   html = html.replace(new RegExp("<strong>", "g"), "**");
   html = html.replace(new RegExp("</strong>", "g"), "**");
   html = formatImages(html);
+  html = formatLinks(html);
   html = html.trim();
 
   return html;
@@ -32,15 +33,29 @@ module.exports.formatHTML = (html) => {
 const formatImages = (img) => {
   if (img.indexOf("<img") === -1) return img;
 
-  const src = getSubstring(img, "src=", '"', 5);
+  const src = getSubstring(img, 'src="', '"', 5);
 
-  const alt = getSubstring(img, "alt=", '"', 5);
+  const alt = getSubstring(img, 'alt="', '"', 5);
 
   const tag = getSubstring(img, "<img", ">", 0, true);
 
   img = img.replace(tag, `![${alt}](${src})`);
 
   return formatImages(img);
+};
+
+const formatLinks = (link) => {
+  if (link.indexOf("<a") === -1) return link;
+
+  const href = getSubstring(link, 'href="', '"', 6);
+
+  const tag = getSubstring(link, "<a", "</a>", 0, true);
+
+  const text = getSubstring(tag, ">", "<", 1);
+
+  link = link.replace(tag, `[${text}](${href})`);
+
+  return formatImages(link);
 };
 
 const formatCode = (markdown) => {
@@ -60,8 +75,12 @@ const formatCode = (markdown) => {
 };
 
 const getSubstring = (searchIn, from, to, offset = 0, includeEnd = false) => {
-  const start = searchIn.indexOf(from) + offset;
-  const endSpace = includeEnd ? to.length : 0;
-  const end = start > -1 ? searchIn.indexOf(to, start + 1) + endSpace : -1;
-  return searchIn.slice(start, end);
+  if (searchIn.indexOf(from) > -1) {
+    const start = searchIn.indexOf(from) + offset;
+    const endSpace = includeEnd ? to.length : 0;
+    const end = start > -1 ? searchIn.indexOf(to, start) + endSpace : -1;
+    return searchIn.slice(start, end);
+  } else {
+    return "";
+  }
 };

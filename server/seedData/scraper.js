@@ -92,7 +92,7 @@ const getQuestions = async (from, to, length = false) => {
   });
 
   // change getQuestion parameters to more questions
-  const questions = await getQuestions(0, 10);
+  const questions = await getQuestions(400, 500);
   const dbQuestions = questions.map((q) => {
     const difficulty =
       q.difficulty === "Easy" ? 0 : q.difficulty === "Medium" ? 1 : 2;

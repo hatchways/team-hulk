@@ -14,7 +14,7 @@ import CodeEditor from "../components/layout/CodeEditor";
 import Question from "../components/layout/Question";
 import Console from "../components/layout/Console";
 import { SocketContext } from "../context/SocketContext";
-import FeedbackDialog from "../components/dialogues/FeedbackDialog";
+import FeedbackDialog from "../components/Dialogues/FeedbackDialog";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 

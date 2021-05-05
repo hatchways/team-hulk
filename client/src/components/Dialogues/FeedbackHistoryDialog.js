@@ -12,7 +12,7 @@ import {
   CircularProgress,
 } from "@material-ui/core/";
 import { makeStyles } from "@material-ui/core/styles";
-import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
+import CloseIcon from "@material-ui/icons/Close";
 
 const feedback = {
   overallScore: "5",
@@ -131,7 +131,7 @@ function PointsDisplay(props) {
         prevProgress >= value ? value : prevProgress + 5
       );
     }, 50);
-  }, []);
+  }, [props.score]);
 
   return (
     <Grid style={{ display: "flex", justifyContent: "center" }}>
@@ -183,22 +183,20 @@ function FeedbackDisplay(props) {
 export default function FeedbackHistoryDialog(props) {
   const classes = useStyles();
 
-  const open = props.open;
-
   useEffect(() => {
-    props.saveDialog(props.id);
+    props.setDialog(props.id);
   }, []);
 
   return (
     <Dialog
       maxWidth="md"
       fullWidth="true"
-      open={open}
+      open={props.open}
       onClose={props.handleClose}
     >
       <DialogContent className={classes.feedbackMain}>
         <Button className={classes.feedbackExit} onClick={props.handleClose}>
-          X
+          <CloseIcon />
         </Button>
         <Typography
           variant="h4"

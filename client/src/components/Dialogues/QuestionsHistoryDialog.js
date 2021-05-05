@@ -9,9 +9,8 @@ import {
   DialogContent,
   DialogContentText,
   Typography,
-  CircularProgress,
 } from "@material-ui/core/";
-import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
+import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/core/styles";
 
 const questions = [
@@ -129,7 +128,7 @@ export default function FeedbackHistoryDialog(props) {
   const open = props.open;
 
   useEffect(() => {
-    props.saveDialog(props.id);
+    props.setDialog(props.id);
   }, []);
 
   return (
@@ -141,7 +140,7 @@ export default function FeedbackHistoryDialog(props) {
     >
       <DialogContent className={classes.feedbackMain}>
         <Button className={classes.feedbackExit} onClick={props.handleClose}>
-          X
+          <CloseIcon />
         </Button>
         <Typography
           variant="h4"

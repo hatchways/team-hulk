@@ -12,8 +12,8 @@ import Paper from "@material-ui/core/Paper";
 import Rating from "@material-ui/lab/Rating";
 import Typography from "@material-ui/core/Typography";
 
-import FeedbackHistoryDialog from "./dialogues/FeedbackHistoryDialog";
-import QuestionDialog from "./dialogues/QuestionsHistoryDialog";
+import FeedbackHistoryDialog from "./Dialogues/FeedbackHistoryDialog";
+import QuestionDialog from "./Dialogues/QuestionsHistoryDialog";
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -83,16 +83,6 @@ export default function PastInterviews({ rows }) {
     } ${hours < 13 ? "AM" : "PM"}`;
   };
 
-  const checkHistories = (history, id) => {
-    if (history === "feedback") {
-      if (feedbackHistories[id].open === undefined) {
-        return false;
-      } else {
-        return feedbackHistories[id].open;
-      }
-    }
-  };
-
   const handleFeedbackOpenClose = (id) => {
     setFeedbackHistories((prevState) => ({
       ...prevState,
@@ -102,7 +92,7 @@ export default function PastInterviews({ rows }) {
     }));
   };
 
-  const saveFeedbackHistory = (id) => {
+  const handleSetFeedbackHistory = (id) => {
     setFeedbackHistories((prevState) => ({
       ...prevState,
       [id]: {
@@ -120,7 +110,7 @@ export default function PastInterviews({ rows }) {
     }));
   };
 
-  const saveQuestionHistory = (id) => {
+  const handleSetQuestionHistory = (id) => {
     setQuestionHistories((prevState) => ({
       ...prevState,
       [id]: {
@@ -190,7 +180,7 @@ export default function PastInterviews({ rows }) {
                         View
                       </Button>
                       <QuestionDialog
-                        saveDialog={saveQuestionHistory}
+                        setDialog={handleSetQuestionHistory}
                         id={row.id}
                         date={formatDate(row.date)}
                         open={
@@ -214,7 +204,7 @@ export default function PastInterviews({ rows }) {
                         View
                       </Button>
                       <FeedbackHistoryDialog
-                        saveDialog={saveFeedbackHistory}
+                        setDialog={handleSetFeedbackHistory}
                         id={row.id}
                         date={formatDate(row.date)}
                         open={

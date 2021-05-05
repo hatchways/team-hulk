@@ -9,6 +9,15 @@ const User = require("../models/user");
 const initPassport = require("../passport-config");
 initPassport(passport);
 
+const authenticateJWT = require("../middleware/authenticateJWT");
+
+router.get("/", authenticateJWT, async (req, res, next) => {
+  const user = await User.findOne({ id: req.body.id });
+  if (user) {
+    res.send(user);
+  }
+});
+
 router.post("/", async (req, res, next) => {
   const userId = await User.findOne({ email: req.body.email }, "id");
 

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -18,6 +18,7 @@ import facePhotoGirl from "../../images/face-pic-girl.png";
 import { UserContext } from "../../context/UserContext";
 import copy from "copy-to-clipboard";
 import Snackbar from "@material-ui/core/Snackbar";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   dialogWidth: {
@@ -124,6 +125,7 @@ export default function WaitingRoom({ open, setOpen }) {
   const { user, newlyCreatedInterview } = useContext(UserContext);
   const history = useHistory();
   const [showCopyNotification, setShowCopyNotification] = useState(false);
+  const [guest, setGuest] = useState(null);
 
   const goToInterview = () => {
     history.push(`/interview/${newlyCreatedInterview._id}`);
@@ -146,6 +148,23 @@ export default function WaitingRoom({ open, setOpen }) {
 
     setShowCopyNotification(false);
   };
+
+  const getGuestInfo = () => {};
+
+  useEffect(() => {
+    if (newlyCreatedInterview !== null) {
+      axios.get(
+        `/api/interview/${newlyCreatedInterview._id}`,
+        (req, res, err) => {
+          if (res.guest) {
+            setGuest(res.guest);
+          } else {
+            console.log("No guest in room yet.");
+          }
+        }
+      );
+    }
+  });
 
   return (
     <div>
@@ -197,12 +216,13 @@ export default function WaitingRoom({ open, setOpen }) {
                 <Card elevation={0} style={{ paddingBottom: "1rem" }}>
                   <CardHeader
                     avatar={<Avatar aria-label="recipe" src={facePhotoBoy} />}
-                    title={user.name}
+                    title={user.firstName}
                     className={classes.avatarPhoto}
                   />
                   <CardHeader
+                    // This should all be from an API call to the interview
                     avatar={<Avatar aria-label="recipe" src={facePhotoGirl} />}
-                    title="Alexandra"
+                    title={guest}
                     className={classes.avatarPhoto}
                   />
                 </Card>

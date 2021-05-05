@@ -1,4 +1,5 @@
 import React, { useState, createContext, useEffect } from "react";
+import axios from "axios";
 
 export const UserContext = createContext();
 
@@ -43,9 +44,15 @@ export const UserProvider = ({ children }) => {
   const [newlyCreatedInterview, setNewlyCreatedInterview] = useState(null);
 
   useEffect(() => {
-    // API CALL GOES HERE
-    setUser(user);
-  }, [user]);
+    axios
+      .get(`/api/signin/`)
+      .then((res) => {
+        setUser(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [setUser]);
 
   return (
     <UserContext.Provider

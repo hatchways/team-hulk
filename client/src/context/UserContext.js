@@ -40,6 +40,7 @@ export const UserProvider = ({ children }) => {
   );
   const [WaitingRoomOpen, setWaitingRoomOpen] = useState(false);
   const [newlyCreatedInterview, setNewlyCreatedInterview] = useState(null);
+  const [difficulty, setDifficulty] = useState("");
 
   useEffect(() => {
     // API CALL GOES HERE
@@ -57,6 +58,8 @@ export const UserProvider = ({ children }) => {
         setWaitingRoomOpen,
         newlyCreatedInterview,
         setNewlyCreatedInterview,
+        difficulty,
+        setDifficulty,
       }}
     >
       {children}

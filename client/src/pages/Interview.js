@@ -14,9 +14,9 @@ import CodeEditor from "../components/layout/CodeEditor";
 import Question from "../components/layout/Question";
 import Console from "../components/layout/Console";
 import { SocketContext } from "../context/SocketContext";
+import { UserContext } from "../context/UserContext";
 import FeedbackDialog from "../components/FeedbackDialog";
 import axios from "axios";
-import { AuthContext } from "../context/AuthContext";
 
 const sampleQuestion = {
   title: "Diagonal Difference",
@@ -94,17 +94,34 @@ const Interview = (props) => {
   const [results, setResults] = useState("");
   const [language, setLanguage] = useState("javascript");
   const [barHeight, setBarHeight] = useState(0);
+  const [question, setQuestion] = useState({});
   const barRef = useRef(null);
   const history = useHistory();
-  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
 
   const interviewId = props.match.params.id;
 
   const { socket } = useContext(SocketContext);
+  const { difficulty } = useContext(UserContext);
 
   useEffect(() => {
     barRef.current && setBarHeight(barRef.current.clientHeight);
   }, [barRef]);
+
+  useEffect(() => {
+    const getQuestion = async () => {
+      const res = await fetch("/api/question", {
+        method: "post",
+        body: JSON.stringify({ difficulty }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const question = await res.json();
+      setQuestion(question);
+    };
+
+    getQuestion();
+  }, []);
 
   useEffect(() => {
     if (socket) {
@@ -209,7 +226,7 @@ const Interview = (props) => {
             }px - ${barHeight}px)`,
           }}
         >
-          <Question question={sampleQuestion} />
+          <Question question={question} />
         </Grid>
         <Grid
           item

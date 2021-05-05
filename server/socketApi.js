@@ -60,14 +60,14 @@ io.on("connection", (socket) => {
 
   io.emit("user count", currentUsers);
 
-  // socket.on("disconnect", (reason) => {
-  //   --currentUsers;
-  //   console.log("users on disconnect before delete:", users);
-  //   delete users[socket.id];
-  //   io.emit("disconnected", socket.id);
-  //   io.emit("user count", currentUsers);
-  //   console.log(`user with socket id of ${socket.id} disconnected.`);
-  // });
+  socket.on("disconnect", (reason) => {
+    --currentUsers;
+    console.log("users on disconnect before delete:", users);
+    delete users[socket.id];
+    io.emit("disconnected", socket.id);
+    io.emit("user count", currentUsers);
+    console.log(`user with socket id of ${socket.id} disconnected.`);
+  });
 });
 
 module.exports = socketApi;

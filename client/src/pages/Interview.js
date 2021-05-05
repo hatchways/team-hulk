@@ -211,10 +211,10 @@ const Interview = (props) => {
     console.log(props.navHeight);
   };
 
-  const handleToggleChange = (event, newLanguaje) => {
-    if (newLanguaje !== null) {
-      setLanguage(newLanguaje);
-      socket.emit("language", newLanguaje);
+  const handleToggleChange = (event, newLanguage) => {
+    if (newLanguage !== null) {
+      setLanguage(newLanguage);
+      socket.emit("language", newLanguage);
     }
   };
 

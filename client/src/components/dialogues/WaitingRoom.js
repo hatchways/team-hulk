@@ -139,6 +139,7 @@ export default function WaitingRoom({ open, setOpen }) {
 
   const handleClose = () => {
     setOpen(false);
+    setGuest(null);
   };
 
   const closeCopyNotification = (event, reason) => {
@@ -149,22 +150,19 @@ export default function WaitingRoom({ open, setOpen }) {
     setShowCopyNotification(false);
   };
 
-  const getGuestInfo = () => {};
-
   useEffect(() => {
     if (newlyCreatedInterview !== null) {
-      axios.get(
-        `/api/interview/${newlyCreatedInterview._id}`,
-        (req, res, err) => {
-          if (res.guest) {
-            setGuest(res.guest);
-          } else {
-            console.log("No guest in room yet.");
-          }
+      axios.get(`/api/interview/${newlyCreatedInterview._id}`).then((res) => {
+        if (res.data.guest) {
+          axios.get(`/api/user/${res.data.guest}`).then((res) => {
+            setGuest(res.data.firstName);
+          });
+        } else {
+          console.log("No guest in room yet.");
         }
-      );
+      });
     }
-  });
+  }, []);
 
   return (
     <div>

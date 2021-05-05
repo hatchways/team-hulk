@@ -13,6 +13,7 @@ const interviewRouter = require("./routes/interview");
 const signinRouter = require("./routes/signin");
 const feedbackRouter = require("./routes/feedback");
 const JWTRouter = require("./routes/JWT");
+const userRouter = require("./routes/user");
 const passport = require("passport");
 const compilerRouter = require("./routes/compiler");
 const { config } = require("dotenv");
@@ -60,6 +61,7 @@ app.use("/api/signin", signinRouter);
 app.use("/api/interview", interviewRouter);
 app.use("/api/feedback", feedbackRouter);
 app.use("/api/JWT", JWTRouter);
+app.use("/api/user", userRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -87,7 +87,7 @@ const Question = ({ question }) => {
           className={classes.markdownContainer}
           remarkPlugins={[gfm]}
         >
-          {tab === 0 ? question.body : question.answer}
+          {tab === 0 ? question.body : question.solution}
         </ReactMarkdown>
       </Box>
     </Grid>

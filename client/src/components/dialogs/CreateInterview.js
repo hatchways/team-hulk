@@ -100,6 +100,7 @@ export default function CreateInterviewDialogs({ open, setOpen }) {
     setUpcomingInterviews,
     setWaitingRoomOpen,
     setNewlyCreatedInterview,
+    setDifficulty,
   } = useContext(UserContext);
 
   const [difficultyLevel, setDifficultyLevel] = useState("0");
@@ -110,6 +111,8 @@ export default function CreateInterviewDialogs({ open, setOpen }) {
       theme: "palindrome",
       difficulty: Number(difficultyLevel),
     };
+
+    setDifficulty(Number(difficultyLevel));
 
     const res = await fetch("api/interview", {
       method: "post",

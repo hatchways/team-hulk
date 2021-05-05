@@ -22,7 +22,7 @@ function App() {
 
   useEffect(() => {
     ref.current && setHeightnavbarHieght(ref.current.clientHeight);
-  }, [ref]);
+  }, [ref.current]);
 
   useEffect(() => {
     axios

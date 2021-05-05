@@ -192,11 +192,14 @@ const Interview = (props) => {
   const handleCodeChange = (code) => {
     setCode(code);
     socket.emit("code", code);
+    console.log(props.navHeight);
   };
 
   const handleToggleChange = (event, newLanguaje) => {
-    setLanguage(newLanguaje);
-    socket.emit("language", language);
+    if (newLanguaje !== null) {
+      setLanguage(newLanguaje);
+      socket.emit("language", newLanguaje);
+    }
   };
 
   return (

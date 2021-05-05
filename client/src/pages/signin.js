@@ -69,6 +69,14 @@ const useStyles = makeStyles({
     borderRadius: "50px",
     width: "35%",
   },
+  guestBtn: {
+    marginLeft: "10px",
+    marginTop: "2rem",
+    padding: ".1rem",
+    borderRadius: "50px",
+    width: "100px",
+    height: "25px",
+  },
 });
 
 export default function Signin(props) {
@@ -79,15 +87,15 @@ export default function Signin(props) {
   const [errors, setErrors] = useState([]);
   const [redirect, setRedirect] = useState(false);
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
-  const { setUser, setIsUserGuest } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
   const history = useHistory();
 
   const classes = useStyles();
 
   const loginGuestUser = async (guestNumber) => {
     const guestUser = {
-      firstName: "guest-name",
-      lastName: "guet-last",
+      firstName: "guest",
+      lastName: guestNumber,
       email: `guest-${guestNumber}@gmail.com`,
       password: "123456",
     };
@@ -108,7 +116,7 @@ export default function Signin(props) {
     }
 
     setIsAuthenticated(true);
-    setUser({ email: response.data });
+    setUser(response.data);
     if (interviewId) {
       history.push(`/interview/${interviewId}`);
     } else {
@@ -132,8 +140,7 @@ export default function Signin(props) {
       )
       .then((response) => {
         setIsAuthenticated(true);
-        console.log(response);
-        setUser({ email: response.data });
+        setUser(response.data);
         if (interviewId) {
           history.push(`/interview/${interviewId}`);
         } else {
@@ -159,12 +166,6 @@ export default function Signin(props) {
             <Link to="/signup">
               <Button variant="outlined">Sign Up</Button>
             </Link>
-            <Button variant="outlined" onClick={() => loginGuestUser("one")}>
-              Guest 1
-            </Button>
-            <Button variant="outlined" onClick={() => loginGuestUser("two")}>
-              Guest 2
-            </Button>
           </Grid>
           <Grid className={classes.signIn}>
             <Typography variant="h3" style={{ paddingBottom: "1rem" }}>
@@ -232,6 +233,21 @@ export default function Signin(props) {
                 Continue
               </Button>
             </form>
+            <Button
+              className={classes.guestBtn}
+              variant="outlined"
+              onClick={() => loginGuestUser("one")}
+            >
+              Guest 1
+            </Button>
+            <Button
+              style={{ marginTop: "0.5rem" }}
+              className={classes.guestBtn}
+              variant="outlined"
+              onClick={() => loginGuestUser("two")}
+            >
+              Guest 2
+            </Button>
           </Grid>
         </Grid>
       </Grid>

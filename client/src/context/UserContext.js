@@ -34,16 +34,26 @@ const tempUser = {
 };
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(tempUser);
-  const [upcomingInterviews, setUpcomingInterviews] = useState(
-    upcomingInterviews_initial
-  );
+  const [user, setUser] = useState({});
+  const [upcomingInterviews, setUpcomingInterviews] = useState([]);
   const [WaitingRoomOpen, setWaitingRoomOpen] = useState(false);
   const [newlyCreatedInterview, setNewlyCreatedInterview] = useState(null);
   const [difficulty, setDifficulty] = useState("");
 
   useEffect(() => {
-    // API CALL GOES HERE
+    const getAllInterviews = async () => {
+      const res = await fetch("/api/interview", {
+        method: "get",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const interviewList = await res.json();
+      setUpcomingInterviews(interviewList);
+    };
+
+    getAllInterviews();
+
     setUser(user);
   }, [user]);
 

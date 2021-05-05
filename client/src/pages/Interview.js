@@ -121,7 +121,7 @@ const Interview = (props) => {
     };
 
     getQuestion();
-  }, []);
+  }, [socket]);
 
   useEffect(() => {
     if (socket) {

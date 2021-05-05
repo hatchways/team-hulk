@@ -108,7 +108,7 @@ export default function CreateInterviewDialogs({ open, setOpen }) {
   const createInterview = async () => {
     const newInterview = {
       date: new Date(),
-      theme: "palindrome",
+      // theme: "palindrome",
       difficulty: Number(difficultyLevel),
     };
 
@@ -123,17 +123,19 @@ export default function CreateInterviewDialogs({ open, setOpen }) {
     });
 
     const interviewObjFromDB = await res.json();
+    console.log("int from db:", interviewObjFromDB);
 
-    const newUpcomingInterview = {
-      date: new Date(
-        moment(interviewObjFromDB.date).format("MMMM DD, YYYY hh:mm:ss")
-      ),
-      theme: interviewObjFromDB.theme,
-      id: interviewObjFromDB._id,
-      live: true,
-    };
+    setUpcomingInterviews([...upcomingInterviews, interviewObjFromDB]);
+    // const newUpcomingInterview = {
+    //   date: new Date(
+    //     moment(interviewObjFromDB.date).format("MMMM DD, YYYY hh:mm:ss")
+    //   ),
+    //   // theme: interviewObjFromDB.theme,
+    //   id: interviewObjFromDB._id,
+    //   live: true,
+    // };
 
-    setUpcomingInterviews([...upcomingInterviews, newUpcomingInterview]);
+    // setUpcomingInterviews([...upcomingInterviews, newUpcomingInterview]);
 
     setNewlyCreatedInterview(interviewObjFromDB);
 

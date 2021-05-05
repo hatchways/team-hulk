@@ -22,7 +22,8 @@ function App() {
 
   useEffect(() => {
     ref.current && setHeightnavbarHieght(ref.current.clientHeight);
-  }, [ref.current]);
+    console.log(ref.current);
+  }, [ref, ref.current]);
 
   useEffect(() => {
     axios

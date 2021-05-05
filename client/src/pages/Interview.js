@@ -8,6 +8,9 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 
+import ToggleButton from "@material-ui/lab/ToggleButton";
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+
 import Grid from "@material-ui/core/Grid";
 
 import CodeEditor from "../components/layout/CodeEditor";
@@ -76,6 +79,17 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(2),
     flex: 1,
   },
+  toggleGroup: {
+    flex: 2,
+  },
+  toggle: {
+    color: theme.palette.background.paper,
+    borderColor: theme.palette.action.disabled,
+    "&.Mui-selected ": {
+      backgroundColor: theme.palette.text.disabled,
+      color: theme.palette.background.paper,
+    },
+  },
   btn: {
     borderRadius: "30px",
   },
@@ -97,6 +111,7 @@ const Interview = (props) => {
   const barRef = useRef(null);
   const history = useHistory();
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const [alignment, setAlignment] = React.useState("left");
 
   const interviewId = props.match.params.id;
 
@@ -123,6 +138,20 @@ const Interview = (props) => {
     };
   }, [history, interviewId, socket]);
 
+  useEffect(() => {
+    if (socket) {
+      socket.on("code", (code) => {
+        setCode(code);
+      });
+      socket.on("compile", (result) => {
+        setResults(result);
+      });
+      socket.on("language", (language) => {
+        setLanguage(language);
+      });
+    }
+  }, []);
+
   const classes = useStyles();
 
   const handleFeedbackOpenClose = () => {
@@ -135,6 +164,7 @@ const Interview = (props) => {
 
   const compileCode = async () => {
     setResults("compiling...");
+    socket.emit("compile", "compiling...");
     let extension = "js";
     switch (language) {
       case "python":
@@ -156,6 +186,17 @@ const Interview = (props) => {
     });
 
     setResults(result.data.stderr || result.data.stdout);
+    socket.emit("compile", result.data.stderr || result.data.stdout);
+  };
+
+  const handleCodeChange = (code) => {
+    setCode(code);
+    socket.emit("code", code);
+  };
+
+  const handleToggleChange = (event, newLanguaje) => {
+    setLanguage(newLanguaje);
+    socket.emit("language", language);
   };
 
   return (
@@ -173,6 +214,23 @@ const Interview = (props) => {
           <Typography variant="h6" className={classes.title}>
             {`Interview ${props.match.params.id}`}
           </Typography>
+          <ToggleButtonGroup
+            size="small"
+            value={language}
+            exclusive
+            onChange={handleToggleChange}
+            className={classes.toggleGroup}
+          >
+            <ToggleButton value="javascript" className={classes.toggle}>
+              JavaScript
+            </ToggleButton>
+            <ToggleButton value="python" className={classes.toggle}>
+              Python
+            </ToggleButton>
+            <ToggleButton value="java" className={classes.toggle}>
+              Java
+            </ToggleButton>
+          </ToggleButtonGroup>
           <Button
             color="inherit"
             onClick={handleFeedbackOpenClose}
@@ -222,7 +280,11 @@ const Interview = (props) => {
             }px - ${barHeight}px)`,
           }}
         >
-          <CodeEditor language={language} value={code} onChange={setCode} />
+          <CodeEditor
+            language={language}
+            value={code}
+            onChange={handleCodeChange}
+          />
           <Console compileCode={compileCode} value={results} />
         </Grid>
       </Grid>

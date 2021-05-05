@@ -126,6 +126,7 @@ export default function WaitingRoom({ open, setOpen }) {
   const history = useHistory();
   const [showCopyNotification, setShowCopyNotification] = useState(false);
   const [guest, setGuest] = useState(null);
+  const [owner, setOwner] = useState(null);
 
   const goToInterview = () => {
     history.push(`/interview/${newlyCreatedInterview._id}`);
@@ -140,6 +141,7 @@ export default function WaitingRoom({ open, setOpen }) {
   const handleClose = () => {
     setOpen(false);
     setGuest(null);
+    setOwner(null);
   };
 
   const closeCopyNotification = (event, reason) => {
@@ -160,9 +162,12 @@ export default function WaitingRoom({ open, setOpen }) {
         } else {
           console.log("No guest in room yet.");
         }
+        axios.get(`/api/user/${res.data.owner}`).then((res) => {
+          setOwner(res.data.firstName);
+        });
       });
     }
-  }, []);
+  }, [open, guest]);
 
   return (
     <div>
@@ -214,11 +219,10 @@ export default function WaitingRoom({ open, setOpen }) {
                 <Card elevation={0} style={{ paddingBottom: "1rem" }}>
                   <CardHeader
                     avatar={<Avatar aria-label="recipe" src={facePhotoBoy} />}
-                    title={user.firstName}
+                    title={owner}
                     className={classes.avatarPhoto}
                   />
                   <CardHeader
-                    // This should all be from an API call to the interview
                     avatar={<Avatar aria-label="recipe" src={facePhotoGirl} />}
                     title={guest}
                     className={classes.avatarPhoto}

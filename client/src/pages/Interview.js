@@ -121,7 +121,13 @@ const Interview = (props) => {
       axios
         .get(`/api/interview/${interviewId}`)
         .then((res) => {
-          if (res.data.guest && res.data.guest !== socket.id) {
+          console.log("Guest: " + res.data.guest, "Owner: " + res.data.owner);
+          console.log(user._id);
+          if (
+            res.data.guest &&
+            res.data.guest !== user._id &&
+            res.data.owner !== user._id
+          ) {
             setRoomBlockOpen(true);
             console.log("This room already has the maximum number of members!");
           } else {
@@ -130,13 +136,15 @@ const Interview = (props) => {
               (axios.defaults.withCredentials = true),
               { interviewId }
             );
-            // Add user to guest in interview object
-            axios
-              .put(`/api/interview/guest/${interviewId}`, {
-                // id: interviewId,
-                user: user,
-              })
-              .catch((err) => console.log(err));
+            if (res.data.owner === user._id) {
+              // If the owner is re-entering the room, do not add them as a guest
+            } else {
+              axios
+                .put(`/api/interview/guest/${interviewId}`, {
+                  user: user,
+                })
+                .catch((err) => console.log(err));
+            }
           }
         })
         .catch(function (error) {

@@ -152,7 +152,6 @@ export default function Signup() {
           lastName: inputFields.lastName,
           email: inputFields.email,
           password: inputFields.password,
-          isUserGuest: false,
         })
         .then(() => {
           setRedirect(true);
@@ -164,7 +163,7 @@ export default function Signup() {
   };
 
   if (redirect) {
-    return <Redirect to="/dashboard" />;
+    return <Redirect to="/signin" />;
   }
   return (
     <Grid style={{ display: "flex", flexDirection: "row" }}>

@@ -18,7 +18,6 @@ router.route("/").post((req, res, next) => {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
-        isUserGuest: req.body.isUserGuest,
       }),
       req.body.password
     )

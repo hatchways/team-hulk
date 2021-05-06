@@ -127,9 +127,8 @@ const Navbar = React.forwardRef((props, ref) => {
   };
 
   const logout = async () => {
-    const res = await fetch("/api/logout");
-    const data = await res.json();
-    setUser(data.user);
+    await fetch("/api/logout");
+    setUser(null);
     setIsAuthenticated(false);
   };
 
@@ -210,7 +209,7 @@ const Navbar = React.forwardRef((props, ref) => {
       >
         <Avatar className={classes.user__img} alt="avatar" src={avatar} />
         <Typography className={classes.user__name}>
-          {user.firstName} {user.lastName}
+          {user ? user.firstName : ""} {user ? user.lastName : ""}
         </Typography>
       </Grid>
       {popover}

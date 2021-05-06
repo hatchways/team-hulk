@@ -1,4 +1,5 @@
 const Question = require("../models/question");
+const Interview = require("../models/interview");
 const User = require("../models/user");
 
 module.exports.getSingleQuestionByDifficulty = async (req, res, next) => {
@@ -56,6 +57,24 @@ module.exports.getSingleQuestionById = async (req, res, next) => {
   try {
     const question = await Question.findOne({ _id: questionId });
     res.status(200).json(question);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports.getQuestionOfInterviewRoom = async (req, res, next) => {
+  const interviewId = req.params.interviewId;
+
+  try {
+    const interviewPopulatedWithItsAssignedQuestion = await Interview.findById(
+      interviewId
+    )
+      .populate("questions")
+      .exec();
+
+    res
+      .status(200)
+      .json(interviewPopulatedWithItsAssignedQuestion.questions[0]);
   } catch (error) {
     console.log(error);
   }

@@ -106,38 +106,20 @@ const Interview = (props) => {
   }, [barRef]);
 
   useEffect(() => {
-    let interviewObjFromDB;
-    const getInterviewAndQuestion = async () => {
-      const getInterview = async () => {
-        const res = await fetch(`/api/interview/${interviewId}`, {
-          method: "get",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        interviewObjFromDB = await res.json();
-      };
-
-      const getQuestion = async () => {
-        const res = await fetch(
-          `/api/question/${interviewObjFromDB.questions[0]}`,
-          {
-            method: "get",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const question = await res.json();
-        setQuestion(question);
-      };
-      await getInterview();
-      await getQuestion();
+    const getAssignedQuestionOfInterviewRoom = async () => {
+      const res = await fetch(`/api/question/${interviewId}`, {
+        method: "post",
+        body: JSON.stringify({ interviewId }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const question = await res.json();
+      setQuestion(question);
     };
 
-    getInterviewAndQuestion();
-  }, [socket, interviewId]);
+    getAssignedQuestionOfInterviewRoom();
+  }, [interviewId]);
 
   useEffect(() => {
     if (socket) {

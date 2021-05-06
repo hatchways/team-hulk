@@ -107,7 +107,7 @@ export default function CreateInterviewDialogs({ open, setOpen }) {
   const createInterview = async () => {
     const questionRes = await fetch("/api/question", {
       method: "post",
-      body: JSON.stringify({ difficulty: Number(difficultyLevel) }),
+      body: JSON.stringify({ difficulty: parseInt(difficultyLevel) }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -117,10 +117,10 @@ export default function CreateInterviewDialogs({ open, setOpen }) {
     const newInterview = {
       date: new Date(),
       questions: [question._id],
-      difficulty: Number(difficultyLevel),
+      difficulty: parseInt(difficultyLevel),
     };
 
-    setDifficulty(Number(difficultyLevel));
+    setDifficulty(parseInt(difficultyLevel));
 
     const interviewRes = await fetch("api/interview", {
       method: "post",

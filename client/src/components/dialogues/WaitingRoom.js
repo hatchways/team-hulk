@@ -19,7 +19,6 @@ import { UserContext } from "../../context/UserContext";
 import copy from "copy-to-clipboard";
 import Snackbar from "@material-ui/core/Snackbar";
 import axios from "axios";
-import { Socket } from "socket.io-client";
 import { SocketContext } from "../../context/SocketContext";
 
 const useStyles = makeStyles((theme) => ({
@@ -218,9 +217,9 @@ export default function WaitingRoom({ id, open, setOpen }) {
   };
 
   const handleClose = () => {
-    setOpen(false);
     setGuest({ _id: null, name: null });
     setOwner({ _id: null, name: null });
+    setOpen(false);
   };
 
   const closeCopyNotification = (event, reason) => {
@@ -232,7 +231,7 @@ export default function WaitingRoom({ id, open, setOpen }) {
   };
 
   useEffect(() => {
-    if (interviewId !== null && interviewId !== "") {
+    if (open && interviewId !== null && interviewId !== "") {
       axios
         .get(`/api/interview/${interviewId}`)
         .then((res) => {

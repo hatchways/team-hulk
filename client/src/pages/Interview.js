@@ -185,6 +185,11 @@ const Interview = (props) => {
         setWaitingRoomOpen(false);
       });
     }
+    return () => {
+      if (socket) {
+        socket.off("startInterview");
+      }
+    };
   }, [WaitingRoomOpen, interviewIsStarted]);
 
   const classes = useStyles();
@@ -296,8 +301,6 @@ const Interview = (props) => {
       </Grid>
       <WaitingRoom
         id={interviewId}
-        //This open must be reliant on the interviewStart in the userContext
-        //This must do a check for the interviewStart in the DB
         open={WaitingRoomOpen}
         setOpen={setWaitingRoomOpen}
       />

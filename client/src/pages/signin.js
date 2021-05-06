@@ -100,12 +100,7 @@ export default function Signin(props) {
       )
       .then((res) => {
         setIsAuthenticated(true);
-        setUser({
-          id: res.data._id,
-          email: res.data.email,
-          firstName: res.data.firstName,
-          lastName: res.data.lastName,
-        });
+        setUser(res.data);
         if (interviewId) {
           history.push(`/interview/${interviewId}`);
         } else {

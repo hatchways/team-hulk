@@ -32,8 +32,16 @@ io.on("connection", (socket) => {
 
   socket.on("joinInterviewRoom", ({ interviewId }) => {
     socket.join(interviewId);
+    socket.emit("joinInterviewRoom");
     console.log(
       `user with socket id of ${socket.id} joined interview room: ${interviewId}`
+    );
+  });
+
+  socket.on("joinWaitingRoom", ({ interviewId }) => {
+    socket.emit("waiting room", user);
+    console.log(
+      `user with socket id of ${socket.id} joined the waiting room for interview ${interviewId}`
     );
   });
 

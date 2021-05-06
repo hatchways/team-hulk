@@ -110,6 +110,8 @@ const Interview = (props) => {
     upcomingInterviews,
     WaitingRoomOpen,
     setWaitingRoomOpen,
+    interviewIsStarted,
+    setInterviewIsStarted,
   } = useContext(UserContext);
 
   useEffect(() => {
@@ -121,10 +123,9 @@ const Interview = (props) => {
       axios
         .get(`/api/interview/${interviewId}`)
         .then((res) => {
-          console.log("Guest: " + res.data.guest, "Owner: " + res.data.owner);
-          console.log(user._id);
           if (
-            res.data.guest &&
+            // If you are not the guest or the owner, RoomBlock opens
+            res.data.guest !== undefined &&
             res.data.guest !== user._id &&
             res.data.owner !== user._id
           ) {
@@ -136,9 +137,8 @@ const Interview = (props) => {
               (axios.defaults.withCredentials = true),
               { interviewId }
             );
-            if (res.data.owner === user._id) {
-              // If the owner is re-entering the room, do not add them as a guest
-            } else {
+            setInterviewIsStarted(true);
+            if (res.data.owner !== user._id) {
               axios
                 .put(`/api/interview/guest/${interviewId}`, {
                   user: user,
@@ -162,6 +162,21 @@ const Interview = (props) => {
       }
     };
   }, [history, interviewId, socket]);
+
+  useEffect(() => {
+    axios
+      .get(`/api/interview/${interviewId}`)
+      .then((res) => {
+        if (res.data.isStarted) {
+          setWaitingRoomOpen(false);
+        } else {
+          setWaitingRoomOpen(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
 
   const classes = useStyles();
 
@@ -270,7 +285,13 @@ const Interview = (props) => {
           <Console compileCode={compileCode} value={results} />
         </Grid>
       </Grid>
-      <WaitingRoom open={WaitingRoomOpen} setOpen={setWaitingRoomOpen} />
+      <WaitingRoom
+        id={interviewId}
+        //This open must be reliant on the interviewStart in the userContext
+        //This must do a check for the interviewStart in the DB
+        open={WaitingRoomOpen}
+        setOpen={setWaitingRoomOpen}
+      />
       <RoomBlockDialog open={roomBlockOpen} close={handleRoomBlockClose} />
     </React.Fragment>
   );

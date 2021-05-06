@@ -80,7 +80,11 @@ const Dashboard = () => {
         </Box>
       </Container>
       <CreateInterview open={open} setOpen={setOpen} />
-      <WaitingRoom open={WaitingRoomOpen} setOpen={setWaitingRoomOpen} />
+      <WaitingRoom
+        id={""}
+        open={WaitingRoomOpen}
+        setOpen={setWaitingRoomOpen}
+      />
     </>
   );
 };

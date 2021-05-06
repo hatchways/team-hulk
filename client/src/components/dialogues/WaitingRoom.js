@@ -19,6 +19,8 @@ import { UserContext } from "../../context/UserContext";
 import copy from "copy-to-clipboard";
 import Snackbar from "@material-ui/core/Snackbar";
 import axios from "axios";
+import { Socket } from "socket.io-client";
+import { SocketContext } from "../../context/SocketContext";
 
 const useStyles = makeStyles((theme) => ({
   dialogWidth: {
@@ -120,28 +122,94 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-export default function WaitingRoom({ open, setOpen }) {
+const ShareLink = withStyles(styles)(
+  ({ user, owner, interviewId, copyLinkToClipboard }) => {
+    if (user._id === owner._id) {
+      return (
+        <Grid container item direction="row">
+          <Grid container item md={6}>
+            <FormHelperText>Share link</FormHelperText>
+            <TextField
+              fullWidth
+              inputProps={{ readOnly: true }}
+              id="outlined-helperText"
+              variant="outlined"
+              value={`http://localhost:3000/interview/${interviewId}`}
+            />
+          </Grid>
+          <Grid container item md={4}>
+            <Button
+              onClick={copyLinkToClipboard}
+              autoFocus
+              size="large"
+              variant="contained"
+              color="primary"
+            >
+              copy
+            </Button>
+          </Grid>
+        </Grid>
+      );
+    } else {
+      return null;
+    }
+  }
+);
+
+const StartButton = withStyles(styles)(
+  ({ user, owner, startInterview, goToInterview }) => {
+    if (user._id === owner._id) {
+      return (
+        <Button
+          autoFocus
+          onClick={() => {
+            startInterview();
+            goToInterview();
+          }}
+          size="large"
+          variant="contained"
+          color="primary"
+        >
+          start
+        </Button>
+      );
+    } else {
+      return <p>Waiting for interview owner to start</p>;
+    }
+  }
+);
+
+export default function WaitingRoom({ id, open, setOpen }) {
   const classes = useStyles();
   const { user, newlyCreatedInterview } = useContext(UserContext);
+  const { socket } = useContext(SocketContext);
   const history = useHistory();
   const [showCopyNotification, setShowCopyNotification] = useState(false);
-  const [guest, setGuest] = useState(null);
-  const [owner, setOwner] = useState(null);
+  const [guest, setGuest] = useState({ _id: null, name: null });
+  const [owner, setOwner] = useState({ _id: null, name: null });
+
+  let interviewId;
+
+  if (newlyCreatedInterview !== null) {
+    interviewId = newlyCreatedInterview._id;
+  } else {
+    interviewId = id;
+  }
 
   const goToInterview = () => {
-    history.push(`/interview/${newlyCreatedInterview._id}`);
+    history.push(`/interview/${interviewId}`);
     setOpen(false);
   };
 
   const copyLinkToClipboard = (e) => {
-    copy(`http://localhost:3000/interview/${newlyCreatedInterview._id}`);
+    copy(`http://localhost:3000/interview/${interviewId}`);
     setShowCopyNotification(true);
   };
 
   const handleClose = () => {
     setOpen(false);
-    setGuest(null);
-    setOwner(null);
+    setGuest({ _id: null, name: null });
+    setOwner({ _id: null, name: null });
   };
 
   const closeCopyNotification = (event, reason) => {
@@ -152,22 +220,54 @@ export default function WaitingRoom({ open, setOpen }) {
     setShowCopyNotification(false);
   };
 
+  const startInterview = () => {
+    axios
+      .put(`/api/interview/start/${interviewId}`)
+      .catch((err) => console.log(err));
+  };
+
   useEffect(() => {
-    if (newlyCreatedInterview !== null) {
-      axios.get(`/api/interview/${newlyCreatedInterview._id}`).then((res) => {
-        if (res.data.guest) {
-          axios.get(`/api/user/${res.data.guest}`).then((res) => {
-            setGuest(res.data.firstName);
+    if (interviewId !== null && interviewId !== "") {
+      axios
+        .get(`/api/interview/${interviewId}`)
+        .then((res) => {
+          // If there is a guest in the interview object from the database...
+          if (res.data.guest) {
+            axios
+              .get(`/api/user/${res.data.guest}`)
+              .then((res) => {
+                // Set the guest state to that guest from the database
+                setGuest({ _id: res.data._id, name: res.data.firstName });
+              })
+              .catch((err) => console.log(err));
+          } else {
+            // If there is no guest, and you are not the host, add your info to DB as guest, and to the guest state
+            if (res.data.owner !== undefined && res.data.owner !== user._id) {
+              axios
+                .put(`/api/interview/guest/${interviewId}`, {
+                  user: user,
+                })
+                .catch((err) => console.log(err));
+              setGuest({ _id: user._id, name: user.firstName });
+            } else {
+              console.log("No guest in room yet.");
+            }
+          }
+          // Otherwise, set the owner state to the owner from the DB
+          axios.get(`/api/user/${res.data.owner}`).then((res) => {
+            setOwner({ _id: res.data._id, name: res.data.firstName });
           });
-        } else {
-          console.log("No guest in room yet.");
-        }
-        axios.get(`/api/user/${res.data.owner}`).then((res) => {
-          setOwner(res.data.firstName);
-        });
+        })
+        .catch((err) => console.log(err));
+    }
+
+    if (socket) {
+      console.log("Joel: socket on");
+      socket.on("joinInterviewRoom", () => {
+        console.log("Someone joined the interview room.");
       });
     }
-  }, [open, guest]);
+  });
 
   return (
     <div>
@@ -182,33 +282,12 @@ export default function WaitingRoom({ open, setOpen }) {
         </DialogTitle>
         <DialogContent>
           <Grid container item direction="column" spacing={2}>
-            <Grid container item direction="row">
-              <Grid container item md={6}>
-                <FormHelperText>Share link</FormHelperText>
-                <TextField
-                  fullWidth
-                  inputProps={{ readOnly: true }}
-                  id="outlined-helperText"
-                  variant="outlined"
-                  value={
-                    newlyCreatedInterview
-                      ? `http://localhost:3000/interview/${newlyCreatedInterview._id}`
-                      : null
-                  }
-                />
-              </Grid>
-              <Grid container item md={4}>
-                <Button
-                  onClick={copyLinkToClipboard}
-                  autoFocus
-                  size="large"
-                  variant="contained"
-                  color="primary"
-                >
-                  copy
-                </Button>
-              </Grid>
-            </Grid>
+            <ShareLink
+              user={user}
+              owner={owner}
+              interviewId={interviewId}
+              copyLinkToClipboard={copyLinkToClipboard}
+            />
             <Grid container item direction="column" spacing={2}>
               <Grid container item>
                 <Typography variant="h6" color="primary">
@@ -219,29 +298,33 @@ export default function WaitingRoom({ open, setOpen }) {
                 <Card elevation={0} style={{ paddingBottom: "1rem" }}>
                   <CardHeader
                     avatar={<Avatar aria-label="recipe" src={facePhotoBoy} />}
-                    title={owner}
+                    title={owner.name + " - Owner"}
                     className={classes.avatarPhoto}
                   />
-                  <CardHeader
-                    avatar={<Avatar aria-label="recipe" src={facePhotoGirl} />}
-                    title={guest}
-                    className={classes.avatarPhoto}
-                  />
+                  {guest._id ? (
+                    <CardHeader
+                      avatar={
+                        <Avatar aria-label="recipe" src={facePhotoGirl} />
+                      }
+                      title={guest.name}
+                      className={classes.avatarPhoto}
+                    />
+                  ) : (
+                    ""
+                  )}
                 </Card>
               </Grid>
             </Grid>
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button
-            autoFocus
-            onClick={goToInterview}
-            size="large"
-            variant="contained"
-            color="primary"
-          >
-            start
-          </Button>
+          {/* Is there a better way to do this props handling (below)? */}
+          <StartButton
+            user={user}
+            owner={owner}
+            startInterview={startInterview}
+            goToInterview={goToInterview}
+          />
         </DialogActions>
       </Dialog>
       <Snackbar

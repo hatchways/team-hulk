@@ -18,6 +18,9 @@ router.get("/:id", auth, interviewController.getSingleInterview);
 /* PUT Route to edit interviews - EDIT INTERVIEW operation. */
 router.put("/:id", auth, interviewController.updateInterview);
 
+/* PUT Route to start interview - EDIT INTERVIEW operation. */
+router.put("/start/:id", auth, interviewController.setStartInterview);
+
 /* PUT Route to add guest to interview - EDIT INTERVIEW operation. */
 router.put("/guest/:id", auth, interviewController.addInterviewGuest);
 

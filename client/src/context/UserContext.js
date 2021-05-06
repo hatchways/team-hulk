@@ -41,6 +41,7 @@ export const UserProvider = ({ children }) => {
     upcomingInterviews_initial
   );
   const [WaitingRoomOpen, setWaitingRoomOpen] = useState(false);
+  const [interviewIsStarted, setInterviewIsStarted] = useState(false);
   const [newlyCreatedInterview, setNewlyCreatedInterview] = useState(null);
 
   useEffect(() => {
@@ -52,7 +53,7 @@ export const UserProvider = ({ children }) => {
       .catch((err) => {
         console.log(err);
       });
-  }, [setUser]);
+  }, []);
 
   return (
     <UserContext.Provider

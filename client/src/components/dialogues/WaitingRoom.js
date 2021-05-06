@@ -58,11 +58,11 @@ const styles = (theme) => ({
 });
 
 const DialogTitle = withStyles(styles)((props) => {
-  const { children, classes, onClose, ...other } = props;
+  const { children, classes, onClose, user, owner, ...other } = props;
 
   return (
     <>
-      {onClose ? (
+      {onClose && user._id === owner._id ? (
         <IconButton
           aria-label="close"
           className={classes.closeButton}
@@ -287,7 +287,12 @@ export default function WaitingRoom({ id, open, setOpen }) {
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+        <DialogTitle
+          id="customized-dialog-title"
+          onClose={handleClose}
+          user={user}
+          owner={owner}
+        >
           Waiting Room
         </DialogTitle>
         <DialogContent>

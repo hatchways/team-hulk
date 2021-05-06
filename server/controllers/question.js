@@ -1,6 +1,5 @@
 const Question = require("../models/question");
 const User = require("../models/user");
-var ObjectId = require("mongoose").Types.ObjectId;
 
 module.exports.getSingleQuestionByDifficulty = async (req, res, next) => {
   const { difficulty } = req.body;
@@ -53,7 +52,6 @@ module.exports.getSingleQuestionByDifficulty = async (req, res, next) => {
 
 module.exports.getSingleQuestionById = async (req, res, next) => {
   const questionId = req.params.id;
-  console.log("id:", questionId);
 
   try {
     const question = await Question.findOne({ _id: questionId });

@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-let QuestionSchema = new Schema({
+const QuestionSchema = new Schema({
   title: {
     type: String,
     required: true,
@@ -15,10 +15,9 @@ let QuestionSchema = new Schema({
   },
   difficulty: {
     type: Number,
-    enum: [0, 1, 2], // 0 - easy, 1 - medium, 2 - hard
+    enum: [0, 1, 2],
     required: true,
   },
-  // userIds: [{ type: Schema.Types.ObjectId, ref: "Users" }],
 });
 
 const Question = model("question", QuestionSchema);

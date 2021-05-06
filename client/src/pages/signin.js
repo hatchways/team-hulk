@@ -69,6 +69,14 @@ const useStyles = makeStyles({
     borderRadius: "50px",
     width: "35%",
   },
+  guestBtn: {
+    marginLeft: "10px",
+    marginTop: "2rem",
+    padding: ".1rem",
+    borderRadius: "50px",
+    width: "100px",
+    height: "25px",
+  },
 });
 
 export default function Signin(props) {
@@ -83,6 +91,38 @@ export default function Signin(props) {
   const history = useHistory();
 
   const classes = useStyles();
+
+  const loginGuestUser = async (guestNumber) => {
+    const guestUser = {
+      firstName: "guest",
+      lastName: guestNumber,
+      email: `guest-${guestNumber}@gmail.com`,
+      password: "123456",
+    };
+
+    let response;
+
+    try {
+      response = await axios.post("/api/signin", {
+        email: guestUser.email,
+        password: guestUser.password,
+      });
+    } catch (error) {
+      await axios.post("/api/signup", guestUser);
+      response = await axios.post("/api/signin", {
+        email: guestUser.email,
+        password: guestUser.password,
+      });
+    }
+
+    setIsAuthenticated(true);
+    setUser(response.data);
+    if (interviewId) {
+      history.push(`/interview/${interviewId}`);
+    } else {
+      setRedirect(true);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -100,7 +140,7 @@ export default function Signin(props) {
       )
       .then((response) => {
         setIsAuthenticated(true);
-        setUser({ email: response.data });
+        setUser(response.data);
         if (interviewId) {
           history.push(`/interview/${interviewId}`);
         } else {
@@ -193,6 +233,21 @@ export default function Signin(props) {
                 Continue
               </Button>
             </form>
+            <Button
+              className={classes.guestBtn}
+              variant="outlined"
+              onClick={() => loginGuestUser("one")}
+            >
+              Guest 1
+            </Button>
+            <Button
+              style={{ marginTop: "0.5rem" }}
+              className={classes.guestBtn}
+              variant="outlined"
+              onClick={() => loginGuestUser("two")}
+            >
+              Guest 2
+            </Button>
           </Grid>
         </Grid>
       </Grid>

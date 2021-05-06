@@ -17,7 +17,6 @@ import CodeEditor from "../components/layout/CodeEditor";
 import Question from "../components/layout/Question";
 import Console from "../components/layout/Console";
 import { SocketContext } from "../context/SocketContext";
-import { UserContext } from "../context/UserContext";
 import FeedbackDialog from "../components/FeedbackDialog";
 import axios from "axios";
 
@@ -115,17 +114,16 @@ const Interview = (props) => {
   const interviewId = props.match.params.id;
 
   const { socket } = useContext(SocketContext);
-  const { difficulty } = useContext(UserContext);
 
   useEffect(() => {
     barRef.current && setBarHeight(barRef.current.clientHeight);
   }, [barRef]);
 
   useEffect(() => {
-    const getQuestion = async () => {
-      const res = await fetch("/api/question", {
+    const getAssignedQuestionOfInterviewRoom = async () => {
+      const res = await fetch(`/api/question/${interviewId}`, {
         method: "post",
-        body: JSON.stringify({ difficulty }),
+        body: JSON.stringify({ interviewId }),
         headers: {
           "Content-Type": "application/json",
         },
@@ -134,8 +132,8 @@ const Interview = (props) => {
       setQuestion(question);
     };
 
-    getQuestion();
-  }, []);
+    getAssignedQuestionOfInterviewRoom();
+  }, [interviewId]);
 
   useEffect(() => {
     if (socket) {

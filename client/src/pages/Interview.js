@@ -166,6 +166,12 @@ const Interview = (props) => {
         setLanguage(language);
       });
     }
+
+    return () => {
+      socket.off("code");
+      socket.off("compile");
+      socket.off("language");
+    };
   }, []);
 
   const classes = useStyles();
@@ -208,7 +214,6 @@ const Interview = (props) => {
   const handleCodeChange = (code) => {
     setCode(code);
     socket.emit("code", code);
-    console.log(props.navHeight);
   };
 
   const handleToggleChange = (event, newLanguage) => {

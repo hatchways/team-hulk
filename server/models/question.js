@@ -18,6 +18,13 @@ const QuestionSchema = new Schema({
     enum: [0, 1, 2],
     required: true,
   },
+  themes: {
+    type: [String],
+  },
+  url: {
+    type: String,
+    required: true,
+  },
 });
 
 const Question = model("question", QuestionSchema);

@@ -13,21 +13,7 @@ import {
 } from "@material-ui/core/";
 import { makeStyles } from "@material-ui/core/styles";
 import CloseIcon from "@material-ui/icons/Close";
-
-const feedback = {
-  overallScore: "5",
-  codeEfficiency: "1",
-  communication: "2",
-  debugging: "5",
-  problemSolving: "4",
-  speed: "3",
-  didWell:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  canImprove:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  recommendedResources: 'Have you heard of this thing called "The Docs"?',
-  additionalFeedback: "Keep at it!",
-};
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   feedbackMain: {
@@ -182,9 +168,16 @@ function FeedbackDisplay(props) {
 
 export default function FeedbackHistoryDialog(props) {
   const classes = useStyles();
+  const [feedback, setFeedback] = useState({});
 
   useEffect(() => {
     props.setDialog(props.id);
+    const getFeedback = async () => {
+      const feedbackDb = await axios.get(`api/feedback/${props.id}`);
+      setFeedback(feedbackDb.data);
+    };
+
+    getFeedback();
   }, []);
 
   return (

@@ -8,25 +8,10 @@ import Button from "@material-ui/core/Button";
 
 import UpcomingInterviews from "../components/UpcomingInterviews";
 import PastInterviews from "../components/PastInterviews";
-import CreateInterview from "../components/dialogs/CreateInterview";
-import WaitingRoom from "../components/dialogs/WaitingRoom";
+import CreateInterview from "../components/dialogues/CreateInterview";
+import WaitingRoom from "../components/dialogues/WaitingRoom";
 import { UserContext } from "../context/UserContext";
 import { makeStyles } from "@material-ui/core/styles";
-
-const pastInterviews = [
-  {
-    id: "123",
-    date: new Date("May 25, 2020 22:00:00"),
-    codingScore: 5,
-    communicationScore: 4,
-  },
-  {
-    id: "456",
-    date: new Date("May 27, 2020 14:00:00"),
-    codingScore: 3,
-    communicationScore: 5,
-  },
-];
 
 const useStyles = makeStyles((theme) => ({
   btnRoot: {
@@ -50,16 +35,11 @@ const Dashboard = () => {
     const getFeedbacks = async () => {
       axios.defaults.withCredentials = true;
       const rev = await axios.get("api/feedback");
-      console.log(rev);
       setReviews(rev.data);
     };
 
     getFeedbacks();
   }, []);
-
-  useEffect(() => {
-    console.log({ reviews });
-  }, [reviews]);
 
   return (
     <>

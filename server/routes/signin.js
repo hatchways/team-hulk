@@ -19,7 +19,8 @@ router.get("/", authenticateJWT, async (req, res, next) => {
 });
 
 router.post("/", async (req, res, next) => {
-  const userId = await User.findOne({ email: req.body.email }, "id");
+  // const userId = await User.findOne({ email: req.body.email }, "id");
+  const userDromDb = await User.findOne({ email: req.body.email });
 
   passport.authenticate("local", (err, user, info) => {
     if (err) {
@@ -37,7 +38,7 @@ router.post("/", async (req, res, next) => {
         return next(err);
       }
 
-      const token = jwt.sign({ user: userId }, process.env.JWT_SECRET, {
+      const token = jwt.sign({ user: userDromDb._id }, process.env.JWT_SECRET, {
         expiresIn: "1d",
       });
 
@@ -45,9 +46,23 @@ router.post("/", async (req, res, next) => {
         httpOnly: true,
       });
 
-      return res.send(user);
+      // return res.send(req.body.email);
+      const userData = {
+        email: userDromDb.email,
+        firstName: userDromDb.firstName,
+        lastName: userDromDb.lastName,
+        _id: userDromDb._id,
+      };
+      return res.status(200).json(userData);
     });
   })(req, res, next);
+});
+
+router.get("/", authenticateJWT, async (req, res, next) => {
+  const user = await User.findOne({ id: req.body.id });
+  if (user) {
+    res.send(user);
+  }
 });
 
 module.exports = router;

@@ -24,7 +24,8 @@ function App() {
 
   useEffect(() => {
     ref.current && setHeightnavbarHieght(ref.current.clientHeight);
-  }, [ref]);
+    console.log(ref.current);
+  }, [ref, ref.current]);
 
   useEffect(() => {
     axios
@@ -62,6 +63,9 @@ function App() {
       <BrowserRouter>
         <Navbar ref={ref} />
         <Switch>
+          <Route exact path="/signin">
+            <Redirect to="/" />
+          </Route>
           <Route exact path="/" component={Home} />
           <Route path="/profile" component={Profile} />
           <Route path="/dashboard" component={Dashboard} />

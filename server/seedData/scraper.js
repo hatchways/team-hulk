@@ -15,10 +15,20 @@ const getQuestions = async (from, to, length = false) => {
     { waitUntil: "networkidle2" }
   );
 
+  const selectValue = await page.$$eval(
+    "tbody.reactable-pagination > tr > td > span > select > option",
+    (opt) => {
+      console.log(opt);
+      return [...opt]
+        .filter((op) => op.innerText === "all")
+        .map((t) => t.value);
+    }
+  );
+
   // Changes the value of the # of items to all
   await page.select(
     "tbody.reactable-pagination > tr > td > span > select",
-    "9007199254740991"
+    selectValue[0]
   );
 
   const urls = await page.evaluate(() => {
@@ -39,11 +49,13 @@ const getQuestions = async (from, to, length = false) => {
     console.log(`fetching question: ${i}`);
     await page.goto(urls[i], { waitUntil: "networkidle0" });
 
-    const isLocked = await page.$eval('[data-key="solution"] svg', (el) =>
-      el.classList.contains("css-ut75m1-ColoredIcon")
-    );
+    const isLocked =
+      (await page.$eval('[data-key="solution"] svg', (el) =>
+        el.classList.contains("css-ut75m1-ColoredIcon")
+      )) ||
+      (await page.$eval('[data-key="solution"]', (el) => el.dataset.disabled));
 
-    if (isLocked) continue;
+    if (isLocked === "true") continue;
 
     // fetch question
     questions[i] = await page.evaluate(() => {

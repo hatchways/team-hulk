@@ -41,6 +41,7 @@ module.exports.getInterviewList = (req, res, next) => {
 
 module.exports.getSingleInterview = (req, res, next) => {
   const id = req.params.id;
+  console.log("int id:", id);
 
   Interview.findById(id, (err, singleInterview) => {
     if (err) {

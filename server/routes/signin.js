@@ -49,4 +49,11 @@ router.post("/", async (req, res, next) => {
   })(req, res, next);
 });
 
+router.get("/", authenticateJWT, async (req, res, next) => {
+  const user = await User.findOne({ id: req.body.id });
+  if (user) {
+    res.send(user);
+  }
+});
+
 module.exports = router;

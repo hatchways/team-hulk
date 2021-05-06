@@ -2,7 +2,7 @@ const Question = require("../models/question");
 const User = require("../models/user");
 var ObjectId = require("mongoose").Types.ObjectId;
 
-module.exports.getSingleQuestion = async (req, res, next) => {
+module.exports.getSingleQuestionByDifficulty = async (req, res, next) => {
   const { difficulty } = req.body;
   const userId = req.user.user;
 
@@ -46,6 +46,18 @@ module.exports.getSingleQuestion = async (req, res, next) => {
       );
       res.status(200).json(newQuestion);
     }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports.getSingleQuestionById = async (req, res, next) => {
+  const questionId = req.params.id;
+  console.log("id:", questionId);
+
+  try {
+    const question = await Question.findOne({ _id: questionId });
+    res.status(200).json(question);
   } catch (error) {
     console.log(error);
   }

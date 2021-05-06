@@ -14,7 +14,6 @@ import CodeEditor from "../components/layout/CodeEditor";
 import Question from "../components/layout/Question";
 import Console from "../components/layout/Console";
 import { SocketContext } from "../context/SocketContext";
-import { UserContext } from "../context/UserContext";
 import FeedbackDialog from "../components/FeedbackDialog";
 import axios from "axios";
 
@@ -101,27 +100,44 @@ const Interview = (props) => {
   const interviewId = props.match.params.id;
 
   const { socket } = useContext(SocketContext);
-  const { difficulty } = useContext(UserContext);
 
   useEffect(() => {
     barRef.current && setBarHeight(barRef.current.clientHeight);
   }, [barRef]);
 
   useEffect(() => {
-    const getQuestion = async () => {
-      const res = await fetch("/api/question", {
-        method: "post",
-        body: JSON.stringify({ difficulty }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const question = await res.json();
-      setQuestion(question);
+    let interviewObjFromDB;
+    const getInterviewAndQuestion = async () => {
+      const getInterview = async () => {
+        const res = await fetch(`/api/interview/${interviewId}`, {
+          method: "get",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        interviewObjFromDB = await res.json();
+      };
+
+      const getQuestion = async () => {
+        const res = await fetch(
+          `/api/question/${interviewObjFromDB.questions[0]}`,
+          {
+            method: "get",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const question = await res.json();
+        setQuestion(question);
+      };
+      await getInterview();
+      await getQuestion();
     };
 
-    getQuestion();
-  }, [socket]);
+    getInterviewAndQuestion();
+  }, [socket, interviewId]);
 
   useEffect(() => {
     if (socket) {

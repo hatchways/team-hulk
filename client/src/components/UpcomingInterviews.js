@@ -123,7 +123,7 @@ export default function UpcomingInterviews({ rows }) {
               </TableHead>
               <TableBody>
                 {newRows.map((row) => (
-                  <TableRow key={row.id}>
+                  <TableRow key={row._id}>
                     <StyledTableCell>
                       <Typography>{formatDate(row.date)}</Typography>
                       <Typography>{formatHour(row.date)}</Typography>

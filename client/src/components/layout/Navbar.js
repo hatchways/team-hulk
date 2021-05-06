@@ -15,6 +15,7 @@ import avatar from "../../assets/avatar.png";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { UserContext } from "../../context/UserContext";
+import { AuthContext } from "../../context/AuthContext";
 
 const links = ["Dashboard", "FAQ", "Blog"];
 
@@ -114,7 +115,8 @@ const Navbar = React.forwardRef((props, ref) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   let location = useLocation();
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
+  const { setIsAuthenticated } = useContext(AuthContext);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -122,6 +124,13 @@ const Navbar = React.forwardRef((props, ref) => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const logout = async () => {
+    const res = await fetch("/api/logout");
+    const data = await res.json();
+    setUser(data.user);
+    setIsAuthenticated(false);
   };
 
   const open = Boolean(anchorEl);
@@ -169,7 +178,7 @@ const Navbar = React.forwardRef((props, ref) => {
           </Link>
         </MenuItem>
         <MenuItem onClick={handleClose}>
-          <Link to="/" className={classes.popover__link}>
+          <Link onClick={logout} to="/" className={classes.popover__link}>
             Logout
           </Link>
         </MenuItem>

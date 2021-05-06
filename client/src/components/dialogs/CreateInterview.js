@@ -14,7 +14,6 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { MenuItem } from "@material-ui/core";
 import { UserContext } from "../../context/UserContext";
-import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
   dialogWidth: {
@@ -106,15 +105,24 @@ export default function CreateInterviewDialogs({ open, setOpen }) {
   const [difficultyLevel, setDifficultyLevel] = useState("0");
 
   const createInterview = async () => {
+    const questionRes = await fetch("/api/question", {
+      method: "post",
+      body: JSON.stringify({ difficulty: Number(difficultyLevel) }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const question = await questionRes.json();
+
     const newInterview = {
       date: new Date(),
-      // theme: "palindrome",
+      questions: [question._id],
       difficulty: Number(difficultyLevel),
     };
 
     setDifficulty(Number(difficultyLevel));
 
-    const res = await fetch("api/interview", {
+    const interviewRes = await fetch("api/interview", {
       method: "post",
       body: JSON.stringify(newInterview),
       headers: {
@@ -122,20 +130,9 @@ export default function CreateInterviewDialogs({ open, setOpen }) {
       },
     });
 
-    const interviewObjFromDB = await res.json();
-    console.log("int from db:", interviewObjFromDB);
+    const interviewObjFromDB = await interviewRes.json();
 
     setUpcomingInterviews([...upcomingInterviews, interviewObjFromDB]);
-    // const newUpcomingInterview = {
-    //   date: new Date(
-    //     moment(interviewObjFromDB.date).format("MMMM DD, YYYY hh:mm:ss")
-    //   ),
-    //   // theme: interviewObjFromDB.theme,
-    //   id: interviewObjFromDB._id,
-    //   live: true,
-    // };
-
-    // setUpcomingInterviews([...upcomingInterviews, newUpcomingInterview]);
 
     setNewlyCreatedInterview(interviewObjFromDB);
 

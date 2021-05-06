@@ -25,7 +25,6 @@ const QuestionSchema = new Schema({
     type: String,
     required: true,
   },
-  // userIds: [{ type: Schema.Types.ObjectId, ref: "Users" }],
 });
 
 const Question = model("question", QuestionSchema);

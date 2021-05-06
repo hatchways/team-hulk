@@ -133,11 +133,10 @@ const Interview = (props) => {
             console.log("This room already has the maximum number of members!");
           } else {
             socket.emit(
-              "joinInterviewRoom",
-              (axios.defaults.withCredentials = true),
-              { interviewId }
+              "joinWaitingRoom",
+              { interviewId },
+              (axios.defaults.withCredentials = true)
             );
-            setInterviewIsStarted(true);
             if (res.data.owner !== user._id) {
               axios
                 .put(`/api/interview/guest/${interviewId}`, {
@@ -177,6 +176,16 @@ const Interview = (props) => {
         console.log(err);
       });
   });
+
+  useEffect(() => {
+    if (socket) {
+      socket.on("startInterview", () => {
+        console.log("Interview started.");
+        setInterviewIsStarted(true);
+        setWaitingRoomOpen(false);
+      });
+    }
+  }, [WaitingRoomOpen, interviewIsStarted]);
 
   const classes = useStyles();
 

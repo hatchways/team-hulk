@@ -157,7 +157,23 @@ const ShareLink = withStyles(styles)(
 );
 
 const StartButton = withStyles(styles)(
-  ({ user, owner, startInterview, goToInterview }) => {
+  ({ user, owner, interviewId, setOpen }) => {
+    const { socket } = useContext(SocketContext);
+    const history = useHistory();
+    const startInterview = () => {
+      if (socket) {
+        socket.emit("startInterview", { interviewId });
+      }
+      axios
+        .put(`/api/interview/start/${interviewId}`)
+        .catch((err) => console.log(err));
+    };
+
+    const goToInterview = () => {
+      history.push(`/interview/${interviewId}`);
+      setOpen(false);
+    };
+
     if (user._id === owner._id) {
       return (
         <Button
@@ -183,10 +199,10 @@ export default function WaitingRoom({ id, open, setOpen }) {
   const classes = useStyles();
   const { user, newlyCreatedInterview } = useContext(UserContext);
   const { socket } = useContext(SocketContext);
-  const history = useHistory();
   const [showCopyNotification, setShowCopyNotification] = useState(false);
   const [guest, setGuest] = useState({ _id: null, name: null });
   const [owner, setOwner] = useState({ _id: null, name: null });
+  const [guestEnter, setGuestEnter] = useState(true);
 
   let interviewId;
 
@@ -195,11 +211,6 @@ export default function WaitingRoom({ id, open, setOpen }) {
   } else {
     interviewId = id;
   }
-
-  const goToInterview = () => {
-    history.push(`/interview/${interviewId}`);
-    setOpen(false);
-  };
 
   const copyLinkToClipboard = (e) => {
     copy(`http://localhost:3000/interview/${interviewId}`);
@@ -218,12 +229,6 @@ export default function WaitingRoom({ id, open, setOpen }) {
     }
 
     setShowCopyNotification(false);
-  };
-
-  const startInterview = () => {
-    axios
-      .put(`/api/interview/start/${interviewId}`)
-      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
@@ -260,14 +265,20 @@ export default function WaitingRoom({ id, open, setOpen }) {
         })
         .catch((err) => console.log(err));
     }
+  }, [open, guestEnter]);
 
+  useEffect(() => {
     if (socket) {
-      console.log("Joel: socket on");
-      socket.on("joinInterviewRoom", () => {
-        console.log("Someone joined the interview room.");
+      socket.on("joinWaitingRoom", () => {
+        setGuestEnter((prevState) => !prevState);
       });
     }
-  });
+    return () => {
+      if (socket) {
+        socket.off("joinWaitingRoom");
+      }
+    };
+  }, [open, setOpen]);
 
   return (
     <div>
@@ -318,12 +329,11 @@ export default function WaitingRoom({ id, open, setOpen }) {
           </Grid>
         </DialogContent>
         <DialogActions>
-          {/* Is there a better way to do this props handling (below)? */}
           <StartButton
             user={user}
             owner={owner}
-            startInterview={startInterview}
-            goToInterview={goToInterview}
+            interviewId={interviewId}
+            setOpen={setOpen}
           />
         </DialogActions>
       </Dialog>

@@ -66,6 +66,8 @@ export const UserProvider = ({ children }) => {
         setWaitingRoomOpen,
         newlyCreatedInterview,
         setNewlyCreatedInterview,
+        interviewIsStarted,
+        setInterviewIsStarted,
       }}
     >
       {children}

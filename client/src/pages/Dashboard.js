@@ -7,8 +7,8 @@ import Button from "@material-ui/core/Button";
 
 import UpcomingInterviews from "../components/UpcomingInterviews";
 import PastInterviews from "../components/PastInterviews";
-import CreateInterview from "../components/dialogues/CreateInterview";
-import WaitingRoom from "../components/dialogues/WaitingRoom";
+import CreateInterview from "../components/dialogs/CreateInterview";
+import WaitingRoom from "../components/dialogs/WaitingRoom";
 import { UserContext } from "../context/UserContext";
 import { makeStyles } from "@material-ui/core/styles";
 

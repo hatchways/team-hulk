@@ -63,14 +63,16 @@ export default function PastInterviews({ rows }) {
   const classes = useStyles();
 
   const formatDate = (date) => {
-    return `${days[date.getDay()]}, ${
-      months[date.getMonth()]
-    } ${date.getDate()} ${date.getFullYear()}`;
+    const newDate = new Date(date);
+    return `${days[newDate.getDay()]}, ${
+      months[newDate.getMonth()]
+    } ${newDate.getDate()} ${newDate.getFullYear()}`;
   };
 
   const formatHour = (date) => {
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
+    const newDate = new Date(date);
+    const hours = newDate.getHours();
+    const minutes = newDate.getMinutes();
     return `${hours < 12 ? hours : hours - 12}:${minutes}${
       minutes < 10 ? 0 : ""
     } ${hours < 13 ? "AM" : "PM"}`;
@@ -115,16 +117,12 @@ export default function PastInterviews({ rows }) {
                       <Typography>{formatHour(row.date)}</Typography>
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      <Rating
-                        name="read-only"
-                        value={row.codingScore}
-                        readOnly
-                      />
+                      <Rating name="read-only" value={row.code} readOnly />
                     </StyledTableCell>
                     <StyledTableCell align="center">
                       <Rating
                         name="read-only"
-                        value={row.communicationScore}
+                        value={row.communication}
                         readOnly
                       />
                     </StyledTableCell>

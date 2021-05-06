@@ -1,4 +1,5 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
+import axios from "axios";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
@@ -43,6 +44,23 @@ const Dashboard = () => {
     setWaitingRoomOpen,
   } = useContext(UserContext);
 
+  const [reviews, setReviews] = useState(null);
+
+  useEffect(() => {
+    const getFeedbacks = async () => {
+      axios.defaults.withCredentials = true;
+      const rev = await axios.get("api/feedback");
+      console.log(rev);
+      setReviews(rev.data);
+    };
+
+    getFeedbacks();
+  }, []);
+
+  useEffect(() => {
+    console.log({ reviews });
+  }, [reviews]);
+
   return (
     <>
       <Container maxWidth="lg">
@@ -76,7 +94,7 @@ const Dashboard = () => {
           >
             Past practice interviews
           </Typography>
-          <PastInterviews rows={pastInterviews} />
+          <PastInterviews rows={reviews} />
         </Box>
       </Container>
       <CreateInterview open={open} setOpen={setOpen} />

@@ -15,7 +15,7 @@ import Question from "../components/layout/Question";
 import Console from "../components/layout/Console";
 import { SocketContext } from "../context/SocketContext";
 import { UserContext } from "../context/UserContext";
-import FeedbackDialog from "../components/dialogues/FeedbackDialog";
+import FeedbackDialog from "../components/FeedbackDialog";
 import axios from "axios";
 
 const sampleQuestion = {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
@@ -11,6 +11,8 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
+import moment from "moment";
+import { UserContext } from "../context/UserContext";
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -68,6 +70,14 @@ const days = [
 export default function UpcomingInterviews({ rows }) {
   const classes = useStyles();
 
+  const { setDifficulty } = useContext(UserContext);
+
+  const newRows = rows.map((row) => ({
+    ...row,
+    live: true,
+    date: new Date(moment(row.date).format("MMMM DD, YYYY hh:mm:ss")),
+  }));
+
   const formatDate = (date) => {
     return `${days[date.getDay()]}, ${
       months[date.getMonth()]
@@ -84,7 +94,7 @@ export default function UpcomingInterviews({ rows }) {
 
   return (
     <React.Fragment>
-      {!rows || rows.length === 0 ? (
+      {!newRows || newRows.length === 0 ? (
         <Typography component="div" variant="h6">
           <Box
             mt={3}
@@ -112,20 +122,25 @@ export default function UpcomingInterviews({ rows }) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
-                  <TableRow key={row.id}>
+                {newRows.map((row) => (
+                  <TableRow key={row._id}>
                     <StyledTableCell>
                       <Typography>{formatDate(row.date)}</Typography>
                       <Typography>{formatHour(row.date)}</Typography>
                     </StyledTableCell>
-                    <StyledTableCell>{row.theme}</StyledTableCell>
+                    {/* <StyledTableCell>{row.theme}</StyledTableCell> */}
+                    <StyledTableCell></StyledTableCell>
                     <StyledTableCell align="right">
                       {row.live && (
                         <Link
                           className={classes.link}
-                          to={`interview/${row.id}`}
+                          to={`interview/${row._id}`}
                         >
-                          <Button variant="outlined" className={classes.btn}>
+                          <Button
+                            variant="outlined"
+                            className={classes.btn}
+                            onClick={() => setDifficulty(row.difficulty)}
+                          >
                             Go to interview
                           </Button>
                         </Link>

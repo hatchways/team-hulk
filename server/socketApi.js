@@ -13,7 +13,7 @@ io.use(async (socket, next) => {
   try {
     const token = cookie.parse(socket.handshake.headers.cookie).token;
     const payload = await jwt.verify(token, process.env.JWT_SECRET);
-    socket.userEmail = payload.user;
+    socket.userId = payload.user;
     next();
   } catch (error) {}
 });
@@ -26,7 +26,7 @@ const users = {};
 let currentUsers = 0;
 
 io.on("connection", (socket) => {
-  console.log("username:", socket.userEmail);
+  console.log("username:", socket.userId); // username is id
   console.log("A user connected with socket id: ", socket.id);
   ++currentUsers;
 
@@ -35,6 +35,15 @@ io.on("connection", (socket) => {
     console.log(
       `user with socket id of ${socket.id} joined interview room: ${interviewId}`
     );
+    socket.on("code", (code) => {
+      socket.broadcast.to(interviewId).emit("code", code);
+    });
+    socket.on("compile", (result) => {
+      socket.broadcast.to(interviewId).emit("compile", result);
+    });
+    socket.on("language", (language) => {
+      socket.broadcast.to(interviewId).emit("language", language);
+    });
   });
 
   socket.on("leaveInterviewRoom", ({ interviewId }) => {
@@ -43,9 +52,10 @@ io.on("connection", (socket) => {
       `A user with socket id of ${socket.id} left interview room: ${interviewId}`
     );
   });
-  socket.on("username", (user) => {
-    users[socket.id] = user;
-    io.emit("connected", user);
+  socket.on("username", (userEmail) => {
+    console.log("username in username event emit :", userEmail);
+    users[socket.id] = { email: userEmail };
+    io.emit("connected", userEmail);
     io.emit("users", Object.values(users));
   });
 

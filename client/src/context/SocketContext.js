@@ -28,7 +28,7 @@ const SocketProvider = ({ children }) => {
 
     newSocket.on("connect", () => {
       console.log("socket connected!");
-      newSocket.emit("username", user);
+      newSocket.emit("username", user.email);
     });
 
     newSocket.on("connected", (user) => {

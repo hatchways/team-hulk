@@ -15,6 +15,7 @@ import avatar from "../../assets/avatar.png";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { UserContext } from "../../context/UserContext";
+import { AuthContext } from "../../context/AuthContext";
 
 const links = ["Dashboard", "FAQ", "Blog"];
 
@@ -114,7 +115,8 @@ const Navbar = React.forwardRef((props, ref) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   let location = useLocation();
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
+  const { setIsAuthenticated } = useContext(AuthContext);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -122,6 +124,12 @@ const Navbar = React.forwardRef((props, ref) => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const logout = async () => {
+    await fetch("/api/logout");
+    setUser(null);
+    setIsAuthenticated(false);
   };
 
   const open = Boolean(anchorEl);
@@ -169,7 +177,7 @@ const Navbar = React.forwardRef((props, ref) => {
           </Link>
         </MenuItem>
         <MenuItem onClick={handleClose}>
-          <Link to="/" className={classes.popover__link}>
+          <Link onClick={logout} to="/" className={classes.popover__link}>
             Logout
           </Link>
         </MenuItem>
@@ -200,7 +208,9 @@ const Navbar = React.forwardRef((props, ref) => {
         className={classes.user}
       >
         <Avatar className={classes.user__img} alt="avatar" src={avatar} />
-        <Typography className={classes.user__name}>{user.name}</Typography>
+        <Typography className={classes.user__name}>
+          {user ? user.firstName : ""} {user ? user.lastName : ""}
+        </Typography>
       </Grid>
       {popover}
     </div>

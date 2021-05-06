@@ -19,7 +19,8 @@ let Interview = new mongoose.Schema(
       type: String,
     },
     questions: {
-      type: [mongoose.ObjectId],
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "question",
     },
     isFinished: {
       type: Boolean,

@@ -35,6 +35,15 @@ io.on("connection", (socket) => {
     console.log(
       `user with socket id of ${socket.id} joined interview room: ${interviewId}`
     );
+    socket.on("code", (code) => {
+      socket.broadcast.to(interviewId).emit("code", code);
+    });
+    socket.on("compile", (result) => {
+      socket.broadcast.to(interviewId).emit("compile", result);
+    });
+    socket.on("language", (language) => {
+      socket.broadcast.to(interviewId).emit("language", language);
+    });
   });
 
   socket.on("leaveInterviewRoom", ({ interviewId }) => {

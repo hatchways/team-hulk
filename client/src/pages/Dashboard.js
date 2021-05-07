@@ -35,6 +35,7 @@ const Dashboard = () => {
     const getFeedbacks = async () => {
       axios.defaults.withCredentials = true;
       const rev = await axios.get("api/feedback");
+      console.log(rev);
       setReviews(rev.data);
     };
 

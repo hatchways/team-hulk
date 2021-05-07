@@ -77,26 +77,25 @@ export default function FeedbackDialog(props) {
     const createFeedback = async () => {
       axios.defaults.withCredentials = true;
 
-      const interview = await axios.get(`/api/interview/${props.interviewId}`)
-        .data;
+      const interview = await axios.get(`/api/interview/${props.interviewId}`);
+      const participants = [interview.data.owner, interview.data.guest];
+      const candidate = participants.find((p) => p !== user._id);
 
-      console.log(interview);
-
-      // axios.post("/api/feedback", {
-      //   interview: props.interviewId,
-      //   candidate: user._id,
-      //   overallScore: scores.overallScore,
-      //   communication: scores.communication,
-      //   codeEfficiency: scores.codeEfficiency,
-      //   codeOrganization: scores.codeOrganization,
-      //   speed: scores.speed,
-      //   debugging: scores.debugging,
-      //   problemSolving: scores.problemSolving,
-      //   didWell: scores.didWell,
-      //   canImprove: scores.canImprove,
-      //   recommendedResources: scores.recommendedResources,
-      //   additionalFeedback: scores.additionalFeedback,
-      // });
+      axios.post("/api/feedback", {
+        interview: props.interviewId,
+        candidate,
+        overallScore: scores.overallScore,
+        communication: scores.communication,
+        codeEfficiency: scores.codeEfficiency,
+        codeOrganization: scores.codeOrganization,
+        speed: scores.speed,
+        debugging: scores.debugging,
+        problemSolving: scores.problemSolving,
+        didWell: scores.didWell,
+        canImprove: scores.canImprove,
+        recommendedResources: scores.recommendedResources,
+        additionalFeedback: scores.additionalFeedback,
+      });
     };
 
     createFeedback();

@@ -191,6 +191,7 @@ export default function PastInterviews({ rows }) {
                           handleFeedbackOpenClose(row.id);
                         }}
                         handleClose={() => handleQuestionOpenClose(row.id)}
+                        question={row.questions[0]}
                       />
                     </StyledTableCell>
                     <StyledTableCell align="center">

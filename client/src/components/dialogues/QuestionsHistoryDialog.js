@@ -12,12 +12,9 @@ import {
 } from "@material-ui/core/";
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/core/styles";
+import Question from "../layout/Question";
+import axios from "axios";
 
-const questions = [
-  "How about them sports?",
-  "Question question question?",
-  "What is love? Baby, don't hurt me.",
-];
 const useStyles = makeStyles((theme) => ({
   feedbackMain: {
     display: "flex",
@@ -95,8 +92,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function QuestionsDisplay() {
+function QuestionsDisplay(props) {
+  const [question, setQuestion] = useState({});
   const classes = useStyles();
+
+  useEffect(() => {
+    console.log("first");
+    console.log(props.id);
+    const getQuestions = async () => {
+      const res = await fetch(`/api/question/${props.id}`, {
+        method: "get",
+      });
+      const question = await res.json();
+      console.log(question);
+      setQuestion(question);
+    };
+
+    getQuestions();
+  }, []);
 
   return (
     <Grid
@@ -107,16 +120,7 @@ function QuestionsDisplay() {
         justifyContent: "space-between",
       }}
     >
-      <Box>
-        {questions.map((question, num) => (
-          <Typography variant="h6" className={classes.feedbackDisplayItem}>
-            <Typography variant="h6" display="inline" color="primary">
-              {num + 1}.{" "}
-            </Typography>
-            {question}
-          </Typography>
-        ))}
-      </Box>
+      <Question question={question} />
       <Divider style={{ marginTop: "1rem" }} />
     </Grid>
   );
@@ -153,7 +157,7 @@ export default function FeedbackHistoryDialog(props) {
           From your interview on {props.date}
         </DialogContentText>
 
-        <QuestionsDisplay />
+        <QuestionsDisplay id={props.question} />
 
         <DialogActions className={classes.feedbackActions}>
           <Button onClick={props.openSibling}>Next</Button>

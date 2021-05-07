@@ -106,39 +106,31 @@ export default function CreateInterviewDialogs({ open, setOpen }) {
   const [difficultyLevel, setDifficultyLevel] = useState("0");
 
   const createInterview = async () => {
+    const questionRes = await fetch("/api/question", {
+      method: "post",
+      body: JSON.stringify({ difficulty: parseInt(difficultyLevel) }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const question = await questionRes.json();
     const newInterview = {
       date: new Date(),
-      theme: "palindrome",
-      difficulty: Number(difficultyLevel),
+      questions: [question._id],
+      difficulty: parseInt(difficultyLevel),
     };
-
-    setDifficulty(Number(difficultyLevel));
-
-    const res = await fetch("api/interview", {
+    setDifficulty(parseInt(difficultyLevel));
+    const interviewRes = await fetch("api/interview", {
       method: "post",
       body: JSON.stringify(newInterview),
       headers: {
         "Content-Type": "application/json",
       },
     });
-
-    const interviewObjFromDB = await res.json();
-
-    const newUpcomingInterview = {
-      date: new Date(
-        moment(interviewObjFromDB.date).format("MMMM DD, YYYY hh:mm:ss")
-      ),
-      theme: interviewObjFromDB.theme,
-      id: interviewObjFromDB._id,
-      live: true,
-    };
-
-    setUpcomingInterviews([...upcomingInterviews, newUpcomingInterview]);
-
+    const interviewObjFromDB = await interviewRes.json();
+    setUpcomingInterviews([...upcomingInterviews, interviewObjFromDB]);
     setNewlyCreatedInterview(interviewObjFromDB);
-
     setOpen(false);
-
     setWaitingRoomOpen(true);
   };
 

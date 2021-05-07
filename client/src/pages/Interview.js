@@ -148,20 +148,18 @@ const Interview = (props) => {
   }, [history, interviewId, socket]);
 
   useEffect(() => {
-    if (WaitingRoomOpen) {
-      axios
-        .get(`/api/interview/${interviewId}`)
-        .then((res) => {
-          if (res.data.isStarted) {
-            setWaitingRoomOpen(false);
-          } else {
-            setWaitingRoomOpen(true);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+    axios
+      .get(`/api/interview/${interviewId}`)
+      .then((res) => {
+        if (res.data.isStarted) {
+          setWaitingRoomOpen(false);
+        } else {
+          setWaitingRoomOpen(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   });
 
   useEffect(() => {

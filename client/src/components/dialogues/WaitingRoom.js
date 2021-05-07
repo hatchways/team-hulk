@@ -277,7 +277,7 @@ export default function WaitingRoom({ id, open, setOpen }) {
         socket.off("joinWaitingRoom");
       }
     };
-  }, [open, setOpen]);
+  }, []);
 
   return (
     <div>

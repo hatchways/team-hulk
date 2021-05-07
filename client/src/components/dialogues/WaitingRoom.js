@@ -264,7 +264,7 @@ export default function WaitingRoom({ id, open, setOpen }) {
         })
         .catch((err) => console.log(err));
     }
-  }, [open, guestEnter]);
+  }, [open, guestEnter, setGuestEnter]);
 
   useEffect(() => {
     if (socket) {

@@ -46,6 +46,21 @@ io.on("connection", (socket) => {
     });
   });
 
+  socket.on("joinWaitingRoom", ({ interviewId }) => {
+    socket.join(interviewId);
+    io.emit("joinWaitingRoom");
+    console.log(
+      `user with socket id of ${socket.id} joined waiting room for interview ${interviewId}`
+    );
+  });
+
+  socket.on("startInterview", ({ interviewId }) => {
+    io.emit("startInterview");
+    console.log(
+      `user with socket id of ${socket.id} joined the waiting room for interview ${interviewId}`
+    );
+  });
+
   socket.on("leaveInterviewRoom", ({ interviewId }) => {
     socket.leave(interviewId);
     console.log(

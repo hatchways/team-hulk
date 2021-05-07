@@ -138,9 +138,9 @@ export default function Signin(props) {
           credentials: "include",
         }
       )
-      .then((response) => {
+      .then((res) => {
         setIsAuthenticated(true);
-        setUser(response.data);
+        setUser(res.data);
         if (interviewId) {
           history.push(`/interview/${interviewId}`);
         } else {

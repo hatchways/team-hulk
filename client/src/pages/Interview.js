@@ -65,6 +65,8 @@ const Interview = (props) => {
   const barRef = useRef(null);
   const history = useHistory();
 
+  const classes = useStyles();
+
   const { user } = useContext(UserContext);
 
   const interviewId = props.match.params.id;
@@ -118,6 +120,7 @@ const Interview = (props) => {
               { interviewId },
               (axios.defaults.withCredentials = true)
             );
+            socket.emit("joinInterviewRoom", { interviewId });
             if (res.data.owner !== user._id) {
               axios
                 .put(`/api/interview/guest/${interviewId}`, {
@@ -139,23 +142,26 @@ const Interview = (props) => {
     return () => {
       if (socket) {
         socket.emit("leaveInterviewRoom", { interviewId });
+        socket.emit("leaveWaitingRoom", { interviewId });
       }
     };
   }, [history, interviewId, socket]);
 
   useEffect(() => {
-    axios
-      .get(`/api/interview/${interviewId}`)
-      .then((res) => {
-        if (res.data.isStarted) {
-          setWaitingRoomOpen(false);
-        } else {
-          setWaitingRoomOpen(true);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (WaitingRoomOpen) {
+      axios
+        .get(`/api/interview/${interviewId}`)
+        .then((res) => {
+          if (res.data.isStarted) {
+            setWaitingRoomOpen(false);
+          } else {
+            setWaitingRoomOpen(true);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   });
 
   useEffect(() => {
@@ -185,7 +191,26 @@ const Interview = (props) => {
     };
   }, [WaitingRoomOpen, interviewIsStarted]);
 
-  const classes = useStyles();
+  useEffect(() => {
+    if (socket) {
+      socket.on("code", (code) => {
+        setCode(code);
+      });
+      socket.on("compile", (result) => {
+        setResults(result);
+      });
+      socket.on("language", (language) => {
+        setLanguage(language);
+      });
+    }
+    return () => {
+      if (socket) {
+        socket.off("code");
+        socket.off("compile");
+        socket.off("language");
+      }
+    };
+  }, []);
 
   const handleFeedbackOpenClose = () => {
     setFeedbackOpen((prevState) => !prevState);

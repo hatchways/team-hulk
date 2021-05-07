@@ -67,6 +67,14 @@ io.on("connection", (socket) => {
       `A user with socket id of ${socket.id} left interview room: ${interviewId}`
     );
   });
+
+  socket.on("leaveWaitingRoom", ({ interviewId }) => {
+    socket.leave(interviewId);
+    console.log(
+      `A user with socket id of ${socket.id} left waiting room: ${interviewId}`
+    );
+  });
+
   socket.on("username", (userEmail) => {
     console.log("username in username event emit :", userEmail);
     users[socket.id] = { email: userEmail };

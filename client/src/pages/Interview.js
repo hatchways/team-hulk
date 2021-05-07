@@ -264,6 +264,7 @@ const Interview = (props) => {
           </Button>
           <FeedbackDialog
             open={feedbackOpen}
+            interviewId={interviewId}
             handleClose={handleFeedbackOpenClose}
           />
         </Toolbar>

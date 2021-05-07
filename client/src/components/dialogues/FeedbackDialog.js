@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import axios from "axios";
 import {
   Button,
   Dialog,
@@ -8,6 +9,7 @@ import {
   Typography,
 } from "@material-ui/core/";
 import { makeStyles } from "@material-ui/core/styles";
+import { UserContext } from "../../context/UserContext";
 
 import FeedbackForm from "./FeedbackForm";
 
@@ -42,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function FeedbackDialog(props) {
+  const { user } = useContext(UserContext);
   const classes = useStyles();
 
   const [scores, setScores] = useState({
@@ -68,8 +71,38 @@ export default function FeedbackDialog(props) {
     setStep(step - 1);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const createFeedback = async () => {
+      axios.defaults.withCredentials = true;
+
+      const interview = await axios.get(`/api/interview/${props.interviewId}`)
+        .data;
+
+      console.log(interview);
+
+      // axios.post("/api/feedback", {
+      //   interview: props.interviewId,
+      //   candidate: user._id,
+      //   overallScore: scores.overallScore,
+      //   communication: scores.communication,
+      //   codeEfficiency: scores.codeEfficiency,
+      //   codeOrganization: scores.codeOrganization,
+      //   speed: scores.speed,
+      //   debugging: scores.debugging,
+      //   problemSolving: scores.problemSolving,
+      //   didWell: scores.didWell,
+      //   canImprove: scores.canImprove,
+      //   recommendedResources: scores.recommendedResources,
+      //   additionalFeedback: scores.additionalFeedback,
+      // });
+    };
+
+    createFeedback();
+
     // Save to database here
+
     setScores({
       overallScore: "5",
       communication: "",
@@ -97,7 +130,7 @@ export default function FeedbackDialog(props) {
         id="form-submit"
         variant="contained"
         color="primary"
-        onClick={handleSubmit}
+        onClick={(e) => handleSubmit(e)}
       >
         Submit
       </Button>

@@ -160,7 +160,7 @@ const Interview = (props) => {
       .catch((err) => {
         console.log(err);
       });
-  });
+  }, []);
 
   useEffect(() => {
     if (socket) {

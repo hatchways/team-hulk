@@ -53,3 +53,21 @@ This application was made as part of the co-hort program with Hatchways.
 ## Acknowledgements
 
 Many thanks to Hatchway's team for their help during this co-hort program.
+
+## Screenshoots
+
+### User login/sign up
+
+![Login interface](client/src/assets/Login.JPG)
+
+### Waiting room
+
+![Waiting Room](client/src/assets/Waiting.JPG)
+
+### Code editor
+
+![Code editor](client/src/assets/CodeEditor.gif)
+
+### Feedback
+
+![Feedback](client/src/assets/Feedback.gif)

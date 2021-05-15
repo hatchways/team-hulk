@@ -58,7 +58,7 @@ Many thanks to Hatchway's team for their help during this co-hort program.
 
 ### User login/sign up
 
-![Login interface](client/src/assets/Login.JPG)
+![Login interface](client/src/assets/Login.gif)
 
 ### Waiting room
 

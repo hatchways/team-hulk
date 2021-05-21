@@ -99,6 +99,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// Props: score, scoreTitle, outOf
 function PointsDisplay(props) {
   const classes = useStyles();
 
@@ -281,3 +282,4 @@ export default function FeedbackHistoryDialog(props) {
     </Dialog>
   );
 }
+export { PointsDisplay, FeedbackDisplay };

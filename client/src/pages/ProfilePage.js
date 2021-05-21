@@ -6,7 +6,6 @@ import {
   Avatar,
   FormControl,
   OutlinedInput,
-  Button,
 } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
 import { makeStyles } from "@material-ui/core/styles";
@@ -95,13 +94,13 @@ const ChangePoints = (props) => {
   const classes = useStyles();
 
   return (
-    <Box component="fieldset" mb={3} borderColor="transparent">
+    <Box>
       <Typography component="legend">Edit value</Typography>
       <Rating
         name="simple-controlled"
         value={props.defaultScore}
         onChange={(event, newValue) => {
-          props.setScore(newValue);
+          props.changeScore(newValue);
         }}
       />
     </Box>
@@ -111,9 +110,6 @@ const ChangePoints = (props) => {
 const Profile = () => {
   const classes = useStyles();
 
-  const [experienceLevel, setExperienceLevel] = useState("");
-  const [rating, setRating] = useState(2);
-  const [bio, setBio] = useState("Bio bio bio");
   const [proXp, setProXp] = useState(3);
   const [jobIntXp, setJobIntXp] = useState(2);
   const [showProXpEdit, setShowProXpEdit] = useState(false);
@@ -127,8 +123,8 @@ const Profile = () => {
     }
   };
 
-  const handleSetScore = (xpTitle, newScore) => {
-    xpTitle(newScore);
+  const handleChangeScore = (scoreToChange, newScore) => {
+    scoreToChange(newScore);
   };
 
   return (
@@ -163,8 +159,8 @@ const Profile = () => {
             <Grid style={{ display: showProXpEdit ? "block" : "none" }}>
               <ChangePoints
                 defaultScore={proXp}
-                setScore={(newScore) => {
-                  handleSetScore(setProXp, newScore);
+                changeScore={(newScore) => {
+                  handleChangeScore(setProXp, newScore);
                 }}
               />
             </Grid>
@@ -184,7 +180,12 @@ const Profile = () => {
               />
             </Grid>
             <Grid style={{ display: showIntXpEdit ? "block" : "none" }}>
-              <ChangePoints defaultScore={jobIntXp} />
+              <ChangePoints
+                defaultScore={jobIntXp}
+                changeScore={(newScore) => {
+                  handleChangeScore(setJobIntXp, newScore);
+                }}
+              />
             </Grid>
           </Grid>
         </Grid>

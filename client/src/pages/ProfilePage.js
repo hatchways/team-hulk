@@ -97,7 +97,7 @@ const ChangePoints = (props) => {
     <Box>
       <Typography component="legend">Edit value</Typography>
       <Rating
-        name="simple-controlled"
+        name={props.name}
         value={props.defaultScore}
         onChange={(event, newValue) => {
           props.changeScore(newValue);
@@ -158,6 +158,7 @@ const Profile = () => {
             </Grid>
             <Grid style={{ display: showProXpEdit ? "block" : "none" }}>
               <ChangePoints
+                name="proXp"
                 defaultScore={proXp}
                 changeScore={(newScore) => {
                   handleChangeScore(setProXp, newScore);
@@ -181,6 +182,7 @@ const Profile = () => {
             </Grid>
             <Grid style={{ display: showIntXpEdit ? "block" : "none" }}>
               <ChangePoints
+                name="jobIntXp"
                 defaultScore={jobIntXp}
                 changeScore={(newScore) => {
                   handleChangeScore(setJobIntXp, newScore);

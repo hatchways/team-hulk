@@ -113,11 +113,7 @@ function PointsDisplay(props) {
 
   useEffect(() => {
     const value = getPercent(props.score, props.outOf);
-    setInterval(() => {
-      setProgress((prevProgress) =>
-        prevProgress >= value ? value : prevProgress + 5
-      );
-    }, 50);
+    setProgress(value);
   }, [props.score]);
 
   return (

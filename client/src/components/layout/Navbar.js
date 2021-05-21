@@ -17,7 +17,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { UserContext } from "../../context/UserContext";
 import { AuthContext } from "../../context/AuthContext";
 
-import pearImage from "../../images/Pear-logo.png";
+import pearImage from "../../images/blue-pear-logo.png";
 
 const links = ["Dashboard", "FAQ", "Blog"];
 

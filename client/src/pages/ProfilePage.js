@@ -3,11 +3,11 @@ import {
   Grid,
   Box,
   Typography,
-  Button,
-  MenuItem,
-  Card,
   Avatar,
+  FormControl,
+  OutlinedInput,
 } from "@material-ui/core";
+import Rating from "@material-ui/lab/Rating";
 import { makeStyles } from "@material-ui/core/styles";
 import { PointsDisplay } from "../components/dialogues/FeedbackHistoryDialog";
 import avatar from "../images/face-pic-boy.png";
@@ -20,14 +20,11 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
-  header: {
-    width: "150px",
-    padding: "2rem",
-    display: "flex",
-    alignItems: "center",
-    color: theme.palette.primary.main,
-    fontWeight: "bold",
-    fontSize: "1.15rem",
+  avatar: {
+    height: "10rem",
+    width: "10rem",
+    margin: "1rem",
+    marginTop: "2rem",
   },
   name: {
     paddingBottom: "2rem",
@@ -37,15 +34,29 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     fontSize: "3rem",
   },
+  header: {
+    width: "150px",
+    paddingRight: "2rem",
+    display: "flex",
+    alignItems: "center",
+    color: theme.palette.primary.main,
+    fontWeight: "bold",
+    fontSize: "1.15rem",
+  },
+
   text: {
     width: "500px",
     fontSize: "1.15rem",
-    border: "1px solid rgba(0, 0, 0, 0.2)",
-    borderRadius: "5px",
-    padding: "3rem",
   },
   infoContainer: {
     display: "flex",
+    padding: "1rem",
+  },
+  infoContainerColumn: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
     padding: "1rem",
   },
   profileContainer: {
@@ -56,12 +67,24 @@ const useStyles = makeStyles((theme) => ({
   xpContainer: {
     display: "flex",
   },
-  avatar: {
-    height: "10rem",
-    width: "10rem",
-    margin: "1rem",
-  },
 }));
+
+const ChangePoints = (props) => {
+  const classes = useStyles();
+
+  return (
+    <Box component="fieldset" mb={3} borderColor="transparent">
+      <Typography component="legend">Edit value</Typography>
+      <Rating
+        name="simple-controlled"
+        value={props.defaultScore}
+        // onChange={(event, newValue) => {
+        //   setValue(newValue);
+        // }}
+      />
+    </Box>
+  );
+};
 
 const Profile = () => {
   const classes = useStyles();
@@ -69,8 +92,10 @@ const Profile = () => {
   const [experienceLevel, setExperienceLevel] = useState("");
   const [rating, setRating] = useState(2);
   const [bio, setBio] = useState("Bio bio bio");
-  const [proXp, setProXp] = useState("Professional");
-  const [jobIntXp, setJobIntXp] = useState("JobIntXp");
+  const [proXp, setProXp] = useState(3);
+  const [jobIntXp, setJobIntXp] = useState(2);
+  const [showProXpEdit, setShowProXpEdit] = useState(false);
+  const [showIntXpEdit, setShowIntXpEdit] = useState(false);
 
   return (
     <Grid className={classes.profileContainer}>
@@ -87,31 +112,54 @@ const Profile = () => {
           <Typography className={classes.name}>Joel</Typography>
         </Grid>
         <Grid className={classes.xpContainer}>
-          <Grid className={classes.infoContainer}>
-            <PointsDisplay score={3} scoreTitle="Professional Exp" outOf={5} />
+          <Grid className={classes.infoContainerColumn}>
+            <PointsDisplay
+              score={proXp}
+              scoreTitle="Professional Xp"
+              outOf={5}
+            />
+            <ChangePoints defauleScore={proXp} display={showProXpEdit} />
           </Grid>
-          <Grid className={classes.infoContainer}>
-            <PointsDisplay score={2} scoreTitle="Interview Exp" outOf={5} />
+          <Grid className={classes.infoContainerColumn}>
+            <PointsDisplay
+              score={jobIntXp}
+              scoreTitle="Interview Xp"
+              outOf={5}
+            />
+            <ChangePoints defaultScore={jobIntXp} display={showIntXpEdit} />
           </Grid>
         </Grid>
         <Grid className={classes.infoContainer}>
           <Typography className={classes.header}>
             Front-end Languages:
           </Typography>
-          <Typography className={classes.text}>
-            JavaScript, TypeScript
-          </Typography>
+          <FormControl variant="outlined">
+            <OutlinedInput
+              className={classes.text}
+              multiline={true}
+              defaultValue="JavaScript, TypeScript"
+            />
+          </FormControl>
         </Grid>
         <Grid className={classes.infoContainer}>
           <Typography className={classes.header}>
             Back-end Languages:
           </Typography>
-          <Typography className={classes.text}>Node.js, PHP, Python</Typography>
+          <FormControl variant="outlined">
+            <OutlinedInput
+              className={classes.text}
+              multiline={true}
+              defaultValue="Node.js, PHP, Python"
+            />
+          </FormControl>
         </Grid>
         <Grid className={classes.infoContainer}>
           <Typography className={classes.header}>Bio:</Typography>
-          <Typography className={classes.text}>
-            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+          <FormControl variant="outlined">
+            <OutlinedInput
+              className={classes.text}
+              multiline={true}
+              defaultValue="Sed ut perspiciatis unde omnis iste natus error sit voluptatem
             accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
             quae ab illo inventore veritatis et quasi architecto beatae vitae
             dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
@@ -119,8 +167,9 @@ const Profile = () => {
             eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est,
             qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit,
             sed quia non numquam eius modi tempora incidunt ut labore et dolore
-            magnam aliquam quaerat voluptatem.
-          </Typography>
+            magnam aliquam quaerat voluptatem."
+            />
+          </FormControl>
         </Grid>
       </Grid>
     </Grid>

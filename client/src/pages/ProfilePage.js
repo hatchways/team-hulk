@@ -6,6 +6,7 @@ import {
   Avatar,
   FormControl,
   OutlinedInput,
+  Button,
 } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
 import { makeStyles } from "@material-ui/core/styles";
@@ -43,8 +44,30 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     fontSize: "1.15rem",
   },
-
-  text: {
+  pointsDisplayContainer: {
+    display: "flex",
+    position: "relative",
+  },
+  overlay: {
+    display: "flex",
+    color: "transparent",
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    zIndex: 2,
+    borderRadius: "5px",
+    "&:hover": {
+      alignItems: "center",
+      justifyContent: "center",
+      color: "white",
+      backgroundColor: "rgba(0,0,0,.75)",
+      cursor: "pointer",
+    },
+  },
+  overlayText: {
+    fontSize: "1rem",
+  },
+  textBox: {
     width: "500px",
     fontSize: "1.15rem",
   },
@@ -56,7 +79,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
     padding: "1rem",
   },
   profileContainer: {
@@ -78,9 +100,9 @@ const ChangePoints = (props) => {
       <Rating
         name="simple-controlled"
         value={props.defaultScore}
-        // onChange={(event, newValue) => {
-        //   setValue(newValue);
-        // }}
+        onChange={(event, newValue) => {
+          props.setScore(newValue);
+        }}
       />
     </Box>
   );
@@ -96,6 +118,18 @@ const Profile = () => {
   const [jobIntXp, setJobIntXp] = useState(2);
   const [showProXpEdit, setShowProXpEdit] = useState(false);
   const [showIntXpEdit, setShowIntXpEdit] = useState(false);
+
+  const handleEditXp = (type) => {
+    if (type === "pro") {
+      setShowProXpEdit((prevValue) => !prevValue);
+    } else if (type === "int") {
+      setShowIntXpEdit((prevValue) => !prevValue);
+    }
+  };
+
+  const handleSetScore = (xpTitle, newScore) => {
+    xpTitle(newScore);
+  };
 
   return (
     <Grid className={classes.profileContainer}>
@@ -113,20 +147,45 @@ const Profile = () => {
         </Grid>
         <Grid className={classes.xpContainer}>
           <Grid className={classes.infoContainerColumn}>
-            <PointsDisplay
-              score={proXp}
-              scoreTitle="Professional Xp"
-              outOf={5}
-            />
-            <ChangePoints defauleScore={proXp} display={showProXpEdit} />
+            <Grid className={classes.pointsDisplayContainer}>
+              <Grid
+                className={classes.overlay}
+                onClick={() => handleEditXp("pro")}
+              >
+                <Typography className={classes.overlayText}>Edit</Typography>
+              </Grid>
+              <PointsDisplay
+                score={proXp}
+                scoreTitle="Professional Xp"
+                outOf={5}
+              />
+            </Grid>
+            <Grid style={{ display: showProXpEdit ? "block" : "none" }}>
+              <ChangePoints
+                defaultScore={proXp}
+                setScore={(newScore) => {
+                  handleSetScore(setProXp, newScore);
+                }}
+              />
+            </Grid>
           </Grid>
           <Grid className={classes.infoContainerColumn}>
-            <PointsDisplay
-              score={jobIntXp}
-              scoreTitle="Interview Xp"
-              outOf={5}
-            />
-            <ChangePoints defaultScore={jobIntXp} display={showIntXpEdit} />
+            <Grid className={classes.pointsDisplayContainer}>
+              <Grid
+                className={classes.overlay}
+                onClick={() => handleEditXp("int")}
+              >
+                <Typography className={classes.overlayText}>Edit</Typography>
+              </Grid>
+              <PointsDisplay
+                score={jobIntXp}
+                scoreTitle="Interview Xp"
+                outOf={5}
+              />
+            </Grid>
+            <Grid style={{ display: showIntXpEdit ? "block" : "none" }}>
+              <ChangePoints defaultScore={jobIntXp} />
+            </Grid>
           </Grid>
         </Grid>
         <Grid className={classes.infoContainer}>
@@ -135,7 +194,7 @@ const Profile = () => {
           </Typography>
           <FormControl variant="outlined">
             <OutlinedInput
-              className={classes.text}
+              className={classes.textBox}
               multiline={true}
               defaultValue="JavaScript, TypeScript"
             />
@@ -147,7 +206,7 @@ const Profile = () => {
           </Typography>
           <FormControl variant="outlined">
             <OutlinedInput
-              className={classes.text}
+              className={classes.textBox}
               multiline={true}
               defaultValue="Node.js, PHP, Python"
             />
@@ -157,7 +216,7 @@ const Profile = () => {
           <Typography className={classes.header}>Bio:</Typography>
           <FormControl variant="outlined">
             <OutlinedInput
-              className={classes.text}
+              className={classes.textBox}
               multiline={true}
               defaultValue="Sed ut perspiciatis unde omnis iste natus error sit voluptatem
             accusantium doloremque laudantium, totam rem aperiam, eaque ipsa

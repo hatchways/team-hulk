@@ -14,11 +14,13 @@ import Home from "./pages/HomePage";
 import { AuthContext } from "./context/AuthContext";
 import axios from "axios";
 import "./App.css";
+import { UserContext } from "./context/UserContext";
 
 function App() {
   const [navbarHeight, setHeightnavbarHieght] = useState(0);
   const ref = useRef();
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
     ref.current && setHeightnavbarHieght(ref.current.clientHeight);
@@ -28,8 +30,9 @@ function App() {
   useEffect(() => {
     axios
       .get("/api/JWT")
-      .then(() => {
+      .then((req) => {
         setIsAuthenticated(true);
+        setUser(req.data.user);
       })
       .catch((err) => {
         console.log(err);

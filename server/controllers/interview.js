@@ -4,6 +4,7 @@ const Interview = require("../models/interview");
 module.exports.createInterview = (req, res, next) => {
   const { date, theme, questions, difficulty } = req.body;
   const { user } = req.user;
+  console.log("User: " + JSON.stringify(user));
 
   const newInterview = new Interview({
     owner: user,
@@ -86,6 +87,19 @@ module.exports.addInterviewGuest = (req, res, next) => {
       res.send(err);
     } else {
       res.json({ success: true, msg: "Successfully Updated Interview" });
+    }
+  });
+};
+
+module.exports.setStartInterview = (req, res, next) => {
+  const id = req.params.id;
+
+  Interview.updateOne({ _id: id }, { $set: { isStarted: true } }, (err) => {
+    if (err) {
+      console.log(err);
+      res.send(err);
+    } else {
+      res.json({ success: true, msg: "Interview started" });
     }
   });
 };

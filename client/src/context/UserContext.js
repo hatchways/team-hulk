@@ -7,6 +7,7 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({});
   const [upcomingInterviews, setUpcomingInterviews] = useState([]);
   const [WaitingRoomOpen, setWaitingRoomOpen] = useState(false);
+  const [interviewIsStarted, setInterviewIsStarted] = useState(false);
   const [newlyCreatedInterview, setNewlyCreatedInterview] = useState(null);
   const [difficulty, setDifficulty] = useState("");
 
@@ -48,6 +49,8 @@ export const UserProvider = ({ children }) => {
         setWaitingRoomOpen,
         newlyCreatedInterview,
         setNewlyCreatedInterview,
+        interviewIsStarted,
+        setInterviewIsStarted,
         difficulty,
         setDifficulty,
       }}

@@ -46,12 +46,35 @@ io.on("connection", (socket) => {
     });
   });
 
+  socket.on("joinWaitingRoom", ({ interviewId }) => {
+    socket.join(interviewId);
+    io.emit("joinWaitingRoom");
+    console.log(
+      `user with socket id of ${socket.id} joined waiting room for interview ${interviewId}`
+    );
+  });
+
+  socket.on("startInterview", ({ interviewId }) => {
+    io.emit("startInterview");
+    console.log(
+      `user with socket id of ${socket.id} joined the waiting room for interview ${interviewId}`
+    );
+  });
+
   socket.on("leaveInterviewRoom", ({ interviewId }) => {
     socket.leave(interviewId);
     console.log(
       `A user with socket id of ${socket.id} left interview room: ${interviewId}`
     );
   });
+
+  socket.on("leaveWaitingRoom", ({ interviewId }) => {
+    socket.leave(interviewId);
+    console.log(
+      `A user with socket id of ${socket.id} left waiting room: ${interviewId}`
+    );
+  });
+
   socket.on("username", (userEmail) => {
     console.log("username in username event emit :", userEmail);
     users[socket.id] = { email: userEmail };

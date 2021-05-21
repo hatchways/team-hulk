@@ -54,8 +54,7 @@ module.exports.createFeedback = (req, res, next) => {
 
 module.exports.getFeedbackList = async (req, res, next) => {
   const { user } = req.user;
-
-  const feedbackList = await Feedback.find({ candidate: user._id });
+  const feedbackList = await Feedback.find({ candidate: user });
 
   const feedbackListShort = await Promise.all(
     feedbackList.map(async (feedback) => {

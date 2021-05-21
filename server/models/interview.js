@@ -26,6 +26,10 @@ let Interview = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    isStarted: {
+      type: Boolean,
+      default: false,
+    },
     difficulty: {
       type: Number,
       enum: [0, 1, 2],

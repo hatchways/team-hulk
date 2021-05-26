@@ -1,5 +1,5 @@
 import React, { useState, createContext, useEffect } from "react";
-import axios from "axios";
+// import axios from "axios";
 
 export const UserContext = createContext();
 
@@ -10,17 +10,6 @@ export const UserProvider = ({ children }) => {
   const [interviewIsStarted, setInterviewIsStarted] = useState(false);
   const [newlyCreatedInterview, setNewlyCreatedInterview] = useState(null);
   const [difficulty, setDifficulty] = useState("");
-
-  useEffect(() => {
-    axios
-      .get(`/api/signin/`)
-      .then((res) => {
-        setUser(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [setUser]);
 
   useEffect(() => {
     const getAllInterviews = async () => {
@@ -35,7 +24,6 @@ export const UserProvider = ({ children }) => {
     };
 
     getAllInterviews();
-    setUser(user);
   }, [user]);
 
   return (

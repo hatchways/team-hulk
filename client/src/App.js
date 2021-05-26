@@ -33,7 +33,7 @@ function App() {
       .get("/api/JWT")
       .then((req) => {
         setIsAuthenticated(true);
-        setUser(req.data.user);
+        setUser(req.data);
       })
       .catch((err) => {
         console.log(err);

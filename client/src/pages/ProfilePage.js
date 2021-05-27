@@ -6,6 +6,7 @@ import {
   Avatar,
   FormControl,
   OutlinedInput,
+  Button,
 } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
 import { makeStyles } from "@material-ui/core/styles";
@@ -19,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
+    marginBottom: "2rem",
   },
   avatar: {
     height: "10rem",
@@ -88,6 +90,11 @@ const useStyles = makeStyles((theme) => ({
   xpContainer: {
     display: "flex",
   },
+  btn: {
+    marginTop: "1rem",
+    borderRadius: "30px",
+    padding: "1rem 3rem",
+  },
 }));
 
 const ChangePoints = (props) => {
@@ -110,8 +117,14 @@ const ChangePoints = (props) => {
 const Profile = () => {
   const classes = useStyles();
 
+  const [profileAvatar, setProfileAvatar] = useState(avatar);
   const [proXp, setProXp] = useState(3);
   const [jobIntXp, setJobIntXp] = useState(2);
+  const [FELanguages, setFELanguages] = useState("JavaScript, TypeScript");
+  const [BELanguages, setBELanguages] = useState("Node.js, PHP, Python");
+  const [Bio, setBio] = useState(
+    "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem."
+  );
   const [showProXpEdit, setShowProXpEdit] = useState(false);
   const [showIntXpEdit, setShowIntXpEdit] = useState(false);
 
@@ -127,6 +140,11 @@ const Profile = () => {
     scoreToChange(newScore);
   };
 
+  const handleSave = (e) => {
+    e.preventDefault();
+    // API call goes here
+  };
+
   return (
     <Grid className={classes.profileContainer}>
       <Grid className={classes.profileMain}>
@@ -138,7 +156,7 @@ const Profile = () => {
             padding: "1rem",
           }}
         >
-          <Avatar src={avatar} className={classes.avatar} />
+          <Avatar src={profileAvatar} className={classes.avatar} />
           <Typography className={classes.name}>Joel</Typography>
         </Grid>
         <Grid className={classes.xpContainer}>
@@ -199,7 +217,10 @@ const Profile = () => {
             <OutlinedInput
               className={classes.textBox}
               multiline={true}
-              defaultValue="JavaScript, TypeScript"
+              defaultValue={FELanguages}
+              onChange={(e) => {
+                setFELanguages(e.target.value);
+              }}
             />
           </FormControl>
         </Grid>
@@ -211,7 +232,10 @@ const Profile = () => {
             <OutlinedInput
               className={classes.textBox}
               multiline={true}
-              defaultValue="Node.js, PHP, Python"
+              defaultValue={BELanguages}
+              onChange={(e) => {
+                setBELanguages(e.target.value);
+              }}
             />
           </FormControl>
         </Grid>
@@ -221,18 +245,24 @@ const Profile = () => {
             <OutlinedInput
               className={classes.textBox}
               multiline={true}
-              defaultValue="Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-            accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-            quae ab illo inventore veritatis et quasi architecto beatae vitae
-            dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
-            aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
-            eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est,
-            qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit,
-            sed quia non numquam eius modi tempora incidunt ut labore et dolore
-            magnam aliquam quaerat voluptatem."
+              defaultValue={Bio}
+              onChange={(e) => {
+                setBio(e.target.value);
+              }}
             />
           </FormControl>
         </Grid>
+        <Button
+          className={classes.btn}
+          size="large"
+          variant="contained"
+          color="primary"
+          type="submit"
+          id="form-submit"
+          onClick={handleSave}
+        >
+          Save
+        </Button>
       </Grid>
     </Grid>
   );

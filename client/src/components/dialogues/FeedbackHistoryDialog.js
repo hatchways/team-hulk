@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    paddingBottom: "1rem",
+    padding: ".5rem",
   },
   pointsDisplayNumbersContainer: {
     fontSize: "1.25rem",

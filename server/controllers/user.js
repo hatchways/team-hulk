@@ -16,3 +16,24 @@ module.exports.getSingleUser = (req, res, next) => {
     }
   });
 };
+
+module.exports.updateUser = (req, res, next) => {
+  const id = req.params.id;
+  const { firstName, lastName, email, profileInfo } = req.body;
+
+  console.log(req.body);
+
+  const updatedUser = User({
+    _id: id,
+    profileInfo: profileInfo,
+  });
+
+  User.updateOne({ _id: id }, updatedUser, (err) => {
+    if (err) {
+      console.log(err);
+      res.send(err);
+    } else {
+      res.json({ success: true, msg: "Successfully Updated User" });
+    }
+  });
+};

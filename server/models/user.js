@@ -9,6 +9,14 @@ const userSchema = new mongoose.Schema({
   email: String,
   password: String,
   questionIds: [{ type: mongoose.Schema.Types.ObjectId, ref: "question" }],
+  profileInfo: {
+    img: { data: Buffer, contentType: String },
+    proXp: Number,
+    intXp: Number,
+    FELanguages: String,
+    BELanguages: String,
+    bio: String,
+  },
 });
 
 userSchema.plugin(passportLocalMongoose, { usernameField: "email" });

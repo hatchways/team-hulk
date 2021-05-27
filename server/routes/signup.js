@@ -18,6 +18,13 @@ router.route("/").post((req, res, next) => {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
+        profileInfo: {
+          proXp: null,
+          intXp: null,
+          FELanguages: "Which front-end languages do you use?",
+          BELanguages: "Which back-end languages do you use?",
+          Bio: "Tell us about yourself",
+        },
       }),
       req.body.password
     )

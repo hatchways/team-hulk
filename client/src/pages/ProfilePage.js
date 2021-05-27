@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   Grid,
   Box,
@@ -11,7 +11,9 @@ import {
 import Rating from "@material-ui/lab/Rating";
 import { makeStyles } from "@material-ui/core/styles";
 import { PointsDisplay } from "../components/dialogues/FeedbackHistoryDialog";
+import { UserContext } from "../context/UserContext";
 import avatar from "../images/face-pic-boy.png";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   profileMain: {
@@ -26,7 +28,6 @@ const useStyles = makeStyles((theme) => ({
     height: "10rem",
     width: "10rem",
     margin: "1rem",
-    marginTop: "2rem",
   },
   name: {
     paddingBottom: "2rem",
@@ -117,14 +118,16 @@ const ChangePoints = (props) => {
 const Profile = () => {
   const classes = useStyles();
 
+  const { user } = useContext(UserContext);
+
   const [profileAvatar, setProfileAvatar] = useState(avatar);
-  const [proXp, setProXp] = useState(3);
-  const [jobIntXp, setJobIntXp] = useState(2);
-  const [FELanguages, setFELanguages] = useState("JavaScript, TypeScript");
-  const [BELanguages, setBELanguages] = useState("Node.js, PHP, Python");
-  const [Bio, setBio] = useState(
-    "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem."
-  );
+
+  const [profileInfo, setProfileInfo] = useState(user.profileInfo);
+
+  useEffect(() => {
+    setProfileInfo(user.profileInfo);
+  }, [user]);
+
   const [showProXpEdit, setShowProXpEdit] = useState(false);
   const [showIntXpEdit, setShowIntXpEdit] = useState(false);
 
@@ -137,13 +140,24 @@ const Profile = () => {
   };
 
   const handleChangeScore = (scoreToChange, newScore) => {
-    scoreToChange(newScore);
+    setProfileInfo((profileInfo) => ({
+      ...profileInfo,
+      [scoreToChange]: newScore,
+    }));
   };
 
   const handleSave = (e) => {
     e.preventDefault();
-    // API call goes here
+    axios
+      .put(`/api/user/${user._id}`, {
+        profileInfo: profileInfo,
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
+
+  const handleEditPhoto = () => {};
 
   return (
     <Grid className={classes.profileContainer}>
@@ -156,8 +170,15 @@ const Profile = () => {
             padding: "1rem",
           }}
         >
-          <Avatar src={profileAvatar} className={classes.avatar} />
-          <Typography className={classes.name}>Joel</Typography>
+          <Grid className={classes.pointsDisplayContainer}>
+            <Grid className={classes.overlay} onClick={handleEditPhoto}>
+              <Typography className={classes.overlayText}>Edit</Typography>
+            </Grid>
+            <Avatar src={profileAvatar} className={classes.avatar} />
+          </Grid>
+          <Typography className={classes.name}>
+            {user.firstName} {user.lastName}
+          </Typography>
         </Grid>
         <Grid className={classes.xpContainer}>
           <Grid className={classes.infoContainerColumn}>
@@ -169,7 +190,7 @@ const Profile = () => {
                 <Typography className={classes.overlayText}>Edit</Typography>
               </Grid>
               <PointsDisplay
-                score={proXp}
+                score={profileInfo ? profileInfo.proXp : null}
                 scoreTitle="Professional Xp"
                 outOf={5}
               />
@@ -177,9 +198,9 @@ const Profile = () => {
             <Grid style={{ display: showProXpEdit ? "block" : "none" }}>
               <ChangePoints
                 name="proXp"
-                defaultScore={proXp}
+                defaultScore={profileInfo ? profileInfo.proXp : null}
                 changeScore={(newScore) => {
-                  handleChangeScore(setProXp, newScore);
+                  handleChangeScore("proXp", newScore);
                 }}
               />
             </Grid>
@@ -193,17 +214,17 @@ const Profile = () => {
                 <Typography className={classes.overlayText}>Edit</Typography>
               </Grid>
               <PointsDisplay
-                score={jobIntXp}
+                score={profileInfo ? profileInfo.intXp : null}
                 scoreTitle="Interview Xp"
                 outOf={5}
               />
             </Grid>
             <Grid style={{ display: showIntXpEdit ? "block" : "none" }}>
               <ChangePoints
-                name="jobIntXp"
-                defaultScore={jobIntXp}
+                name="intXp"
+                defaultScore={profileInfo ? profileInfo.intXp : null}
                 changeScore={(newScore) => {
-                  handleChangeScore(setJobIntXp, newScore);
+                  handleChangeScore("intXp", newScore);
                 }}
               />
             </Grid>
@@ -217,9 +238,12 @@ const Profile = () => {
             <OutlinedInput
               className={classes.textBox}
               multiline={true}
-              defaultValue={FELanguages}
+              defaultValue={profileInfo ? profileInfo.FELanguages : null}
               onChange={(e) => {
-                setFELanguages(e.target.value);
+                setProfileInfo((profileInfo) => ({
+                  ...profileInfo,
+                  FELanguages: e.target.value,
+                }));
               }}
             />
           </FormControl>
@@ -232,9 +256,12 @@ const Profile = () => {
             <OutlinedInput
               className={classes.textBox}
               multiline={true}
-              defaultValue={BELanguages}
+              defaultValue={profileInfo ? profileInfo.BELanguages : null}
               onChange={(e) => {
-                setBELanguages(e.target.value);
+                setProfileInfo((profileInfo) => ({
+                  ...profileInfo,
+                  BELanguages: e.target.value,
+                }));
               }}
             />
           </FormControl>
@@ -245,9 +272,12 @@ const Profile = () => {
             <OutlinedInput
               className={classes.textBox}
               multiline={true}
-              defaultValue={Bio}
+              defaultValue={profileInfo ? profileInfo.bio : null}
               onChange={(e) => {
-                setBio(e.target.value);
+                setProfileInfo((profileInfo) => ({
+                  ...profileInfo,
+                  bio: e.target.value,
+                }));
               }}
             />
           </FormControl>

@@ -23,6 +23,9 @@ function App() {
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
   const { user, setUser } = useContext(UserContext);
 
+  console.log("User: ");
+  console.log(user);
+
   useEffect(() => {
     ref.current && setHeightnavbarHieght(ref.current.clientHeight);
     console.log(ref.current);

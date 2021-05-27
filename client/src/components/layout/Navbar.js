@@ -17,6 +17,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { UserContext } from "../../context/UserContext";
 import { AuthContext } from "../../context/AuthContext";
 
+import pearImage from "../../images/blue-pear-logo.png";
+
 const links = ["Dashboard", "FAQ", "Blog"];
 
 const useStyles = makeStyles((theme) => ({
@@ -36,8 +38,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   navbar__logo: {
-    opacity: "0.3",
-    fontSize: "2.6em",
+    opacity: "0.7",
     flexGrow: 1,
     justifyContent: "flex-start",
   },
@@ -233,9 +234,9 @@ const Navbar = React.forwardRef((props, ref) => {
     <div className={classes.root} ref={ref}>
       <AppBar position="static" color="transparent">
         <Toolbar className={classes.navbar}>
-          <Typography edge="start" className={classes.navbar__logo}>
-            Logo
-          </Typography>
+          <Grid className={classes.navbar__logo}>
+            <Avatar src={pearImage} />
+          </Grid>
           {renderMobileMenu}
           {renderMenu}
         </Toolbar>

@@ -11,6 +11,7 @@ import Navbar from "./components/layout/Navbar";
 import FAQ from "./pages/FAQ";
 import Blog from "./pages/Blog";
 import Home from "./pages/HomePage";
+import ProfilePage from "./pages/ProfilePage";
 import { AuthContext } from "./context/AuthContext";
 import axios from "axios";
 import "./App.css";
@@ -77,6 +78,7 @@ function App() {
           />
           <Route path="/faq" component={FAQ} />
           <Route path="/blog" component={Blog} />
+          <Route path="/profile-page" component={ProfilePage} />
         </Switch>
       </BrowserRouter>
     </MuiThemeProvider>

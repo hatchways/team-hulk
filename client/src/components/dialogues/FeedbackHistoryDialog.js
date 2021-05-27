@@ -99,6 +99,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// Props: score, scoreTitle, outOf
 function PointsDisplay(props) {
   const classes = useStyles();
 
@@ -112,11 +113,7 @@ function PointsDisplay(props) {
 
   useEffect(() => {
     const value = getPercent(props.score, props.outOf);
-    setInterval(() => {
-      setProgress((prevProgress) =>
-        prevProgress >= value ? value : prevProgress + 5
-      );
-    }, 50);
+    setProgress(value);
   }, [props.score]);
 
   return (
@@ -281,3 +278,4 @@ export default function FeedbackHistoryDialog(props) {
     </Dialog>
   );
 }
+export { PointsDisplay, FeedbackDisplay };
